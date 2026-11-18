@@ -1,7 +1,10 @@
 PYTHON ?= python3
 export PYTHONPATH := src
 
-.PHONY: all data test clean
+.PHONY: all data test lock clean
+
+lock:
+	$(PYTHON) -m work01 lock
 
 all:
 	$(PYTHON) -m work01 all

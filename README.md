@@ -8,8 +8,8 @@ Monorepo для плану «Python / Java / AI / ML». Кожна робота 
 
 | № | Каталог | Статус |
 |---|---------|--------|
-| 1 | [`work01-bank-marketing/`](work01-bank-marketing/) | у роботі |
-| 2 | `work02-rag-citations/` | заплановано |
+| 1 | [`work01-bank-marketing/`](work01-bank-marketing/) | звіт готовий, tag — після рецензії |
+| 2 | [`work02-rag-citations/`](work02-rag-citations/) | retrieval MVP |
 | 3 | `work03-agent-workflow/` | заплановано |
 
 ## Запуск (робота 1)

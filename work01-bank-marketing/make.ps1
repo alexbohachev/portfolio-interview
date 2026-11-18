@@ -1,6 +1,6 @@
 ﻿param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "data", "test")]
+    [ValidateSet("all", "data", "test", "lock")]
     [string]$Target = "all"
 )
 

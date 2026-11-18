@@ -8,6 +8,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
+from sklearn.metrics import f1_score
+
 from work01.data import build_sklearn_preprocessor
 
 
@@ -32,6 +34,8 @@ class TrainResult:
     preprocessor: Any
     best_state: dict[str, Any]
     n_epochs: int
+    temperature: float = 1.0
+    seed: int = 0
 
 
 def _to_tensor(x: np.ndarray, device: torch.device) -> torch.Tensor:
@@ -80,7 +84,8 @@ def train_candidate(
     x_val_t = _to_tensor(x_val, device)
     y_val_t = _to_tensor(y_val.astype(np.float32), device)
 
-    best_val = float("inf")
+    stop_metric = str(cand_cfg.get("early_stopping_metric", "macro_f1"))
+    best_val = -float("inf") if stop_metric == "macro_f1" else float("inf")
     best_state: dict[str, Any] | None = None
     patience = cand_cfg["early_stopping_patience"]
     stale = 0
@@ -100,9 +105,16 @@ def train_candidate(
         with torch.no_grad():
             val_logits = model(x_val_t)
             val_loss = criterion(val_logits, y_val_t).item()
+            val_prob = torch.sigmoid(val_logits).cpu().numpy()
+            val_score = (
+                f1_score(y_val, (val_prob >= 0.5).astype(np.int64), average="macro", zero_division=0)
+                if stop_metric == "macro_f1"
+                else -val_loss
+            )
 
-        if val_loss < best_val - 1e-5:
-            best_val = val_loss
+        improved = val_score > best_val + 1e-5 if stop_metric == "macro_f1" else val_loss < best_val - 1e-5
+        if improved:
+            best_val = val_score if stop_metric == "macro_f1" else val_loss
             best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
             stale = 0
         else:
@@ -113,14 +125,25 @@ def train_candidate(
     if best_state is not None:
         model.load_state_dict(best_state)
 
-    return TrainResult(model=model, preprocessor=pre, best_state=best_state or {}, n_epochs=epochs_run)
+    return TrainResult(
+        model=model,
+        preprocessor=pre,
+        best_state=best_state or {},
+        n_epochs=epochs_run,
+        seed=seed,
+    )
 
 
-def predict_proba(result: TrainResult, x_df) -> np.ndarray:
+def predict_logits(result: TrainResult, x_df) -> np.ndarray:
     x = result.preprocessor.transform(x_df)
     model = result.model
     model.eval()
     with torch.no_grad():
         logits = model(_to_tensor(x, next(model.parameters()).device))
-        probs = torch.sigmoid(logits).cpu().numpy()
-    return probs
+        return logits.cpu().numpy()
+
+
+def predict_proba(result: TrainResult, x_df) -> np.ndarray:
+    logits = predict_logits(result, x_df)
+    scale = max(result.temperature, 1e-3)
+    return 1.0 / (1.0 + np.exp(-logits / scale))

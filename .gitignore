@@ -7,10 +7,12 @@ venv/
 .env.*
 
 # Data & artifacts
-work01/data/raw/
-work01/data/processed/
-work01/artifacts/
-work01/runs/
+work01-bank-marketing/data/raw/
+work01-bank-marketing/data/processed/
+work01-bank-marketing/artifacts/
+work01-bank-marketing/runs/
+work02-rag-citations/artifacts/
+work02-rag-citations/.pytest_cache/
 *.pt
 *.pkl
 

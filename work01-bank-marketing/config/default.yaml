@@ -18,12 +18,13 @@ baseline:
   class_weight: "balanced"
 candidate:
   name: "mlp"
-  hidden_dims: [128, 64]
-  dropout: 0.2
+  hidden_dims: [256, 128]
+  dropout: 0.15
   batch_size: 512
-  max_epochs: 100
-  early_stopping_patience: 10
-  learning_rate: 0.001
+  max_epochs: 120
+  early_stopping_patience: 12
+  early_stopping_metric: macro_f1
+  learning_rate: 0.0005
   weight_decay: 0.0001
 bootstrap:
   n_resamples: 1000

@@ -25,6 +25,26 @@ def cmd_data() -> int:
     return 0
 
 
+def cmd_lock() -> int:
+    """Зафіксувати config_hash у manifest перед фінальним test."""
+    _ensure_src_path()
+    from work01.config import config_fingerprint, load_config
+    from work01.paths import CONFIG_PATH, MANIFEST_PATH
+    import json
+
+    cfg = load_config(CONFIG_PATH)
+    fp = config_fingerprint(cfg)
+    with MANIFEST_PATH.open(encoding="utf-8") as f:
+        manifest = json.load(f)
+    manifest["config_hash"] = fp
+    manifest.pop("config_hash_placeholder", None)
+    with MANIFEST_PATH.open("w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    print(f"manifest config_hash={fp}")
+    return 0
+
+
 def cmd_all() -> int:
     _ensure_src_path()
     from work01.pipeline import run_all
@@ -45,11 +65,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="work01")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("data", help="Завантажити та перевірити дані")
+    sub.add_parser("lock", help="Зафіксувати config_hash у test manifest")
     sub.add_parser("all", help="Повний цикл: baseline, candidate, звіт")
     sub.add_parser("test", help="Швидкі offline-тести (pytest)")
     args = parser.parse_args(argv)
     if args.command == "data":
         return cmd_data()
+    if args.command == "lock":
+        return cmd_lock()
     if args.command == "all":
         return cmd_all()
     if args.command == "test":
