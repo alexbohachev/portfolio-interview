@@ -13,8 +13,13 @@
 ## Демо (рекомендований порядок на екрані)
 
 1. **work07** — повна платформа ([`work07-ai-platform/DEMO.md`](work07-ai-platform/DEMO.md))
-2. **work05** — `docker compose up` + smoke (безпека до LLM)
-3. **work02** — Recall@5 + gate відмова в коді
+2. **work05** — `docker compose up` + `.\make.ps1 smoke` (ACL до retrieval)
+3. **work02** — `.\make.ps1 demo` (метрики + gate)
+4. **work06** — `.\make.ps1 serve` + `.\make.ps1 demo` або UI
+
+```powershell
+.\scripts\portfolio_smoke.ps1
+```
 
 ## Спільний корпус
 

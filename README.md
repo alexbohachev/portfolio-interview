@@ -2,7 +2,7 @@
 
 Monorepo для плану «Python / Java / AI / ML». Кожна робота — окрема директорія з власним `README`, `REPORT.md` і git-tag після завершення.
 
-**Інтерв'ю:** швидка таблиця команд — [`PORTFOLIO.md`](PORTFOLIO.md).
+**Інтерв'ю:** [`PORTFOLIO.md`](PORTFOLIO.md) · швидкий прогон [`scripts/portfolio_smoke.ps1`](scripts/portfolio_smoke.ps1).
 
 **Порядок:** 1 → 2 → 3 → 7 → 4 → 5 → 6 (див. `unpacked_docx/` або `.docx` у корені).
 

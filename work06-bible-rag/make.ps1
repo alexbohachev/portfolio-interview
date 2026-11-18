@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "seed", "index", "eval", "test", "lock", "serve", "ui")]
+    [ValidateSet("all", "seed", "index", "eval", "test", "lock", "serve", "ui", "demo")]
     [string]$Target = "all"
 )
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -24,6 +24,10 @@ switch ($Target) {
     }
     "ui" {
         py -3.13 -m streamlit run ui/streamlit_app.py
+        exit $LASTEXITCODE
+    }
+    "demo" {
+        & "$Root\scripts\demo.ps1"
         exit $LASTEXITCODE
     }
     "all" {
