@@ -2,6 +2,15 @@ corpus_version: "synthetic-mvp-1"
 db_path: "data/bible.sqlite"
 embed_model: "intfloat/multilingual-e5-small"
 faiss_index: "artifacts/faiss.index"
+default_translation: "uk_ubk_stub"
+translations:
+  - uk_ubk_stub
+  - uk_rb95_stub
+  - en_kjv_stub
 golden:
   dev: "data/golden/dev.json"
   test: "data/golden/test.json"
+llm:
+  enabled: false
+  model: "Qwen/Qwen2.5-0.5B-Instruct"
+  max_new_tokens: 120

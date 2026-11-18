@@ -1,0 +1,9 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8098:8098"
+    volumes:
+      - ./data/bible.sqlite:/app/data/bible.sqlite:ro
+      - ./artifacts:/app/artifacts:ro
+    command: ["uvicorn", "work06.app_main:app", "--host", "0.0.0.0", "--port", "8098"]

@@ -8,7 +8,7 @@
 | 7 | work07-ai-platform | work07-v1.0 | `.\make.ps1 finalize` | Java↔Python RAG, Kafka, ES, Jaeger |
 | 4 | work04-ml-serving | work04-v1.0 | `.\make.ps1 all` | Serving, drift, rollback |
 | 5 | work05-docguard | work05-v1.0 | `.\make.ps1 all` | ACL gateway + filtered retrieval |
-| 6 | work06-bible-rag | work06-v1.0 | `.\make.ps1 all` | SQLite + E5 + FAISS offline |
+| 6 | work06-bible-rag | work06-v1.0 | `.\make.ps1 all` | E5+FAISS, API :8098, Streamlit |
 
 ## Демо (рекомендований порядок на екрані)
 

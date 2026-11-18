@@ -1,0 +1,6 @@
+{
+  "work": "work06-bible-rag",
+  "corpus_version": "synthetic-mvp-1",
+  "embed_model": "intfloat/multilingual-e5-small",
+  "config_hash": "dcee2f4d2d35f22e"
+}

@@ -1,0 +1,5 @@
+# Опційно: локальний LLM (CPU — повільно; 3B 4bit — потрібна CUDA + bitsandbytes)
+transformers>=4.46.0
+accelerate>=1.2.0
+torch>=2.5.0
+# bitsandbytes>=0.44.0
