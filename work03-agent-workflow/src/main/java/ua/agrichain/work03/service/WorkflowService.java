@@ -7,6 +7,7 @@ import ua.agrichain.work03.api.dto.SubmitApplicationRequest;
 import ua.agrichain.work03.persistence.WorkflowRun;
 import ua.agrichain.work03.persistence.WorkflowRunRepository;
 import ua.agrichain.work03.persistence.WorkflowRun.Step;
+import ua.agrichain.work03.persistence.OutboxMessage;
 import ua.agrichain.work03.service.tools.CalculatorTool;
 import ua.agrichain.work03.service.tools.RuleSearchTool;
 
@@ -17,19 +18,22 @@ public class WorkflowService {
     private final CommandHashing commandHashing;
     private final RuleSearchTool ruleSearchTool;
     private final CalculatorTool calculatorTool;
-    private final ExternalStubService externalStubService;
+    private final OutboxService outboxService;
+    private final WorkflowRecovery workflowRecovery;
 
     public WorkflowService(
             WorkflowRunRepository workflowRunRepository,
             CommandHashing commandHashing,
             RuleSearchTool ruleSearchTool,
             CalculatorTool calculatorTool,
-            ExternalStubService externalStubService) {
+            OutboxService outboxService,
+            WorkflowRecovery workflowRecovery) {
         this.workflowRunRepository = workflowRunRepository;
         this.commandHashing = commandHashing;
         this.ruleSearchTool = ruleSearchTool;
         this.calculatorTool = calculatorTool;
-        this.externalStubService = externalStubService;
+        this.outboxService = outboxService;
+        this.workflowRecovery = workflowRecovery;
     }
 
     @Transactional
@@ -73,14 +77,23 @@ public class WorkflowService {
             workflowRunRepository.saveAndFlush(run);
         }
         if (run.getLastCompletedStep().ordinal() < Step.EXTERNAL.ordinal()) {
-            String payload = "equipment=%s;hours=%d;cost=%.2f"
-                    .formatted(request.equipmentType(), request.requestedHours(), run.getEstimatedCost());
-            String recordId = externalStubService.createRecord(
-                    request.tenantId(), request.idempotencyKey(), hash, payload);
+            String recordId = workflowRecovery
+                    .findCommittedExternalRecord(run)
+                    .orElseGet(() -> {
+                        String payload = "equipment=%s;hours=%d;cost=%.2f"
+                                .formatted(request.equipmentType(), request.requestedHours(), run.getEstimatedCost());
+                        OutboxMessage outbox = outboxService.getOrCreatePending(
+                                run.getId(),
+                                request.tenantId(),
+                                request.idempotencyKey(),
+                                hash,
+                                payload);
+                        return outboxService.publish(outbox);
+                    });
             run.setExternalRecordId(recordId);
             run.setLastCompletedStep(Step.EXTERNAL);
             run.setStatus(WorkflowRun.Status.COMPLETED);
-            workflowRunRepository.save(run);
+            workflowRunRepository.saveAndFlush(run);
         }
         return toResponse(run, replayed);
     }

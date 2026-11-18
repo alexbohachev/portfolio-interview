@@ -1,17 +1,29 @@
 # Робота 3 — надійний workflow агента (Java 21, Spring Boot)
 
-**Сценарій:** заявка на техніку — 3 інструменти (правила, калькулятор, зовнішній запис), checkpoint після кожного кроку в PostgreSQL, **idempotency_key** + **command_hash**.
+**Одне речення:** детермінований 3-кроковий workflow з **checkpoint**, **outbox** і **idempotent stub** — **6/6** fault-сценаріїв у `gradlew test`.
 
 ```powershell
-docker compose up -d          # опційно, порт 5433
-.\make.ps1 all                # Testcontainers + fault tests
-.\make.ps1 boot               # API :8083
+.\make.ps1 all                # make all = test
+docker compose up -d          # Postgres :5433
+.\make.ps1 boot               # :8083
 ```
+
+## Схема
+
+| Крок | Інструмент | Checkpoint |
+|------|------------|------------|
+| 1 | `RuleSearchTool` | RULES |
+| 2 | `CalculatorTool` | CALCULATE |
+| 3 | Outbox → `ExternalStubService` | EXTERNAL + COMPLETED |
+
+**Idempotency:** `unique(tenant_id, idempotency_key)` + **command_hash** (SHA-256 канонічного JSON).
 
 ## API
 
 ```http
 POST /api/v1/applications
+Content-Type: application/json
+
 {
   "tenantId": "tenant_a",
   "idempotencyKey": "key-1",
@@ -21,18 +33,18 @@ POST /api/v1/applications
 }
 ```
 
-## Поведінка (ТЗ)
+## Тести (ТЗ fault)
 
-| Кейс | Очікування |
-|------|------------|
-| Повтор тієї ж заявки (key + hash) | Той самий результат, **1** запис у `external_effects` |
-| Той самий key, інший hash | **409 Conflict** |
-| Checkpoint | Після кожного кроку `saveAndFlush` — можна відновити |
+| Файл | Що покриває |
+|------|-------------|
+| `WorkflowFaultIT` | idempotency, 409 |
+| `WorkflowFaultScenariosIT` | checkpoint resume, crash recovery, validation |
+| `WorkflowFaultPostgresIT` | PostgreSQL (`-Dwork03.docker=true`) |
 
-**Baseline:** детермінований workflow без LLM-планувальника (кроки фіксовані).
+Деталі: [`REPORT.md`](REPORT.md), [`manifests/fault_manifest.json`](manifests/fault_manifest.json).
 
-## Далі за ТЗ
+## Git-tag
 
-- Outbox + симуляція падіння після commit зовнішньої системи
-- LLM-планувальник (Spring AI) як candidate
-- 30 fault-сценаріїв у звіті
+```bash
+git tag -a work03-v1.0 -m "Work03: workflow outbox idempotency fault tests"
+```
