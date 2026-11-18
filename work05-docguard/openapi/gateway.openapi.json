@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "DocGuard Gateway", "version": "0.1.0" },
+  "paths": {
+    "/api/v1/query": {
+      "post": {
+        "parameters": [
+          { "name": "X-Tenant-Id", "in": "header", "required": true, "schema": { "type": "string" } },
+          { "name": "X-Principal-Id", "in": "header", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["question"],
+                "properties": { "question": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Hits (ACL-filtered)" },
+          "403": { "description": "No access or leak blocked" }
+        }
+      }
+    },
+    "/api/v1/admin/invalidate-cache": {
+      "post": {
+        "parameters": [
+          { "name": "X-Tenant-Id", "in": "header", "required": true, "schema": { "type": "string" } },
+          { "name": "X-Principal-Id", "in": "header", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Cache cleared for principal" } }
+      }
+    }
+  }
+}

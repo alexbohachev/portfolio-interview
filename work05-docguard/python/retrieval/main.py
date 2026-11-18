@@ -5,7 +5,7 @@ import os
 import re
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel, Field
 
 CORPUS = Path(os.getenv("CORPUS_DIR", "../work02-rag-citations/corpus/bundled")).resolve()
@@ -40,7 +40,14 @@ def health():
 
 
 @app.post("/v1/search")
-def search(req: SearchRequest):
+async def search(request: Request):
+    raw = await request.body()
+    if not raw:
+        return {"hits": [], "error": "empty body"}
+    import json
+
+    data = json.loads(raw.decode("utf-8"))
+    req = SearchRequest.model_validate(data)
     q = _tokenize(req.query)
     scored: list[tuple[float, str, str]] = []
     allowed = set(req.allowed_doc_ids)

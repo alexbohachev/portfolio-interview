@@ -1,0 +1,33 @@
+services:
+  retrieval:
+    build:
+      context: .
+      dockerfile: docker/retrieval.Dockerfile
+    volumes:
+      - ../work02-rag-citations/corpus/bundled:/corpus:ro
+    ports:
+      - "8097:8097"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8097/health', timeout=3)",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/gateway.Dockerfile
+    ports:
+      - "8096:8096"
+    environment:
+      RETRIEVAL_URL: http://retrieval:8097
+    depends_on:
+      retrieval:
+        condition: service_healthy

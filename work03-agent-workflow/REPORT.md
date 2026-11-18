@@ -40,6 +40,6 @@ POST /applications → WorkflowRun (checkpoint) → Outbox PENDING → Stub (ide
 
 ## Наступний крок
 
-- Spring AI candidate, human-in-the-loop, Testcontainers PostgreSQL у CI, tag `work03-v1.0`.
+- Spring AI candidate, human-in-the-loop, Testcontainers PostgreSQL у CI.
 
-_Оновлено після `.\make.ps1 all`._
+_Тег `work03-v1.0` — на main._

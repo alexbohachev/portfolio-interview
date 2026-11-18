@@ -4,7 +4,10 @@
 
 ```powershell
 cd c:\Portfolio\work05-docguard
-.\make.ps1 all
+.\make.ps1 all          # unit IT + docker smoke (якщо є Docker)
+.\make.ps1 compose-up
+.\make.ps1 smoke
+.\make.ps1 load         # ~1 RPS, 60 с
 ```
 
 ```powershell

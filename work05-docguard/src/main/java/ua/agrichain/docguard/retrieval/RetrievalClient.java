@@ -1,38 +1,68 @@
 package ua.agrichain.docguard.retrieval;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientResponseException;
 
 @Component
 public class RetrievalClient {
 
-    private final RestClient rest;
+    private final URI searchUri;
+    private final ObjectMapper mapper;
+    private final HttpClient http;
 
-    public RetrievalClient(RetrievalProperties props) {
-        this.rest = RestClient.builder().baseUrl(props.baseUrl()).build();
+    public RetrievalClient(RetrievalProperties props, ObjectMapper mapper) {
+        String base = props.baseUrl().replaceAll("/$", "");
+        this.searchUri = URI.create(base + "/v1/search");
+        this.mapper = mapper;
+        this.http = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
     }
 
-    public record SearchRequest(String query, List<String> allowedDocIds, int topK) {}
-
-    @SuppressWarnings("unchecked")
     public Map<String, Object> search(String query, List<String> allowed, int topK) {
+        Map<String, Object> payload = Map.of(
+                "query", query,
+                "allowedDocIds", allowed,
+                "topK", topK);
         try {
-            Map<String, Object> body = rest.post()
-                    .uri("/v1/search")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(new SearchRequest(query, allowed, topK))
-                    .retrieve()
-                    .body(Map.class);
-            return body == null ? Map.of("hits", List.of()) : body;
-        } catch (RestClientResponseException ex) {
-            if (ex.getStatusCode().value() >= 500 || ex.getStatusCode().value() == 408) {
-                return Map.of("hits", List.of(), "degraded", true, "mode", "python_unavailable");
+            String json = mapper.writeValueAsString(payload);
+            HttpRequest request = HttpRequest.newBuilder(searchUri)
+                    .timeout(Duration.ofSeconds(30))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
+            int code = response.statusCode();
+            if (code >= 500 || code == 408) {
+                return degraded();
             }
-            throw ex;
+            if (code >= 400) {
+                throw new IllegalStateException("retrieval error " + code + ": " + response.body());
+            }
+            Map<String, Object> body = mapper.readValue(response.body(), new TypeReference<>() {});
+            return body == null ? Map.of("hits", List.of()) : body;
+        } catch (JsonProcessingException ex) {
+            throw new IllegalStateException("retrieval request encode failed", ex);
+        } catch (IOException | InterruptedException ex) {
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+            return degraded();
         }
+    }
+
+    private static Map<String, Object> degraded() {
+        return Map.of("hits", List.of(), "degraded", true, "mode", "python_unavailable");
     }
 }
