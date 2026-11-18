@@ -1,0 +1,202 @@
+[
+  {
+    "field_id": "F-001",
+    "note": "бура іржа на листі пшениці",
+    "acceptable_action_ids": [
+      "spray_fungicide",
+      "rescout_7d",
+      "disease_lab_test"
+    ],
+    "id": "rec_dev_001"
+  },
+  {
+    "field_id": "F-002",
+    "note": "метелики в пшеничному полі феромони",
+    "acceptable_action_ids": [
+      "ipm_scouting",
+      "beneficial_release",
+      "trap_crops"
+    ],
+    "id": "rec_dev_002"
+  },
+  {
+    "field_id": "F-001",
+    "note": "посуха низька вологість кукурудза",
+    "acceptable_action_ids": [
+      "adjust_irrigation",
+      "moisture_sensor",
+      "irrigation_pressure"
+    ],
+    "id": "rec_dev_003"
+  },
+  {
+    "field_id": "F-002",
+    "note": "кислий ґрунт pH вапнування",
+    "acceptable_action_ids": [
+      "soil_lime",
+      "soil_sampling_grid",
+      "nitrogen_topdress"
+    ],
+    "id": "rec_dev_004"
+  },
+  {
+    "field_id": "F-001",
+    "note": "бур'яни в смузі між рядами",
+    "acceptable_action_ids": [
+      "herbicide_band",
+      "resistance_rotation",
+      "equipment_clean"
+    ],
+    "id": "rec_dev_005"
+  },
+  {
+    "field_id": "F-002",
+    "note": "норма висіву занадто густа",
+    "acceptable_action_ids": [
+      "seed_rate_review",
+      "nitrogen_topdress",
+      "tillage_depth"
+    ],
+    "id": "rec_dev_006"
+  },
+  {
+    "field_id": "F-001",
+    "note": "дефіцит азоту у фазі кущіння",
+    "acceptable_action_ids": [
+      "nitrogen_topdress",
+      "foliar_fertilizer",
+      "soil_sampling_grid"
+    ],
+    "id": "rec_dev_007"
+  },
+  {
+    "field_id": "F-002",
+    "note": "зрошення краплинна система",
+    "acceptable_action_ids": [
+      "adjust_irrigation",
+      "irrigation_pressure",
+      "moisture_sensor"
+    ],
+    "id": "rec_dev_008"
+  },
+  {
+    "field_id": "F-001",
+    "note": "шкідники над економічним порогом",
+    "acceptable_action_ids": [
+      "ipm_scouting",
+      "beneficial_release",
+      "weather_hold"
+    ],
+    "id": "rec_dev_009"
+  },
+  {
+    "field_id": "F-002",
+    "note": "септоріоз на нижніх листках",
+    "acceptable_action_ids": [
+      "spray_fungicide",
+      "rescout_7d",
+      "resistance_rotation"
+    ],
+    "id": "rec_dev_010"
+  },
+  {
+    "field_id": "F-001",
+    "note": "бура іржа на листі пшениці північне поле F-001",
+    "acceptable_action_ids": [
+      "spray_fungicide",
+      "rescout_7d",
+      "disease_lab_test"
+    ],
+    "id": "rec_dev_011"
+  },
+  {
+    "field_id": "F-002",
+    "note": "метелики в пшеничному полі феромони північне поле F-001",
+    "acceptable_action_ids": [
+      "ipm_scouting",
+      "beneficial_release",
+      "trap_crops"
+    ],
+    "id": "rec_dev_012"
+  },
+  {
+    "field_id": "F-001",
+    "note": "посуха низька вологість кукурудза північне поле F-001",
+    "acceptable_action_ids": [
+      "adjust_irrigation",
+      "moisture_sensor",
+      "irrigation_pressure"
+    ],
+    "id": "rec_dev_013"
+  },
+  {
+    "field_id": "F-002",
+    "note": "кислий ґрунт pH вапнування північне поле F-001",
+    "acceptable_action_ids": [
+      "soil_lime",
+      "soil_sampling_grid",
+      "nitrogen_topdress"
+    ],
+    "id": "rec_dev_014"
+  },
+  {
+    "field_id": "F-001",
+    "note": "бур'яни в смузі між рядами північне поле F-001",
+    "acceptable_action_ids": [
+      "herbicide_band",
+      "resistance_rotation",
+      "equipment_clean"
+    ],
+    "id": "rec_dev_015"
+  },
+  {
+    "field_id": "F-002",
+    "note": "норма висіву занадто густа північне поле F-001",
+    "acceptable_action_ids": [
+      "seed_rate_review",
+      "nitrogen_topdress",
+      "tillage_depth"
+    ],
+    "id": "rec_dev_016"
+  },
+  {
+    "field_id": "F-001",
+    "note": "дефіцит азоту у фазі кущіння північне поле F-001",
+    "acceptable_action_ids": [
+      "nitrogen_topdress",
+      "foliar_fertilizer",
+      "soil_sampling_grid"
+    ],
+    "id": "rec_dev_017"
+  },
+  {
+    "field_id": "F-002",
+    "note": "зрошення краплинна система північне поле F-001",
+    "acceptable_action_ids": [
+      "adjust_irrigation",
+      "irrigation_pressure",
+      "moisture_sensor"
+    ],
+    "id": "rec_dev_018"
+  },
+  {
+    "field_id": "F-001",
+    "note": "шкідники над економічним порогом північне поле F-001",
+    "acceptable_action_ids": [
+      "ipm_scouting",
+      "beneficial_release",
+      "weather_hold"
+    ],
+    "id": "rec_dev_019"
+  },
+  {
+    "field_id": "F-002",
+    "note": "септоріоз на нижніх листках північне поле F-001",
+    "acceptable_action_ids": [
+      "spray_fungicide",
+      "rescout_7d",
+      "resistance_rotation"
+    ],
+    "id": "rec_dev_020"
+  }
+]

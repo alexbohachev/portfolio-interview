@@ -1,0 +1,752 @@
+[
+  {
+    "question": "Що впливає на урожай згідно з документом agri_041_soil_ph_0?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "вапнування",
+    "evidence": [
+      {
+        "doc_id": "agri_041_soil_ph_0",
+        "char_start": 247,
+        "char_end": 341
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_001"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_183_sunflower_2?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "висота рослин",
+    "evidence": [
+      {
+        "doc_id": "agri_183_sunflower_2",
+        "char_start": 242,
+        "char_end": 341
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_002"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_099_organic_matter_18?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "сігальні культури",
+    "evidence": [
+      {
+        "doc_id": "agri_099_organic_matter_18",
+        "char_start": 248,
+        "char_end": 357
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_003"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_108_pest_ipm_7?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "феромони",
+    "evidence": [
+      {
+        "doc_id": "agri_108_pest_ipm_7",
+        "char_start": 248,
+        "char_end": 341
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_004"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_051_soil_ph_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "pH 6.0",
+    "evidence": [
+      {
+        "doc_id": "agri_051_soil_ph_10",
+        "char_start": 245,
+        "char_end": 336
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_005"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_156_seed_rate_15?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "щільність",
+    "evidence": [
+      {
+        "doc_id": "agri_156_seed_rate_15",
+        "char_start": 241,
+        "char_end": 337
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_006"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_128_herbicide_7?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_128_herbicide_7",
+        "char_start": 225,
+        "char_end": 316
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_007"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_152_seed_rate_11?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "проростки",
+    "evidence": [
+      {
+        "doc_id": "agri_152_seed_rate_11",
+        "char_start": 241,
+        "char_end": 337
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_008"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_170_crop_rotation_9?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "пар",
+    "evidence": [
+      {
+        "doc_id": "agri_170_crop_rotation_9",
+        "char_start": 230,
+        "char_end": 323
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_009"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_090_organic_matter_9?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "сігальні культури",
+    "evidence": [
+      {
+        "doc_id": "agri_090_organic_matter_9",
+        "char_start": 247,
+        "char_end": 355
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_010"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_198_sunflower_17?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "висота рослин",
+    "evidence": [
+      {
+        "doc_id": "agri_198_sunflower_17",
+        "char_start": 244,
+        "char_end": 344
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_011"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_068_npk_fertilizer_7?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "фосфор",
+    "evidence": [
+      {
+        "doc_id": "agri_068_npk_fertilizer_7",
+        "char_start": 252,
+        "char_end": 349
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_012"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_164_crop_rotation_3?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "пар",
+    "evidence": [
+      {
+        "doc_id": "agri_164_crop_rotation_3",
+        "char_start": 229,
+        "char_end": 322
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_013"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_138_herbicide_17?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "добірка",
+    "evidence": [
+      {
+        "doc_id": "agri_138_herbicide_17",
+        "char_start": 229,
+        "char_end": 323
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_014"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_165_crop_rotation_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_165_crop_rotation_4",
+        "char_start": 232,
+        "char_end": 328
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_015"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_063_npk_fertilizer_2?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "калій",
+    "evidence": [
+      {
+        "doc_id": "agri_063_npk_fertilizer_2",
+        "char_start": 251,
+        "char_end": 347
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_016"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_116_pest_ipm_15?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "трихограма",
+    "evidence": [
+      {
+        "doc_id": "agri_116_pest_ipm_15",
+        "char_start": 252,
+        "char_end": 348
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_017"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_092_organic_matter_11?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "органіка",
+    "evidence": [
+      {
+        "doc_id": "agri_092_organic_matter_11",
+        "char_start": 239,
+        "char_end": 339
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_018"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_124_herbicide_3?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "гліфосат",
+    "evidence": [
+      {
+        "doc_id": "agri_124_herbicide_3",
+        "char_start": 228,
+        "char_end": 322
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_019"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_117_pest_ipm_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "феромони",
+    "evidence": [
+      {
+        "doc_id": "agri_117_pest_ipm_16",
+        "char_start": 250,
+        "char_end": 344
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_020"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_084_organic_matter_3?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "сігальні культури",
+    "evidence": [
+      {
+        "doc_id": "agri_084_organic_matter_3",
+        "char_start": 246,
+        "char_end": 354
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_021"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_056_soil_ph_15?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "вапнування",
+    "evidence": [
+      {
+        "doc_id": "agri_056_soil_ph_15",
+        "char_start": 249,
+        "char_end": 344
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_022"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_076_npk_fertilizer_15?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "азот",
+    "evidence": [
+      {
+        "doc_id": "agri_076_npk_fertilizer_15",
+        "char_start": 252,
+        "char_end": 348
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_023"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_177_crop_rotation_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_177_crop_rotation_16",
+        "char_start": 234,
+        "char_end": 331
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_024"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_105_pest_ipm_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "феромони",
+    "evidence": [
+      {
+        "doc_id": "agri_105_pest_ipm_4",
+        "char_start": 248,
+        "char_end": 341
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_025"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_095_organic_matter_14?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "органіка",
+    "evidence": [
+      {
+        "doc_id": "agri_095_organic_matter_14",
+        "char_start": 239,
+        "char_end": 339
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_026"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_147_seed_rate_6?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "щільність",
+    "evidence": [
+      {
+        "doc_id": "agri_147_seed_rate_6",
+        "char_start": 239,
+        "char_end": 334
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_027"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_180_crop_rotation_19?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_180_crop_rotation_19",
+        "char_start": 234,
+        "char_end": 331
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_028"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_197_sunflower_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "байрачний",
+    "evidence": [
+      {
+        "doc_id": "agri_197_sunflower_16",
+        "char_start": 240,
+        "char_end": 336
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_029"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_082_organic_matter_1?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "компост",
+    "evidence": [
+      {
+        "doc_id": "agri_082_organic_matter_1",
+        "char_start": 236,
+        "char_end": 334
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_030"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_113_pest_ipm_12?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "трихограма",
+    "evidence": [
+      {
+        "doc_id": "agri_113_pest_ipm_12",
+        "char_start": 252,
+        "char_end": 348
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_031"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_125_herbicide_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_125_herbicide_4",
+        "char_start": 225,
+        "char_end": 316
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_032"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_098_organic_matter_17?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "органіка",
+    "evidence": [
+      {
+        "doc_id": "agri_098_organic_matter_17",
+        "char_start": 239,
+        "char_end": 339
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_033"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_174_crop_rotation_13?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_174_crop_rotation_13",
+        "char_start": 234,
+        "char_end": 331
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_034"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_167_crop_rotation_6?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "пар",
+    "evidence": [
+      {
+        "doc_id": "agri_167_crop_rotation_6",
+        "char_start": 229,
+        "char_end": 322
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_035"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_072_npk_fertilizer_11?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "калій",
+    "evidence": [
+      {
+        "doc_id": "agri_072_npk_fertilizer_11",
+        "char_start": 253,
+        "char_end": 350
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_036"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_089_organic_matter_8?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "органіка",
+    "evidence": [
+      {
+        "doc_id": "agri_089_organic_matter_8",
+        "char_start": 237,
+        "char_end": 336
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_037"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_115_pest_ipm_14?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "економічний поріг",
+    "evidence": [
+      {
+        "doc_id": "agri_115_pest_ipm_14",
+        "char_start": 259,
+        "char_end": 362
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_038"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_083_organic_matter_2?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "органіка",
+    "evidence": [
+      {
+        "doc_id": "agri_083_organic_matter_2",
+        "char_start": 237,
+        "char_end": 336
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_039"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_110_pest_ipm_9?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "трихограма",
+    "evidence": [
+      {
+        "doc_id": "agri_110_pest_ipm_9",
+        "char_start": 251,
+        "char_end": 346
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_040"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_057_soil_ph_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "pH 6.0",
+    "evidence": [
+      {
+        "doc_id": "agri_057_soil_ph_16",
+        "char_start": 245,
+        "char_end": 336
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_041"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_132_herbicide_11?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "добірка",
+    "evidence": [
+      {
+        "doc_id": "agri_132_herbicide_11",
+        "char_start": 229,
+        "char_end": 323
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_042"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_094_organic_matter_13?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "компост",
+    "evidence": [
+      {
+        "doc_id": "agri_094_organic_matter_13",
+        "char_start": 238,
+        "char_end": 337
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_043"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_140_herbicide_19?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_140_herbicide_19",
+        "char_start": 227,
+        "char_end": 319
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_044"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_130_herbicide_9?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "гліфосат",
+    "evidence": [
+      {
+        "doc_id": "agri_130_herbicide_9",
+        "char_start": 229,
+        "char_end": 323
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_045"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_119_pest_ipm_18?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "трихограма",
+    "evidence": [
+      {
+        "doc_id": "agri_119_pest_ipm_18",
+        "char_start": 252,
+        "char_end": 348
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_046"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_179_crop_rotation_18?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "пар",
+    "evidence": [
+      {
+        "doc_id": "agri_179_crop_rotation_18",
+        "char_start": 231,
+        "char_end": 325
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_047"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_075_npk_fertilizer_14?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "калій",
+    "evidence": [
+      {
+        "doc_id": "agri_075_npk_fertilizer_14",
+        "char_start": 253,
+        "char_end": 350
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_048"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_135_herbicide_14?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "добірка",
+    "evidence": [
+      {
+        "doc_id": "agri_135_herbicide_14",
+        "char_start": 229,
+        "char_end": 323
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_049"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_091_organic_matter_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "компост",
+    "evidence": [
+      {
+        "doc_id": "agri_091_organic_matter_10",
+        "char_start": 238,
+        "char_end": 337
+      }
+    ],
+    "provenance": "work07_new",
+    "id": "w07_test_050"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "work": "work07-ai-platform",
+  "metric": ["recall_at_5", "mrr_at_5"],
+  "top_k": 5,
+  "golden_dev": "data/golden/dev.json",
+  "golden_test": "data/golden/test.json",
+  "modes": ["bm25", "hybrid"],
+  "artifact": "artifacts/eval_results.json",
+  "commands": {
+    "seed": "py -3.13 scripts/build_golden_150.py",
+    "retrieval_test": "py -3.13 scripts/eval_retrieval.py --split test",
+    "llm_dev": "py -3.13 scripts/eval_llm_provider.py"
+  }
+}

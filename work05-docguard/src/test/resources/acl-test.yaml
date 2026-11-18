@@ -1,0 +1,6 @@
+principals:
+  tenant_a:alice:
+    - doc_a
+    - doc_b
+  tenant_b:bob:
+    - doc_c

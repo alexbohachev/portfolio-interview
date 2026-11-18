@@ -1,1 +1,3 @@
-// farm service — поля й культури
+dependencies {
+    implementation("org.springframework.kafka:spring-kafka")
+}

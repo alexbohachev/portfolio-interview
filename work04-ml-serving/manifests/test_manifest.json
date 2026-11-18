@@ -1,0 +1,7 @@
+{
+  "work": "work04-ml-serving",
+  "description": "model_bundle.joblib — model + preprocessing + thresholds",
+  "artifact": "artifacts/model_bundle.joblib",
+  "config_hash": "d1369557e3babeb5",
+  "bundle_sha256_16": "1d5d3b4c62c930c4"
+}

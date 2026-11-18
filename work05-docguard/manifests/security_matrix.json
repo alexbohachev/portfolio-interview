@@ -1,0 +1,16 @@
+{
+  "work": "work05-docguard",
+  "scenarios_automated": [
+    "allowed_hits_ok",
+    "block_leaked_doc_id",
+    "unknown_principal_forbidden",
+    "degraded_python_unavailable"
+  ],
+  "n_automated": 4,
+  "target_tz": 8,
+  "backlog": [
+    "cross_tenant",
+    "revoke_invalidates_cache",
+    "prompt_injection_audit"
+  ]
+}

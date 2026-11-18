@@ -1,0 +1,12 @@
+# Дозволені doc_id на (tenant, principal). MVP — статичний ACL.
+principals:
+  tenant_a:alice:
+    - agri_003_wheat_disease_2
+    - agri_006_wheat_disease_5
+    - agri_001_wheat_disease_0
+  tenant_a:bob:
+    - agri_033_corn_irrigation_12
+    - agri_043_soil_ph_2
+  tenant_b:carol:
+    - agri_102_pest_ipm_1
+    - agri_150_seed_rate_9

@@ -1,0 +1,17 @@
+seed: 42
+data:
+  n_rows: 8000
+  train_ratio: 0.7
+  val_ratio: 0.15
+costs:
+  false_positive: 1.0
+  false_negative: 8.0
+  human_review: 0.2
+model:
+  candidate: lightgbm
+  calibration: isotonic
+serving:
+  host: "0.0.0.0"
+  port: 8095
+drift:
+  alert_z_score: 3.0

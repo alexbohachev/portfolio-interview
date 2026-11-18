@@ -1,0 +1,16 @@
+# Дзеркало CI за ТЗ (локально основний pipeline — GitHub Actions).
+stages:
+  - build
+
+work07-gradle:
+  stage: build
+  image: eclipse-temurin:21-jdk
+  script:
+    - chmod +x gradlew
+    - ./gradlew :services:farm:bootJar :services:scout:bootJar :services:logistics:bootJar --no-daemon
+
+work07-python:
+  stage: build
+  image: python:3.13-slim
+  script:
+    - python -m compileall python/rag-api/app python/worker scripts

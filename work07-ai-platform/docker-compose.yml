@@ -31,6 +31,15 @@ services:
       timeout: 5s
       retries: 12
 
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16687:16686"
+      - "4319:4318"
+    mem_limit: 512m
+
   redpanda:
     image: redpandadata/redpanda:v24.2.4
     command:
@@ -66,6 +75,7 @@ services:
       CORPUS_DIR: /corpus
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318
     volumes:
       - ../work02-rag-citations/corpus/bundled:/corpus:ro
     ports:
@@ -73,23 +83,33 @@ services:
     depends_on:
       elasticsearch:
         condition: service_healthy
+      jaeger:
+        condition: service_started
     mem_limit: 2048m
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
+      interval: 10s
+      timeout: 5s
+      retries: 24
+      start_period: 120s
 
   worker:
-    build: ./python/worker
+    build:
+      context: ./python
+      dockerfile: worker/Dockerfile
     environment:
       KAFKA_BOOTSTRAP: redpanda:9092
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-      ES_INDEX: agri-knowledge
+      KAFKA_TOPICS: document.uploaded,scout.report.created
+      KAFKA_TOPIC_RECOMMENDATION: recommendation.ready
+      KAFKA_TOPIC_DLQ: document.dlq
+      RAG_API_URL: http://rag-api:8000
+      ACTIONS_CATALOG: /config/actions_catalog.json
+    volumes:
+      - ./config:/config:ro
     depends_on:
       redpanda:
         condition: service_healthy
-      elasticsearch:
+      rag-api:
         condition: service_healthy
     mem_limit: 384m
 
@@ -99,8 +119,14 @@ services:
       dockerfile: infra/java-service.Dockerfile
       args:
         JAR_FILE: services/farm/build/libs/farm-0.1.0.jar
+    environment:
+      KAFKA_BOOTSTRAP: redpanda:9092
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
     ports:
       - "8081:8081"
+    depends_on:
+      redpanda:
+        condition: service_healthy
     mem_limit: 384m
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8081/actuator/health || exit 1"]
@@ -113,8 +139,14 @@ services:
       dockerfile: infra/java-service.Dockerfile
       args:
         JAR_FILE: services/scout/build/libs/scout-0.1.0.jar
+    environment:
+      KAFKA_BOOTSTRAP: redpanda:9092
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
     ports:
       - "8082:8082"
+    depends_on:
+      redpanda:
+        condition: service_healthy
     mem_limit: 384m
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8082/actuator/health || exit 1"]
@@ -129,6 +161,7 @@ services:
         JAR_FILE: services/logistics/build/libs/logistics-0.1.0.jar
     environment:
       RAG_API_URL: http://rag-api:8000
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
     ports:
       - "8084:8084"
     depends_on:

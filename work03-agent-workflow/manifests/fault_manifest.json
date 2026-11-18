@@ -1,13 +1,14 @@
 {
   "description": "Fault integration scenarios for work03 (JUnit). x/n = passed/total in last gradlew test.",
-  "scenarios": [
-    "duplicate_idempotency_key",
-    "command_hash_conflict_409",
-    "resume_from_calculate_checkpoint",
-    "external_committed_before_workflow_checkpoint",
-    "new_key_same_command_two_effects",
-    "invalid_input_no_state_change"
-  ],
-  "n_scenarios": 6,
-  "target_tz": 30
+  "scenarios_file": "WorkflowFaultIT + WorkflowFaultScenariosIT + WorkflowFaultMatrixIT",
+  "n_scenarios": 30,
+  "target_tz": 30,
+  "groups": {
+    "idempotency": 8,
+    "checkpoint_recovery": 4,
+    "validation_400": 7,
+    "outbox": 3,
+    "conflict_409": 4,
+    "domain": 4
+  }
 }

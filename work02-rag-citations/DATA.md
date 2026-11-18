@@ -15,9 +15,11 @@
 
 ## Ліцензії (план)
 
+Див. також [`data/sources.yaml`](data/sources.yaml).
+
 | Джерело | Ліцензія | Статус |
 |---------|----------|--------|
 | Synthetic agri MVP | CC0 | у репозиторії |
-| FAO / extension factsheets | перевірити per URL | заплановано |
+| FAO / extension factsheets | перевірити per URL | у sources.yaml |
 
 Golden **test** не змінюється після `work02 lock` без нового manifest.

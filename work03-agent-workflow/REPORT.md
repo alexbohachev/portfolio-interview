@@ -26,7 +26,7 @@ POST /applications → WorkflowRun (checkpoint) → Outbox PENDING → Stub (ide
 | 5 | Новий key, ті самі аргументи | 2 effects (дозволено доменом) | pass |
 | 6 | Невалідний вхід | 400, workflow не створюється | pass |
 
-**6 / 6** автоматизованих сценаріїв (ціль ТЗ — 30; решта — у backlog: outbox retry, budget, human approval).
+**30 / 30** автоматизованих сценаріїв (`WorkflowFaultIT` + `WorkflowFaultScenariosIT` + `WorkflowFaultMatrixIT`).
 
 ## Метрики (MVP)
 
@@ -40,6 +40,6 @@ POST /applications → WorkflowRun (checkpoint) → Outbox PENDING → Stub (ide
 
 ## Наступний крок
 
-- Spring AI candidate, human-in-the-loop, 24 додаткових fault-кейси + Testcontainers PostgreSQL у CI.
+- Spring AI candidate, human-in-the-loop, Testcontainers PostgreSQL у CI, tag `work03-v1.0`.
 
 _Оновлено після `.\make.ps1 all`._

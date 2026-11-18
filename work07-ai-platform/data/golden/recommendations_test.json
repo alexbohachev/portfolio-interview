@@ -1,0 +1,182 @@
+[
+  {
+    "id": "rec_test_001",
+    "field_id": "F-001",
+    "note": "фузаріоз колосся озимої",
+    "acceptable_action_ids": [
+      "spray_fungicide",
+      "rescout_7d"
+    ]
+  },
+  {
+    "id": "rec_test_002",
+    "field_id": "F-002",
+    "note": "трихограма проти метеликів",
+    "acceptable_action_ids": [
+      "ipm_scouting",
+      "beneficial_release"
+    ]
+  },
+  {
+    "id": "rec_test_003",
+    "field_id": "F-001",
+    "note": "вологоємність нижче 25%",
+    "acceptable_action_ids": [
+      "adjust_irrigation",
+      "moisture_sensor"
+    ]
+  },
+  {
+    "id": "rec_test_004",
+    "field_id": "F-002",
+    "note": "лімаш рекомендовано агрономом",
+    "acceptable_action_ids": [
+      "soil_lime",
+      "soil_sampling_grid"
+    ]
+  },
+  {
+    "id": "rec_test_005",
+    "field_id": "F-001",
+    "note": "заростання бур'янів у краплині",
+    "acceptable_action_ids": [
+      "herbicide_band",
+      "equipment_clean"
+    ]
+  },
+  {
+    "id": "rec_test_006",
+    "field_id": "F-002",
+    "note": "прорідження густоти після сходів",
+    "acceptable_action_ids": [
+      "seed_rate_review",
+      "tillage_depth"
+    ]
+  },
+  {
+    "id": "rec_test_007",
+    "field_id": "F-001",
+    "note": "брак калія жовтіє листя",
+    "acceptable_action_ids": [
+      "potassium_autumn",
+      "foliar_fertilizer"
+    ]
+  },
+  {
+    "id": "rec_test_008",
+    "field_id": "F-002",
+    "note": "покривна культура після жнив",
+    "acceptable_action_ids": [
+      "cover_crop_seed",
+      "crop_rotation"
+    ]
+  },
+  {
+    "id": "rec_test_009",
+    "field_id": "F-001",
+    "note": "затримка обприскування вітер 12 м/с",
+    "acceptable_action_ids": [
+      "weather_hold",
+      "rescout_7d"
+    ]
+  },
+  {
+    "id": "rec_test_010",
+    "field_id": "F-002",
+    "note": "перелив від попереднього поля",
+    "acceptable_action_ids": [
+      "equipment_clean",
+      "buffer_zone_sign"
+    ]
+  },
+  {
+    "id": "rec_test_011",
+    "field_id": "F-001",
+    "note": "фотофіксація плям у скаут-додатку",
+    "acceptable_action_ids": [
+      "scouting_photos",
+      "rescout_7d"
+    ]
+  },
+  {
+    "id": "rec_test_012",
+    "field_id": "F-002",
+    "note": "дренаж не відводить воду",
+    "acceptable_action_ids": [
+      "drainage_repair",
+      "soil_sampling_grid"
+    ]
+  },
+  {
+    "id": "rec_test_013",
+    "field_id": "F-001",
+    "note": "органіка компост перед посівом",
+    "acceptable_action_ids": [
+      "organic_compost",
+      "crop_rotation"
+    ]
+  },
+  {
+    "id": "rec_test_014",
+    "field_id": "F-002",
+    "note": "смуговий фосфор при сівалці",
+    "acceptable_action_ids": [
+      "phosphorus_band",
+      "seed_rate_review"
+    ]
+  },
+  {
+    "id": "rec_test_015",
+    "field_id": "F-001",
+    "note": "десикація перед збором сої",
+    "acceptable_action_ids": [
+      "desiccation",
+      "harvest_moisture"
+    ]
+  },
+  {
+    "id": "rec_test_016",
+    "field_id": "F-002",
+    "note": "мертва зона біля водойми",
+    "acceptable_action_ids": [
+      "buffer_zone_sign",
+      "trap_crops"
+    ]
+  },
+  {
+    "id": "rec_test_017",
+    "field_id": "F-001",
+    "note": "вітерозахист посадок лісосмуги",
+    "acceptable_action_ids": [
+      "windbreak_check",
+      "crop_rotation"
+    ]
+  },
+  {
+    "id": "rec_test_018",
+    "field_id": "F-002",
+    "note": "калібрування датчиків поливу",
+    "acceptable_action_ids": [
+      "moisture_sensor",
+      "irrigation_pressure"
+    ]
+  },
+  {
+    "id": "rec_test_019",
+    "field_id": "F-001",
+    "note": "ротація препаратів від резистентності",
+    "acceptable_action_ids": [
+      "resistance_rotation",
+      "spray_fungicide"
+    ]
+  },
+  {
+    "id": "rec_test_020",
+    "field_id": "F-002",
+    "note": "вологість зерна на току 19%",
+    "acceptable_action_ids": [
+      "harvest_moisture",
+      "desiccation"
+    ]
+  }
+]

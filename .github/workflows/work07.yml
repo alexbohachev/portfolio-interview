@@ -1,0 +1,30 @@
+name: work07
+
+on:
+  push:
+    paths:
+      - "work07-ai-platform/**"
+      - ".github/workflows/work07.yml"
+  pull_request:
+    paths:
+      - "work07-ai-platform/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: work07-ai-platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Gradle bootJar
+        run: chmod +x gradlew && ./gradlew :services:farm:bootJar :services:scout:bootJar :services:logistics:bootJar --no-daemon
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Python syntax check
+        run: python -m compileall python/rag-api/app python/worker scripts

@@ -3,10 +3,22 @@ server:
 spring:
   application:
     name: farm-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:19092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 management:
   endpoints:
     web:
       exposure:
         include: health,info
-rag-api:
-  base-url: http://rag-api:8000
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLE:1.0}
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+work07:
+  kafka:
+    topic-document-uploaded: document.uploaded

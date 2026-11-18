@@ -17,6 +17,8 @@
 | 2:00 | `POST :8084/api/v1/knowledge/qa` | **answer** + **citations[]** |
 | 3:00 | `POST :8082/api/v1/observations` | scout створює спостереження |
 | 3:30 | `POST :8084/api/v1/equipment-requests` | Java → Python, `searchMode: hybrid` |
+| 4:00 | Заголовок `X-Search-Profile: slow` vs `fast` | кейс продуктивності ([`PERFORMANCE.md`](PERFORMANCE.md)) |
+| 4:15 | Jaeger http://localhost:16687 | trace logistics → rag-api |
 | 4:30 | Питання «Чи є дані про Марс?» → `qa` | **refused: true** (gate/немає в корпусі) |
 | 5:30 | README: схема Java↔Python↔ES | підсумок для інтерв'ю |
 

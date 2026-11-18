@@ -1,0 +1,11 @@
+{
+  "work": "work07-ai-platform",
+  "description": "Фінальний test golden + compose fingerprint для work07-v1.0",
+  "golden_test_path": "data/golden/test.json",
+  "golden_test_sha256_16": "24229f046452b730",
+  "compose_sha256_16": "87dbd806dbe8a914",
+  "eval_artifact": "artifacts/eval_results.json",
+  "recommendation_artifact": "artifacts/recommendation_eval.json",
+  "latency_artifact": "artifacts/latency_before_after.json",
+  "config_hash": "87dbd806dbe8a914"
+}

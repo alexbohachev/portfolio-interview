@@ -8,5 +8,20 @@ management:
     web:
       exposure:
         include: health
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLE:1.0}
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
 rag-api:
   base-url: ${RAG_API_URL:http://localhost:8090}
+resilience4j:
+  circuitbreaker:
+    instances:
+      ragApi:
+        sliding-window-size: 20
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 60
+        wait-duration-in-open-state: 15s
+        permitted-number-of-calls-in-half-open-state: 3

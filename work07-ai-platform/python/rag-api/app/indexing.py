@@ -74,3 +74,12 @@ def ensure_index(es: Elasticsearch, embed_fn) -> int:
         es.indices.refresh(index=INDEX)
         return 1
     return n_existing
+
+
+def index_single_doc(es: Elasticsearch, embed_fn, doc_id: str, title: str, body: str) -> None:
+    if not es.indices.exists(index=INDEX):
+        es.indices.create(index=INDEX, mappings=index_mapping())
+    vec = embed_fn(f"{title}\n{body[:1200]}")
+    doc = {"doc_id": doc_id, "title": title, "body": body, "embedding": vec}
+    es.index(index=INDEX, id=doc_id, document=doc)
+    es.indices.refresh(index=INDEX)

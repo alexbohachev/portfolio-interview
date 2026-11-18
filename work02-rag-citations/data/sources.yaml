@@ -1,0 +1,23 @@
+# План відкритого корпусу (ТЗ). MVP — synthetic CC0 у corpus/bundled/.
+version: 1
+target_docs: 200
+current_mvp: synthetic_cc0
+
+sources:
+  - id: synthetic_agri_mvp
+    license: CC0
+    status: active
+    path: corpus/bundled/
+    notes: 200 markdown, спільний з work07
+
+  - id: fao_extension_factsheets
+    license: pending_review
+    status: planned
+    url: https://www.fao.org/family-farming/detail/en/
+    notes: перевірити ліцензію перед fetch
+
+  - id: usda_nrcs_guides
+    license: pending_review
+    status: planned
+    url: https://www.nrcs.usda.gov/
+    notes: публічні PDF — лише після підтвердження redistribution

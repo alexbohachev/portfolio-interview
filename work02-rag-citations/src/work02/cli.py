@@ -59,6 +59,7 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("seed", help="Корпус 200 + golden dev/test")
     sub.add_parser("all", help="Індексування та оцінка retrieval")
     sub.add_parser("test")
+    sub.add_parser("eval-llm", help="OpenAI judge на 30 dev (потрібен OPENAI_API_KEY)")
     args = p.parse_args(argv)
     if args.cmd == "lock":
         return cmd_lock()
@@ -68,4 +69,11 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_all()
     if args.cmd == "test":
         return cmd_test()
+    if args.cmd == "eval-llm":
+        root = Path(__file__).resolve().parents[2]
+        return subprocess.call(
+            [sys.executable, str(root / "scripts" / "eval_llm_judge.py")],
+            cwd=root,
+            env={**dict(__import__("os").environ), "PYTHONPATH": str(root / "src")},
+        )
     return 1

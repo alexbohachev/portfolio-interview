@@ -8,7 +8,8 @@ from pydantic import BaseModel, Field
 from sentence_transformers import SentenceTransformer
 
 from app.config import EMBED_MODEL, ES_URL, REFUSAL
-from app.indexing import ensure_index
+from app.telemetry import setup_telemetry
+from app.indexing import ensure_index, index_single_doc
 from app.qa import answer_query
 from app.retrieve import search_bm25, search_hybrid
 
@@ -24,6 +25,14 @@ class SearchRequest(BaseModel):
 class QaRequest(BaseModel):
     query: str
     top_k: int = Field(default=5, alias="topK")
+
+    model_config = {"populate_by_name": True}
+
+
+class IndexDocRequest(BaseModel):
+    doc_id: str = Field(alias="docId")
+    title: str
+    body: str
 
     model_config = {"populate_by_name": True}
 
@@ -44,6 +53,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="rag-api", lifespan=lifespan)
+setup_telemetry(app)
 
 
 @app.get("/health")
@@ -65,6 +75,12 @@ def search(req: SearchRequest):
         "mode": req.mode,
         "hits": [h.__dict__ for h in hits],
     }
+
+
+@app.post("/v1/admin/index")
+def admin_index(req: IndexDocRequest):
+    index_single_doc(app.state.es, app.state.embed, req.doc_id, req.title, req.body)
+    return {"ok": True, "doc_id": req.doc_id}
 
 
 @app.post("/v1/knowledge/qa")
