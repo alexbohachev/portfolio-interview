@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Data & artifacts
+work01/data/raw/
+work01/data/processed/
+work01/artifacts/
+work01/runs/
+*.pt
+*.pkl
+
+# Temp from docx inspection
+unpacked_docx/
+temp_portfolio.zip
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

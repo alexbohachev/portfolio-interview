@@ -1,0 +1,13 @@
+{
+  "description": "Фіксований test split: рядки 38430–45211 (0-based iloc 38429:45211), bank-full.csv без duration",
+  "dataset": "UCI Bank Marketing bank-full.csv",
+  "split_rule": "sequential_by_file_order",
+  "test_row_start_1based": 38430,
+  "test_row_end_1based": 45211,
+  "n_test": 6782,
+  "excluded_features": [
+    "duration"
+  ],
+  "config_hash_placeholder": "computed_on_first_run",
+  "config_hash": "7fe0e402b6346685"
+}

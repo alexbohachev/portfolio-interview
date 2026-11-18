@@ -1,0 +1,30 @@
+seed: 42
+seeds: [11, 22, 33, 44, 55]
+data:
+  url: "https://archive.ics.uci.edu/ml/machine-learning-databases/00222/bank.zip"
+  csv_name: "bank-full.csv"
+  sep: ";"
+  target: "y"
+  drop_columns: ["duration"]
+  split:
+    train_end: 31647
+    val_end: 38429
+    total_rows: 45211
+  license: "CC BY 4.0"
+  csv_sha256: "d1513ec63b385506f7cfce9f2c5caa9fe99e7ba4e8c3fa264b3aaf0f849ed32d"
+baseline:
+  name: "logistic_regression"
+  max_iter: 2000
+  class_weight: "balanced"
+candidate:
+  name: "mlp"
+  hidden_dims: [128, 64]
+  dropout: 0.2
+  batch_size: 512
+  max_epochs: 100
+  early_stopping_patience: 10
+  learning_rate: 0.001
+  weight_decay: 0.0001
+bootstrap:
+  n_resamples: 1000
+  ci: 0.95

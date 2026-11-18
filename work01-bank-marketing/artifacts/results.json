@@ -1,0 +1,41 @@
+{
+  "data": {
+    "zip_sha256": "99d7e8eb12401ed278b793984423915411ea8df099e1795f9fefe254f513fe5e",
+    "zip_path": "C:\\Portfolio\\work01-bank-marketing\\data\\raw\\bank.zip",
+    "csv_sha256": "d1513ec63b385506f7cfce9f2c5caa9fe99e7ba4e8c3fa264b3aaf0f849ed32d",
+    "n_rows": 45211
+  },
+  "fingerprint": "7fe0e402b6346685",
+  "baseline_test": {
+    "macro_f1": 0.598861728604968,
+    "brier": 0.2598870917675232,
+    "pr_auc": 0.49687832669991205
+  },
+  "candidate_test": {
+    "macro_f1": 0.5311526151641937,
+    "brier": 0.28539621016197064,
+    "pr_auc": 0.4734974915504511
+  },
+  "candidate_seed_spread": {
+    "macro_f1_mean": 0.5440078730556841,
+    "macro_f1_std": 0.011890888562622642,
+    "brier_mean": 0.271469031959516,
+    "brier_std": 0.008227871166449558,
+    "pr_auc_mean": 0.48476955229211527,
+    "pr_auc_std": 0.010122403283583185
+  },
+  "bootstrap_macro_f1_diff": {
+    "point": -0.06750049168393712,
+    "ci_low": -0.07905165200704793,
+    "ci_high": -0.056295099053102524
+  },
+  "n_test": 6782,
+  "elapsed_sec": 25.12,
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ]
+}
