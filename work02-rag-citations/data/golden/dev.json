@@ -1,0 +1,682 @@
+[
+  {
+    "question": "Що впливає на урожай згідно з документом agri_043_soil_ph_2?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "лімаш",
+    "evidence": [
+      {
+        "doc_id": "agri_043_soil_ph_2",
+        "char_start": 242,
+        "char_end": 331
+      }
+    ],
+    "id": "dev_001"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_017_wheat_disease_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "септоріоз",
+    "evidence": [
+      {
+        "doc_id": "agri_017_wheat_disease_16",
+        "char_start": 253,
+        "char_end": 353
+      }
+    ],
+    "id": "dev_002"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_081_organic_matter_0?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "сігальні культури",
+    "evidence": [
+      {
+        "doc_id": "agri_081_organic_matter_0",
+        "char_start": 246,
+        "char_end": 354
+      }
+    ],
+    "id": "dev_003"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_031_corn_irrigation_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "вологоємність грунту",
+    "evidence": [
+      {
+        "doc_id": "agri_031_corn_irrigation_10",
+        "char_start": 284,
+        "char_end": 397
+      }
+    ],
+    "id": "dev_004"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_122_herbicide_1?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_122_herbicide_1",
+        "char_start": 225,
+        "char_end": 316
+      }
+    ],
+    "id": "dev_005"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_048_soil_ph_7?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "pH 6.0",
+    "evidence": [
+      {
+        "doc_id": "agri_048_soil_ph_7",
+        "char_start": 243,
+        "char_end": 333
+      }
+    ],
+    "id": "dev_006"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_096_organic_matter_15?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "сігальні культури",
+    "evidence": [
+      {
+        "doc_id": "agri_096_organic_matter_15",
+        "char_start": 248,
+        "char_end": 357
+      }
+    ],
+    "id": "dev_007"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_171_crop_rotation_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_171_crop_rotation_10",
+        "char_start": 234,
+        "char_end": 331
+      }
+    ],
+    "id": "dev_008"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_045_soil_ph_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "pH 6.0",
+    "evidence": [
+      {
+        "doc_id": "agri_045_soil_ph_4",
+        "char_start": 243,
+        "char_end": 333
+      }
+    ],
+    "id": "dev_009"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_195_sunflower_14?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "висота рослин",
+    "evidence": [
+      {
+        "doc_id": "agri_195_sunflower_14",
+        "char_start": 244,
+        "char_end": 344
+      }
+    ],
+    "id": "dev_010"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_013_wheat_disease_12?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бура іржа",
+    "evidence": [
+      {
+        "doc_id": "agri_013_wheat_disease_12",
+        "char_start": 253,
+        "char_end": 353
+      }
+    ],
+    "id": "dev_011"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_104_pest_ipm_3?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "трихограма",
+    "evidence": [
+      {
+        "doc_id": "agri_104_pest_ipm_3",
+        "char_start": 250,
+        "char_end": 345
+      }
+    ],
+    "id": "dev_012"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_123_herbicide_2?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "добірка",
+    "evidence": [
+      {
+        "doc_id": "agri_123_herbicide_2",
+        "char_start": 227,
+        "char_end": 320
+      }
+    ],
+    "id": "dev_013"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_187_sunflower_6?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "олійність",
+    "evidence": [
+      {
+        "doc_id": "agri_187_sunflower_6",
+        "char_start": 238,
+        "char_end": 333
+      }
+    ],
+    "id": "dev_014"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_044_soil_ph_3?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "вапнування",
+    "evidence": [
+      {
+        "doc_id": "agri_044_soil_ph_3",
+        "char_start": 247,
+        "char_end": 341
+      }
+    ],
+    "id": "dev_015"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_193_sunflower_12?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "олійність",
+    "evidence": [
+      {
+        "doc_id": "agri_193_sunflower_12",
+        "char_start": 240,
+        "char_end": 336
+      }
+    ],
+    "id": "dev_016"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_160_seed_rate_19?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "гібрид",
+    "evidence": [
+      {
+        "doc_id": "agri_160_seed_rate_19",
+        "char_start": 238,
+        "char_end": 331
+      }
+    ],
+    "id": "dev_017"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_162_crop_rotation_1?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бобові",
+    "evidence": [
+      {
+        "doc_id": "agri_162_crop_rotation_1",
+        "char_start": 232,
+        "char_end": 328
+      }
+    ],
+    "id": "dev_018"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_131_herbicide_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_131_herbicide_10",
+        "char_start": 227,
+        "char_end": 319
+      }
+    ],
+    "id": "dev_019"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_014_wheat_disease_13?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "септоріоз",
+    "evidence": [
+      {
+        "doc_id": "agri_014_wheat_disease_13",
+        "char_start": 253,
+        "char_end": 353
+      }
+    ],
+    "id": "dev_020"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_145_seed_rate_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "гібрид",
+    "evidence": [
+      {
+        "doc_id": "agri_145_seed_rate_4",
+        "char_start": 236,
+        "char_end": 328
+      }
+    ],
+    "id": "dev_021"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_172_crop_rotation_11?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "фітосанітарія",
+    "evidence": [
+      {
+        "doc_id": "agri_172_crop_rotation_11",
+        "char_start": 241,
+        "char_end": 345
+      }
+    ],
+    "id": "dev_022"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_065_npk_fertilizer_4?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "фосфор",
+    "evidence": [
+      {
+        "doc_id": "agri_065_npk_fertilizer_4",
+        "char_start": 252,
+        "char_end": 349
+      }
+    ],
+    "id": "dev_023"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_001_wheat_disease_0?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "бура іржа",
+    "evidence": [
+      {
+        "doc_id": "agri_001_wheat_disease_0",
+        "char_start": 251,
+        "char_end": 350
+      }
+    ],
+    "id": "dev_024"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_046_soil_ph_5?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "лімаш",
+    "evidence": [
+      {
+        "doc_id": "agri_046_soil_ph_5",
+        "char_start": 242,
+        "char_end": 331
+      }
+    ],
+    "id": "dev_025"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_038_corn_irrigation_17?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "борознева",
+    "evidence": [
+      {
+        "doc_id": "agri_038_corn_irrigation_17",
+        "char_start": 273,
+        "char_end": 375
+      }
+    ],
+    "id": "dev_026"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_137_herbicide_16?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "2,4-D",
+    "evidence": [
+      {
+        "doc_id": "agri_137_herbicide_16",
+        "char_start": 227,
+        "char_end": 319
+      }
+    ],
+    "id": "dev_027"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_111_pest_ipm_10?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "феромони",
+    "evidence": [
+      {
+        "doc_id": "agri_111_pest_ipm_10",
+        "char_start": 250,
+        "char_end": 344
+      }
+    ],
+    "id": "dev_028"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_173_crop_rotation_12?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "пар",
+    "evidence": [
+      {
+        "doc_id": "agri_173_crop_rotation_12",
+        "char_start": 231,
+        "char_end": 325
+      }
+    ],
+    "id": "dev_029"
+  },
+  {
+    "question": "Що впливає на урожай згідно з документом agri_146_seed_rate_5?",
+    "type": "single_doc",
+    "answerable": true,
+    "expected_contains": "проростки",
+    "evidence": [
+      {
+        "doc_id": "agri_146_seed_rate_5",
+        "char_start": 239,
+        "char_end": 334
+      }
+    ],
+    "id": "dev_030"
+  },
+  {
+    "question": "Порівняй рекомендації agri_023_corn_irrigation_2 та agri_024_corn_irrigation_3",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_023_corn_irrigation_2",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_024_corn_irrigation_3",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_031"
+  },
+  {
+    "question": "Порівняй рекомендації agri_011_wheat_disease_10 та agri_012_wheat_disease_11",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_011_wheat_disease_10",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_012_wheat_disease_11",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_032"
+  },
+  {
+    "question": "Порівняй рекомендації agri_009_wheat_disease_8 та agri_010_wheat_disease_9",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_009_wheat_disease_8",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_010_wheat_disease_9",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_033"
+  },
+  {
+    "question": "Порівняй рекомендації agri_001_wheat_disease_0 та agri_002_wheat_disease_1",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_001_wheat_disease_0",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_002_wheat_disease_1",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_034"
+  },
+  {
+    "question": "Порівняй рекомендації agri_037_corn_irrigation_16 та agri_038_corn_irrigation_17",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_037_corn_irrigation_16",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_038_corn_irrigation_17",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_035"
+  },
+  {
+    "question": "Порівняй рекомендації agri_035_corn_irrigation_14 та agri_036_corn_irrigation_15",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_035_corn_irrigation_14",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_036_corn_irrigation_15",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_036"
+  },
+  {
+    "question": "Порівняй рекомендації agri_033_corn_irrigation_12 та agri_034_corn_irrigation_13",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_033_corn_irrigation_12",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_034_corn_irrigation_13",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_037"
+  },
+  {
+    "question": "Порівняй рекомендації agri_019_wheat_disease_18 та agri_020_wheat_disease_19",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_019_wheat_disease_18",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_020_wheat_disease_19",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_038"
+  },
+  {
+    "question": "Порівняй рекомендації agri_013_wheat_disease_12 та agri_014_wheat_disease_13",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_013_wheat_disease_12",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_014_wheat_disease_13",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_039"
+  },
+  {
+    "question": "Порівняй рекомендації agri_005_wheat_disease_4 та agri_006_wheat_disease_5",
+    "type": "multi_hop",
+    "answerable": true,
+    "expected_contains": "",
+    "evidence": [
+      {
+        "doc_id": "agri_005_wheat_disease_4",
+        "char_start": 0,
+        "char_end": 250
+      },
+      {
+        "doc_id": "agri_006_wheat_disease_5",
+        "char_start": 0,
+        "char_end": 250
+      }
+    ],
+    "id": "dev_040"
+  },
+  {
+    "question": "Чи існує гібрид кукурудзи з мідним листям?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_041"
+  },
+  {
+    "question": "Яка погода на Венері для посіву сої?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_042"
+  },
+  {
+    "question": "Чи існує культура «lunar_9» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_043"
+  },
+  {
+    "question": "Чи існує культура «lunar_1» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_044"
+  },
+  {
+    "question": "Чи входить IoT-бджола в Держреєстр 2028?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_045"
+  },
+  {
+    "question": "Який гербіцид заборонений на Місяці?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_046"
+  },
+  {
+    "question": "Чи існує культура «lunar_0» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_047"
+  },
+  {
+    "question": "Чи існує культура «lunar_4» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_048"
+  },
+  {
+    "question": "Чи існує культура «lunar_8» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_049"
+  },
+  {
+    "question": "Чи існує культура «lunar_3» у корпусі?",
+    "type": "unanswerable",
+    "answerable": false,
+    "evidence": [],
+    "id": "dev_050"
+  }
+]

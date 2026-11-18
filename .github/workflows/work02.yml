@@ -1,0 +1,29 @@
+name: work02
+
+on:
+  push:
+    paths:
+      - "work02-rag-citations/**"
+      - ".github/workflows/work02.yml"
+  pull_request:
+    paths:
+      - "work02-rag-citations/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: work02-rag-citations
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - run: python scripts/seed_corpus.py && PYTHONPATH=src python scripts/seed_golden.py
+        env:
+          PYTHONPATH: src
+      - run: PYTHONPATH=src python -m pytest -q
+        env:
+          PYTHONPATH: src

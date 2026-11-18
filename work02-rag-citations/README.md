@@ -1,19 +1,38 @@
-# Робота 2 — RAG із цитатами (retrieval)
+# Робота 2 — RAG із цитатами
 
-**Стан:** MVP offline — BM25 vs hybrid (dense + RRF), Recall@5 за evidence spans. LLM — у `config/default.yaml` (`llm.enabled: false`).
+**Одне речення:** на 200-doc agri корпусі hybrid RRF дає **Recall@5 = 1.00** на test (50 пит.) проти **BM25 = 1.00**; з **retrieval gate** — **10/10** коректних відмов, **35/35** цитат, **28/28** extractive відповідей (offline).
 
 ```powershell
 py -3.13 -m pip install -r requirements.txt
 py -3.13 -m work02 seed
+py -3.13 -m work02 lock
 .\make.ps1 all
 ```
 
-Корпус зараз **40 синтетичних agri .md** (розширити до 200–500 відкритих джерел за `DATA.md`). Golden **60** питань (автоген з корпусу); далі — ручна розмітка до 100.
+## Архітектура
+
+```text
+запит → hybrid retrieval → gate (max RRF, dev) → extractive/LLM → цитати (doc_id + span)
+```
+
+| Шар | Baseline | Candidate |
+|-----|----------|-----------|
+| Retrieval | BM25 top-5 | BM25 + dense + RRF |
+| Відмова | — | поріг на dev (не промпт) |
+| Відповідь | — | extractive «цитата»; `OPENAI_API_KEY` + `llm.enabled: true` |
 
 ## Команди
 
 | Команда | Дія |
 |---------|-----|
-| `work02 seed` | корпус + `data/golden/questions.json` |
-| `make.ps1 all` | оцінка baseline/candidate |
-| `make.ps1 test` | pytest |
+| `work02 seed` | 200 docs + golden dev/test (100) |
+| `work02 lock` | config_hash у manifest |
+| `make.ps1 all` | retrieval + QA звіт |
+
+Деталі даних: [`DATA.md`](DATA.md). Звіт: [`REPORT.md`](REPORT.md).
+
+## Далі за ТЗ
+
+- Замінити синтетичний корпус на **відкриті** 200–500 джерел.
+- Увімкнути LLM + **30 ручних** оцінок judge.
+- `git tag work02-v1.0` після фінального test.

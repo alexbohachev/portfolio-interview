@@ -1,7 +1,10 @@
 PYTHON ?= python3
 export PYTHONPATH := src
 
-.PHONY: all seed test
+.PHONY: all seed test lock
+
+lock:
+	$(PYTHON) -m work02 lock
 
 seed:
 	$(PYTHON) -m work02 seed

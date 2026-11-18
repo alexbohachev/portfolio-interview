@@ -1,23 +1,29 @@
-# Звіт — робота 2: RAG із цитатами (retrieval MVP)
+# Звіт — робота 2: RAG із цитатами
 
 ## Задача
-Порівняння BM25 (baseline) і hybrid BM25+dense з RRF (candidate) за Recall@5 для evidence spans.
+Retrieval (BM25 vs hybrid RRF) + retrieval gate + відповідь з цитатами (extractive offline / LLM за ключем).
 
 ## Корпус
-- документів: 40, chunks: 40
-- fingerprint: `3c643190328c6212`
+- документів: 200, fingerprint `21de45e90e9664b3`
+- test golden sha: `0993914458593c21`
 
-## Результати test
-
+## Retrieval (test)
 | Система | Recall@5 | n |
-| baseline (BM25) | 0.5500 | 20 |
-| candidate (hybrid) | 0.8500 | 20 |
+| baseline BM25 | 1.0000 | 40 |
+| candidate hybrid | 1.0000 | 40 |
+
+**Retrieval gate** (поріг max RRF на dev): `0.0313`
+
+## QA (test, candidate + gate)
+- Коректні відмови: 10 / 10
+- Точність цитат (overlap evidence): 35 / 35
+- Відповідь містить gold-фрагмент: 28 / 28
 
 ## Обмеження
-- Offline retrieval only; LLM-відповіді (`llm.enabled`) — наступний крок.
-- Synthetic golden set 60 питань; масштабування до 100 з ручною розміткою.
+- Синтетичний корпус 200 docs; LLM вимкнено за замовчуванням.
+- Промпт не замінює retrieval gate (відмова лише в коді за порогом).
 
 ## Наступний крок
-- Підключити LLM + citation judge; розширити корпус до 200–500 відкритих агро-текстів.
+- Відкритий агро-корпус 200–500 + ручний golden; LLM-judge на 30 прикладах.
 
-_Час: 3.62 с._
+_Час: 6.29 с._

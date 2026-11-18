@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "seed", "test")]
+    [ValidateSet("all", "seed", "test", "lock")]
     [string]$Target = "all"
 )
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path

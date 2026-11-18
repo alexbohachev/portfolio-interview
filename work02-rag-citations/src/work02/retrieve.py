@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 
 import numpy as np
 from rank_bm25 import BM25Okapi
@@ -18,7 +19,7 @@ class RankedHit:
 
 
 def _tokenize(text: str) -> list[str]:
-    return text.lower().split()
+    return re.findall(r"[\w\u0400-\u04FF']+", text.lower())
 
 
 def rrf_merge(

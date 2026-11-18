@@ -1,0 +1,5 @@
+{
+  "description": "Фіксований test golden: data/golden/test.json; config_hash комітиться до фінального прогону",
+  "golden_test_path": "data/golden/test.json",
+  "config_hash": "438af40703927a49"
+}

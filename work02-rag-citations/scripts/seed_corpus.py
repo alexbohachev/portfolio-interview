@@ -1,4 +1,4 @@
-"""Створює 45 відкритих markdown-документів (синтетична агро-база для MVP)."""
+"""200 synthetic agri markdown docs (MVP; замінити відкритими джерелами — DATA.md)."""
 from pathlib import Path
 
 TOPICS = [
@@ -15,24 +15,28 @@ TOPICS = [
 ]
 
 ROOT = Path(__file__).resolve().parents[1] / "corpus" / "bundled"
+VARIANTS = 20
 
 
 def main() -> None:
     ROOT.mkdir(parents=True, exist_ok=True)
+    for old in ROOT.glob("*.md"):
+        old.unlink()
     idx = 0
     for key, title, *facts in TOPICS:
-        for variant in range(4):
+        for variant in range(VARIANTS):
             idx += 1
             doc_id = f"agri_{idx:03d}_{key}_{variant}"
+            season = 2016 + (variant % 9)
+            fact = facts[variant % len(facts)]
             body = (
                 f"# {title} ({variant + 1})\n\n"
-                f"Довідник для агронома. Документ {doc_id}.\n\n"
+                f"Документ {doc_id}. Ліцензія: синтетичний текст портфоліо (CC0).\n\n"
                 f"Ключові факти: {', '.join(facts)}.\n\n"
                 f"## Практика\n"
-                f"Рекомендовано моніторити поле щотижня. Для {title.lower()} важливий фактор {facts[variant % len(facts)]}.\n"
-                f"Оптимальна дія: контроль {facts[0]} до початку вегетації.\n\n"
+                f"Для {title.lower()} критичний фактор «{fact}» у сезоні {season}.\n\n"
                 f"## Цитований фрагмент\n"
-                f"Унікальне речення для пошуку {doc_id}: «{facts[-1]} впливає на урожай у сезоні {2020 + variant}».\n"
+                f"Унікальне речення для пошуку {doc_id}: «{fact} впливає на урожай у сезоні {season}».\n"
             )
             (ROOT / f"{doc_id}.md").write_text(body, encoding="utf-8")
     print(f"wrote {idx} docs to {ROOT}")
