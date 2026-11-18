@@ -6,7 +6,12 @@
 
 ## Автоматизовано
 
-**4 / 8** сценаріїв у `SecurityMatrixIT` (див. manifest).
+**8 / 8** сценаріїв у `SecurityMatrixIT` (див. `manifests/security_matrix.json`).
+
+```powershell
+cd work05-docguard
+.\gradlew.bat test
+```
 
 ## Архітектура
 
@@ -14,6 +19,6 @@
 Client → Gateway (ACL + cache + audit) → Python retrieval (filter doc_id)
 ```
 
-## Наступний крок
+## Backlog
 
-Контрактні тести OpenAPI, revoke cache, навантаження 10 хв @ 1 RPS, решта матриці безпеки.
+OpenAPI contract tests, load 10 хв @ 1 RPS, docker-compose з живим Python retrieval.

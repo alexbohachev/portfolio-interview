@@ -1,0 +1,7 @@
+corpus_version: "synthetic-mvp-1"
+db_path: "data/bible.sqlite"
+embed_model: "intfloat/multilingual-e5-small"
+faiss_index: "artifacts/faiss.index"
+golden:
+  dev: "data/golden/dev.json"
+  test: "data/golden/test.json"

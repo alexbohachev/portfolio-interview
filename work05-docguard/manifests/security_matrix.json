@@ -4,13 +4,12 @@
     "allowed_hits_ok",
     "block_leaked_doc_id",
     "unknown_principal_forbidden",
-    "degraded_python_unavailable"
-  ],
-  "n_automated": 4,
-  "target_tz": 8,
-  "backlog": [
-    "cross_tenant",
-    "revoke_invalidates_cache",
+    "degraded_python_unavailable",
+    "cross_tenant_doc_leak",
+    "cache_hit_single_retrieval",
+    "revoke_cache_invalidate",
     "prompt_injection_audit"
-  ]
+  ],
+  "n_automated": 8,
+  "target_tz": 8
 }

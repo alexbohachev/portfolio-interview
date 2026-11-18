@@ -1,0 +1,122 @@
+[
+  {
+    "id": "dev_001",
+    "question": "Що говорить вірш Gen.1.1 про творіння?",
+    "osis_ids": [
+      "Gen.1.1"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_002",
+    "question": "Що говорить вірш Gen.1.2 про творіння?",
+    "osis_ids": [
+      "Gen.1.2"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_003",
+    "question": "Що говорить вірш Gen.1.3 про творіння?",
+    "osis_ids": [
+      "Gen.1.3"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_004",
+    "question": "Що говорить вірш Gen.1.4 про творіння?",
+    "osis_ids": [
+      "Gen.1.4"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_005",
+    "question": "Що говорить вірш Gen.1.5 про творіння?",
+    "osis_ids": [
+      "Gen.1.5"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_006",
+    "question": "Що говорить вірш Gen.1.6 про творіння?",
+    "osis_ids": [
+      "Gen.1.6"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_007",
+    "question": "Що говорить вірш Gen.1.7 про творіння?",
+    "osis_ids": [
+      "Gen.1.7"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_008",
+    "question": "Що говорить вірш Gen.1.8 про творіння?",
+    "osis_ids": [
+      "Gen.1.8"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_009",
+    "question": "Що говорить вірш Gen.1.9 про творіння?",
+    "osis_ids": [
+      "Gen.1.9"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_010",
+    "question": "Що говорить вірш Gen.1.10 про творіння?",
+    "osis_ids": [
+      "Gen.1.10"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_011",
+    "question": "Що говорить вірш Gen.1.11 про творіння?",
+    "osis_ids": [
+      "Gen.1.11"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_012",
+    "question": "Що говорить вірш Gen.1.12 про творіння?",
+    "osis_ids": [
+      "Gen.1.12"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_013",
+    "question": "Що говорить вірш Gen.1.13 про творіння?",
+    "osis_ids": [
+      "Gen.1.13"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_014",
+    "question": "Що говорить вірш Gen.1.14 про творіння?",
+    "osis_ids": [
+      "Gen.1.14"
+    ],
+    "category": "paraphrase_uk"
+  },
+  {
+    "id": "dev_015",
+    "question": "Що говорить вірш Gen.1.15 про творіння?",
+    "osis_ids": [
+      "Gen.1.15"
+    ],
+    "category": "paraphrase_uk"
+  }
+]

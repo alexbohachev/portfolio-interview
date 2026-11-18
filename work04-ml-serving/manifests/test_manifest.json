@@ -3,5 +3,23 @@
   "description": "model_bundle.joblib — model + preprocessing + thresholds",
   "artifact": "artifacts/model_bundle.joblib",
   "config_hash": "d1369557e3babeb5",
-  "bundle_sha256_16": "1d5d3b4c62c930c4"
+  "bundle_sha256_16": "1d5d3b4c62c930c4",
+  "last_run": {
+    "model_version": "work04-v1.0",
+    "preprocessing_version": "cols-v1",
+    "baseline_test": {
+      "pr_auc": 0.9455602180161677,
+      "brier": 0.04237128529973303,
+      "positive_rate": 0.14416666666666667
+    },
+    "candidate_test": {
+      "pr_auc": 1.0,
+      "brier": 0.0,
+      "positive_rate": 0.14416666666666667
+    },
+    "expected_cost_val_baseline": 0.12233333333333335,
+    "expected_cost_val_candidate": 0.030333333333333334,
+    "threshold_baseline": 0.6,
+    "threshold_candidate": 0.05
+  }
 }

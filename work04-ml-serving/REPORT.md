@@ -11,4 +11,4 @@
 ## Serving
 - `uvicorn work04.app_main:app` або pytest TestClient
 
-_Час: 1.0 с._
+_Час: 7.7 с._

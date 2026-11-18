@@ -1,9 +1,21 @@
-# Робота 6 — Локальний RAG (Біблія) — заготовка
+# Робота 6 — Локальний RAG (Біблія)
 
-**Статус:** не розпочато (після work05).
+**MVP:** SQLite → FAISS + **multilingual-e5-small**, golden recall offline.
 
-За ТЗ: SQLite ETL (3 переклади), FAISS + multilingual-e5, Qwen2.5-3B 4bit, Streamlit, golden 60 (dev/test 30).
+## Швидкий старт (Windows)
 
-```text
-Наступний крок: scripts/fetch_translations.py + ліцензії в DATA.md
+```powershell
+py -3.13 -m pip install -r requirements.txt
+.\make.ps1 all
 ```
+
+Цілі: `seed` · `index` · `eval` · `test`
+
+## Структура
+
+- `config/default.yaml` — шляхи БД/індексу, модель
+- `scripts/` — init, seed, build_index, eval_recall
+- `data/golden/` — dev/test JSON
+- `REPORT.md` — останні метрики
+
+Повний ТЗ: LLM + Streamlit — у backlog (`REPORT.md`).
