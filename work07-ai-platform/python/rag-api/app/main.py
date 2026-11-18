@@ -1,59 +1,44 @@
 from __future__ import annotations
 
-import os
 from contextlib import asynccontextmanager
 
 from elasticsearch import Elasticsearch
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
+from sentence_transformers import SentenceTransformer
 
-INDEX = os.getenv("ES_INDEX", "agri-knowledge")
-ES_URL = os.getenv("ELASTICSEARCH_URL", "http://localhost:9200")
+from app.config import EMBED_MODEL, ES_URL, REFUSAL
+from app.indexing import ensure_index
+from app.qa import answer_query
+from app.retrieve import search_bm25, search_hybrid
 
 
 class SearchRequest(BaseModel):
+    query: str
+    top_k: int = Field(default=5, alias="topK")
+    mode: str = "hybrid"
+
+    model_config = {"populate_by_name": True}
+
+
+class QaRequest(BaseModel):
     query: str
     top_k: int = Field(default=5, alias="topK")
 
     model_config = {"populate_by_name": True}
 
 
-class Hit(BaseModel):
-    doc_id: str
-    snippet: str
-    score: float
-
-
-def ensure_index(es: Elasticsearch) -> None:
-    if es.indices.exists(index=INDEX):
-        return
-    es.indices.create(
-        index=INDEX,
-        mappings={
-            "properties": {
-                "doc_id": {"type": "keyword"},
-                "title": {"type": "text"},
-                "body": {"type": "text"},
-            }
-        },
-    )
-    es.index(
-        index=INDEX,
-        document={
-            "doc_id": "agri_seed_001",
-            "title": "Норми висіву пшениці",
-            "body": "Рекомендована норма висіву озимої пшениці 4–5 млн насінин на гектар у північних районах.",
-        },
-        id="agri_seed_001",
-    )
-    es.indices.refresh(index=INDEX)
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     es = Elasticsearch(ES_URL)
-    ensure_index(es)
+    model = SentenceTransformer(EMBED_MODEL)
+
+    def embed(text: str) -> list[float]:
+        return model.encode(text, normalize_embeddings=True).tolist()
+
     app.state.es = es
+    app.state.embed = embed
+    app.state.indexed_docs = ensure_index(es, embed)
     yield
     es.close()
 
@@ -63,23 +48,32 @@ app = FastAPI(title="rag-api", lifespan=lifespan)
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    es: Elasticsearch = app.state.es
+    ready = es.ping()
+    return {"status": "ok" if ready else "degraded", "indexed_docs": getattr(app.state, "indexed_docs", 0)}
 
 
 @app.post("/v1/knowledge/search")
 def search(req: SearchRequest):
     es: Elasticsearch = app.state.es
-    res = es.search(
-        index=INDEX,
-        query={"multi_match": {"query": req.query, "fields": ["title", "body"]}},
-        size=req.top_k,
-    )
-    hits = [
-        Hit(
-            doc_id=(h["_source"].get("doc_id") or h["_id"]),
-            snippet=(h["_source"].get("body") or "")[:300],
-            score=float(h["_score"] or 0),
-        )
-        for h in res["hits"]["hits"]
-    ]
-    return {"hits": [h.model_dump() for h in hits]}
+    embed = app.state.embed
+    if req.mode == "bm25":
+        hits = search_bm25(es, req.query, req.top_k)
+    else:
+        hits = search_hybrid(es, req.query, embed(req.query), req.top_k)
+    return {
+        "mode": req.mode,
+        "hits": [h.__dict__ for h in hits],
+    }
+
+
+@app.post("/v1/knowledge/qa")
+def qa(req: QaRequest):
+    result = answer_query(app.state.es, app.state.embed, req.query, req.top_k)
+    return {
+        "answer": result.answer,
+        "refused": result.refused,
+        "mode": result.mode,
+        "citations": [c.__dict__ for c in result.citations],
+        "refusal_phrase": REFUSAL,
+    }

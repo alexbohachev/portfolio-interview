@@ -15,7 +15,13 @@ public class RagClient {
         this.rest = RestClient.builder().baseUrl(props.baseUrl()).build();
     }
 
-    public record SearchRequest(String query, int topK) {}
+    public record SearchRequest(String query, int topK, String mode) {
+        public SearchRequest(String query, int topK) {
+            this(query, topK, "hybrid");
+        }
+    }
+
+    public record QaRequest(String query, int topK) {}
 
     public record Hit(String docId, String snippet, double score) {}
 
@@ -40,5 +46,16 @@ public class RagClient {
                         ((Number) h.getOrDefault("score", 0)).doubleValue()))
                 .toList();
         return new SearchResponse(hits);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> qa(String query, int topK) {
+        Map<String, Object> body = rest.post()
+                .uri("/v1/knowledge/qa")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new QaRequest(query, topK))
+                .retrieve()
+                .body(Map.class);
+        return body == null ? Map.of() : body;
     }
 }

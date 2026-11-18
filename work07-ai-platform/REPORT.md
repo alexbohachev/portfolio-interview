@@ -1,28 +1,23 @@
-# Звіт — робота 7 (MVP стенд)
+# Звіт — робота 7 (ітерація hybrid + Q&A)
 
-## Статус
+## Зроблено
 
-Compose піднімає **8 контейнерів**; smoke: farm → scout → logistics → rag-api → Elasticsearch.
+- Індексація **200** md з work02 у Elasticsearch (`dense_vector` 384 + text).
+- Пошук: `mode=bm25|hybrid` (RRF).
+- Q&A: extractive + цитати; **OpenAI** якщо `OPENAI_API_KEY`.
+- Logistics проксіє `knowledge/qa` і `equipment-requests` (hybrid search).
 
-## Архітектура
+## Smoke (`scripts/smoke_test.py`)
 
-```text
-logistics (Java) --REST--> rag-api (FastAPI) --> Elasticsearch
-worker (Python) <--Kafka-- redpanda
-```
+- health `indexed_docs`
+- hybrid search non-empty
+- qa not refused + citations
+- logistics equipment-requests
 
-## Smoke (scripts/smoke_test.py)
+## Демо
 
-- `GET /api/v1/fields`
-- `POST /api/v1/observations`
-- `POST /api/v1/equipment-requests` + knowledgeHits
+`scripts/demo.ps1` + `DEMO.md` (5–7 хв).
 
-## Обмеження MVP
+## Наступний крок ТЗ
 
-- Один seed-документ у ES; без evaluation golden
-- LLM вимкнено
-- Postgres поки без схем домену
-
-## Наступний крок
-
-Hybrid dense+kNN, seed корпус із work02, GitLab CI, один оцінений LLM.
+Eval golden, GitLab CI, Kafka scout events, OpenTelemetry.

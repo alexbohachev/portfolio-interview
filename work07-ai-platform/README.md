@@ -1,30 +1,30 @@
-# Робота 7 — AI-платформа (MVP Compose)
+# Робота 7 — AI-платформа (Compose MVP+)
 
-Локальний стенд за архітектурою з резюме:
-
-| Сервіс | Порт | Роль |
-|--------|------|------|
-| farm | 8081 | поля/культури |
-| scout | 8082 | спостереження |
-| logistics | 8084 | викликає Python RAG |
-| rag-api | 8090 | пошук у Elasticsearch |
-| worker | — | Kafka → індексація |
-| postgres | 5434 | доменні дані (заготовка) |
-| elasticsearch | 9200 | індекс знань |
-| redpanda | 19092 | Kafka-сумісна черга |
+**Одне речення:** локальний стенд **3×Java → FastAPI RAG** з **hybrid search** (корпус work02, 200 docs), **Q&A + citations** (extractive або OpenAI).
 
 ```powershell
-.\make.ps1 all    # bootJar → compose build/up → smoke
-.\make.ps1 down
+# опційно: $env:OPENAI_API_KEY="..."
+cd c:\Portfolio\work07-ai-platform
+.\make.ps1 all
+.\scripts\demo.ps1    # сценарій для відео — DEMO.md
 ```
 
-## MVP vs ТЗ
+| Сервіс | Порт |
+|--------|------|
+| farm / scout / logistics | 8081 / 8082 / 8084 |
+| rag-api | 8090 |
+| elasticsearch / redpanda / postgres | 9200 / 19092 / 5434 |
 
-- [x] 3 Java + 2 Python у Compose
-- [x] logistics → rag-api (REST)
-- [x] hybrid MVP: BM25 через ES `multi_match` (dense — наступний крок)
-- [x] Kafka worker skeleton
-- [ ] Q&A + citations + 1 LLM provider
-- [ ] Golden 150, GitLab CI, OTel
+## Що реалізовано (3 кроки)
 
-Деталі: [`REPORT.md`](REPORT.md).
+1. **Hybrid + корпус** — mount `work02-rag-citations/corpus/bundled`, dense+kNN + BM25, RRF.
+2. **Q&A** — `POST /v1/knowledge/qa` (gate, citations); Java `POST /api/v1/knowledge/qa`.
+3. **Демо** — [`DEMO.md`](DEMO.md), [`scripts/demo.ps1`](scripts/demo.ps1).
+
+## MVP vs ТЗ (далі)
+
+- Golden 150, Recall@5, один **оцінений** LLM-провайдер
+- Kafka події scout → worker (розширити)
+- GitLab CI, OTel, Resilience4j
+
+[`REPORT.md`](REPORT.md)

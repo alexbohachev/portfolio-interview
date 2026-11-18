@@ -23,6 +23,14 @@ public class LogisticsController {
         return Map.of(
                 "fieldId", req.fieldId(),
                 "question", req.question(),
+                "searchMode", "hybrid",
                 "knowledgeHits", search.hits());
+    }
+
+    public record KnowledgeQuestion(@NotBlank String question) {}
+
+    @PostMapping("/api/v1/knowledge/qa")
+    public Map<String, Object> knowledgeQa(@RequestBody KnowledgeQuestion req) {
+        return ragClient.qa(req.question(), 5);
     }
 }

@@ -63,12 +63,17 @@ services:
     environment:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       ES_INDEX: agri-knowledge
+      CORPUS_DIR: /corpus
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+    volumes:
+      - ../work02-rag-citations/corpus/bundled:/corpus:ro
     ports:
       - "8090:8000"
     depends_on:
       elasticsearch:
         condition: service_healthy
-    mem_limit: 512m
+    mem_limit: 2048m
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
       interval: 5s

@@ -21,8 +21,8 @@ switch ($Target) {
         Build-Jars
         docker compose up -d --build
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-        Write-Host "Waiting 45s for healthchecks..."
-        Start-Sleep -Seconds 45
+        Write-Host "Waiting 90s for rag-api (index + embed model)..."
+        Start-Sleep -Seconds 90
         py -3.13 scripts/smoke_test.py
         exit $LASTEXITCODE
     }
