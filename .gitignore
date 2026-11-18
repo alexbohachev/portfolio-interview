@@ -15,6 +15,7 @@ work02-rag-citations/artifacts/
 work02-rag-citations/.pytest_cache/
 work03-agent-workflow/.gradle/
 work03-agent-workflow/build/
+work03-agent-workflow/bin/
 *.pt
 *.pkl
 
