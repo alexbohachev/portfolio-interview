@@ -14,7 +14,7 @@ Monorepo для плану «Python / Java / AI / ML». Кожна робота 
 | 7 | [`work07-ai-platform/`](work07-ai-platform/) | **фінальний eval** — tag `work07-v1.0` після коміту |
 | 4 | [`work04-ml-serving/`](work04-ml-serving/) | старт: train + FastAPI + rollback test |
 | 5 | [`work05-docguard/`](work05-docguard/) | gateway ACL + retrieval filter, 4 security IT |
-| 6 | — | не почато |
+| 6 | [`work06-bible-rag/`](work06-bible-rag/) | заготовка README |
 
 ## Наступні віхи (план)
 
