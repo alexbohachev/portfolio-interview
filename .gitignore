@@ -16,6 +16,8 @@ work02-rag-citations/.pytest_cache/
 work03-agent-workflow/.gradle/
 work03-agent-workflow/build/
 work03-agent-workflow/bin/
+work07-ai-platform/.gradle/
+work07-ai-platform/**/build/
 *.pt
 *.pkl
 

@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: farm-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+rag-api:
+  base-url: http://rag-api:8000

@@ -11,6 +11,7 @@ Monorepo для плану «Python / Java / AI / ML». Кожна робота 
 | 1 | [`work01-bank-marketing/`](work01-bank-marketing/) | звіт готовий, tag — після рецензії |
 | 2 | [`work02-rag-citations/`](work02-rag-citations/) | retrieval MVP |
 | 3 | [`work03-agent-workflow/`](work03-agent-workflow/) | outbox + 6 fault tests |
+| 7 | [`work07-ai-platform/`](work07-ai-platform/) | Compose MVP |
 
 ## Запуск (робота 1)
 

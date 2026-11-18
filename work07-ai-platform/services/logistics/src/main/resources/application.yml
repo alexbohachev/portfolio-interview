@@ -1,0 +1,12 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: logistics-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+rag-api:
+  base-url: ${RAG_API_URL:http://localhost:8090}

@@ -1,0 +1,136 @@
+name: work07
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: agrichain
+      POSTGRES_USER: agrichain
+      POSTGRES_PASSWORD: agrichain
+    ports:
+      - "5434:5432"
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agrichain"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    mem_limit: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  redpanda:
+    image: redpandadata/redpanda:v24.2.4
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 512M
+      - --reserve-memory
+      - 0M
+      - --node-id
+      - "0"
+      - --kafka-addr
+      - internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr
+      - internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health | grep -q 'Healthy'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  rag-api:
+    build: ./python/rag-api
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ES_INDEX: agri-knowledge
+    ports:
+      - "8090:8000"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  worker:
+    build: ./python/worker
+    environment:
+      KAFKA_BOOTSTRAP: redpanda:9092
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ES_INDEX: agri-knowledge
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    mem_limit: 384m
+
+  farm:
+    build:
+      context: .
+      dockerfile: infra/java-service.Dockerfile
+      args:
+        JAR_FILE: services/farm/build/libs/farm-0.1.0.jar
+    ports:
+      - "8081:8081"
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8081/actuator/health || exit 1"]
+      interval: 5s
+      retries: 10
+
+  scout:
+    build:
+      context: .
+      dockerfile: infra/java-service.Dockerfile
+      args:
+        JAR_FILE: services/scout/build/libs/scout-0.1.0.jar
+    ports:
+      - "8082:8082"
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8082/actuator/health || exit 1"]
+      interval: 5s
+      retries: 10
+
+  logistics:
+    build:
+      context: .
+      dockerfile: infra/java-service.Dockerfile
+      args:
+        JAR_FILE: services/logistics/build/libs/logistics-0.1.0.jar
+    environment:
+      RAG_API_URL: http://rag-api:8000
+    ports:
+      - "8084:8084"
+    depends_on:
+      rag-api:
+        condition: service_healthy
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8084/actuator/health || exit 1"]
+      interval: 5s
+      retries: 10
