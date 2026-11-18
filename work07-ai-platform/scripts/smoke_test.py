@@ -10,11 +10,9 @@ BASE = {
 }
 
 
-def get(url: str) -> dict | int:
+def get_json(url: str) -> dict:
     with urllib.request.urlopen(url, timeout=120) as r:
-        if r.headers.get_content_type() == "application/json":
-            return json.loads(r.read().decode())
-        return r.status
+        return json.loads(r.read().decode())
 
 
 def post(url: str, payload: dict) -> dict:
@@ -25,9 +23,10 @@ def post(url: str, payload: dict) -> dict:
 
 
 def main() -> int:
-    assert get(f"{BASE['farm']}/api/v1/fields") == 200 or True
-    health = get(f"{BASE['rag']}/health")
-    if not isinstance(health, dict) or health.get("status") != "ok":
+    with urllib.request.urlopen(f"{BASE['farm']}/api/v1/fields", timeout=30) as r:
+        assert r.status == 200
+    health = get_json(f"{BASE['rag']}/health")
+    if health.get("status") != "ok":
         print("FAIL: rag-api health", health, file=sys.stderr)
         return 1
     indexed = health.get("indexed_docs", 0)
