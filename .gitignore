@@ -13,6 +13,8 @@ work01-bank-marketing/artifacts/
 work01-bank-marketing/runs/
 work02-rag-citations/artifacts/
 work02-rag-citations/.pytest_cache/
+work03-agent-workflow/.gradle/
+work03-agent-workflow/build/
 *.pt
 *.pkl
 

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: work03-agent-workflow
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:work03}
+    username: ${DB_USER:work03}
+    password: ${DB_PASSWORD:work03}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+server:
+  port: 8083
+
+work03:
+  external-stub:
+    fail-after-commit: false
