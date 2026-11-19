@@ -18,6 +18,7 @@ work03-agent-workflow/build/
 work03-agent-workflow/bin/
 work07-ai-platform/.gradle/
 work07-ai-platform/**/build/
+work07-ai-platform/**/bin/
 work07-ai-platform/artifacts/
 work04-ml-serving/artifacts/
 work04-ml-serving/data/raw/
