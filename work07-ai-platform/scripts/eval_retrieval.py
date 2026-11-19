@@ -63,15 +63,43 @@ def metrics_at_k(items: list[dict], mode: str) -> tuple[float, float, int]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=("test", "dev"), default="test")
+    parser.add_argument("--golden-file", type=str, default="", help="e.g. data/golden/hard_retrieval.json")
+    parser.add_argument("--per-query", action="store_true", help="write artifacts/eval_per_query.json")
     args = parser.parse_args()
 
-    golden = GOLDEN_DIR / f"{args.split}.json"
+    golden = Path(args.golden_file) if args.golden_file else GOLDEN_DIR / f"{args.split}.json"
+    if not golden.is_absolute():
+        golden = ROOT / golden
     if not golden.is_file():
         print(f"FAIL: missing golden {golden} — run scripts/build_golden_150.py", file=sys.stderr)
         return 1
     items = json.loads(golden.read_text(encoding="utf-8"))
     bm25_r, bm25_m, n = metrics_at_k(items, "bm25")
     hyb_r, hyb_m, _ = metrics_at_k(items, "hybrid")
+    per_query = []
+    if args.per_query:
+        for item in items:
+            expected = expected_doc_ids(item)
+            if not expected:
+                continue
+            bm25_hits = post_search(item["question"], "bm25")[:TOP_K]
+            hyb_hits = post_search(item["question"], "hybrid")[:TOP_K]
+            per_query.append(
+                {
+                    "id": item.get("id"),
+                    "question": item["question"],
+                    "expected": sorted(expected),
+                    "bm25_top5": bm25_hits,
+                    "hybrid_top5": hyb_hits,
+                    "bm25_hit": bool(set(bm25_hits) & expected),
+                    "hybrid_hit": bool(set(hyb_hits) & expected),
+                    "hybrid_wins": sorted((set(hyb_hits) & expected) - (set(bm25_hits) & expected)),
+                    "bm25_only": sorted((set(bm25_hits) & expected) - (set(hyb_hits) & expected)),
+                }
+            )
+        (ARTIFACTS / "eval_per_query.json").write_text(
+            json.dumps(per_query, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
     result = {
         "split": args.split,
         "golden_path": str(golden.relative_to(ROOT)),

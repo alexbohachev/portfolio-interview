@@ -2,7 +2,14 @@
 
 Monorepo для плану «Python / Java / AI / ML». Кожна робота — окрема директорія з власним `README`, `REPORT.md` і git-tag після завершення.
 
-**Інтерв'ю:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · [`PORTFOLIO.md`](PORTFOLIO.md) · [`scripts/prep_interview.ps1`](scripts/prep_interview.ps1) · live [`scripts/live_interview.ps1`](scripts/live_interview.ps1).
+**Інтерв'ю:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · [`PORTFOLIO.md`](PORTFOLIO.md) · **EN** [`README.en.md`](README.en.md) · [`REPRO.md`](REPRO.md)
+
+```powershell
+.\scripts\repro_check.ps1
+.\scripts\live_interview.ps1 work07   # smoke + bench + demo
+```
+
+Головний кейс N+1: [`work07-ai-platform/CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md).
 
 **Порядок:** 1 → 2 → 3 → 7 → 4 → 5 → 6 (див. `unpacked_docx/` або `.docx` у корені).
 

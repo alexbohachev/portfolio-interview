@@ -1,0 +1,65 @@
+name: repro
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/repro.yml"
+  workflow_dispatch:
+
+jobs:
+  offline-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install work04 deps for demo
+        run: pip install -q -r work04-ml-serving/requirements.txt
+      - name: work04 train bundle (for demo_offline)
+        working-directory: work04-ml-serving
+        run: |
+          pip install -q -r requirements.txt
+          python scripts/seed_data.py
+          $env:PYTHONPATH="src"
+          python -m work04 all
+      - name: repro_check offline
+        shell: pwsh
+        run: ./scripts/repro_check.ps1
+
+  docker-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Work05 docker smoke
+        working-directory: work05-docguard
+        run: |
+          docker compose up -d --build
+          sleep 25
+          pip install -q -r python/retrieval/requirements.txt
+          python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8097/health', timeout=5)"
+      - name: Work05 gradle test
+        working-directory: work05-docguard
+        run: chmod +x gradlew && ./gradlew test --no-daemon -q
+      - name: Work07 build jars
+        working-directory: work07-ai-platform
+        run: |
+          chmod +x gradlew
+          ./gradlew :services:farm:bootJar :services:scout:bootJar :services:logistics:bootJar --no-daemon -q
+          docker compose up -d --build
+      - name: Work07 wait, smoke, bench
+        working-directory: work07-ai-platform
+        run: |
+          sleep 120
+          pip install -q -r python/rag-api/requirements.txt -r python/worker/requirements.txt
+          python scripts/smoke_test.py
+          python scripts/benchmark_latency.py

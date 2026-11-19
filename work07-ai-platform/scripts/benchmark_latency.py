@@ -4,14 +4,29 @@ from __future__ import annotations
 import json
 import os
 import statistics
+import subprocess
 import sys
 import time
 import urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
 
 LOGISTICS = os.getenv("LOGISTICS_URL", "http://localhost:8084").rstrip("/")
 N = int(os.getenv("BENCH_N", "25"))
 BODY = json.dumps({"fieldId": "F-001", "question": "бура іржа озимої пшениці фунгіцид"}).encode("utf-8")
-OUT = os.path.join(os.path.dirname(__file__), "..", "artifacts", "latency_before_after.json")
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "artifacts" / "latency_before_after.json"
+RAW = ROOT / "artifacts" / "latency_raw_samples.json"
+
+
+def _git_sha() -> str | None:
+    try:
+        return (
+            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL)
+            .strip()
+        )
+    except Exception:
+        return None
 
 
 def call(profile: str) -> float:
@@ -35,34 +50,51 @@ def pctl(samples: list[float], q: float) -> float:
     return xs[idx]
 
 
-def bench(profile: str) -> dict:
+def bench(profile: str) -> tuple[dict, list[float]]:
     times = [call(profile) for _ in range(N)]
-    return {
-        "profile": profile,
-        "n": N,
-        "p50_ms": round(pctl(times, 0.5) * 1000, 1),
-        "p95_ms": round(pctl(times, 0.95) * 1000, 1),
-        "mean_ms": round(statistics.mean(times) * 1000, 1),
-    }
+    ms = [round(t * 1000, 2) for t in times]
+    return (
+        {
+            "profile": profile,
+            "n": N,
+            "p50_ms": round(pctl(times, 0.5) * 1000, 1),
+            "p95_ms": round(pctl(times, 0.95) * 1000, 1),
+            "mean_ms": round(statistics.mean(times) * 1000, 1),
+        },
+        ms,
+    )
 
 
 def main() -> int:
     try:
-        slow = bench("slow")
-        fast = bench("fast")
+        slow_stats, slow_ms = bench("slow")
+        fast_stats, fast_ms = bench("fast")
     except OSError as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 1
+    recorded = datetime.now(timezone.utc).isoformat()
     result = {
         "endpoint": "/api/v1/equipment-requests",
-        "slow": slow,
-        "fast": fast,
-        "speedup_p50": round(slow["p50_ms"] / fast["p50_ms"], 2) if fast["p50_ms"] else None,
+        "recorded_at_utc": recorded,
+        "git_sha": _git_sha(),
+        "bench_n": N,
+        "slow": slow_stats,
+        "fast": fast_stats,
+        "speedup_p50": round(slow_stats["p50_ms"] / fast_stats["p50_ms"], 2) if fast_stats["p50_ms"] else None,
+        "speedup_p95": round(slow_stats["p95_ms"] / fast_stats["p95_ms"], 2) if fast_stats["p95_ms"] else None,
+        "jaeger_ui": os.getenv("JAEGER_UI", "http://localhost:16687"),
+        "observability_note": "Trace logistics→rag-api: slow profile issues N+1 token calls; fast=single hybrid.",
     }
-    out_path = os.path.normpath(OUT)
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    raw = {
+        "recorded_at_utc": recorded,
+        "git_sha": _git_sha(),
+        "slow_samples_ms": slow_ms,
+        "fast_samples_ms": fast_ms,
+        "request_body": json.loads(BODY.decode()),
+    }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    RAW.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 

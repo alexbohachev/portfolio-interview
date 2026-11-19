@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "build", "up", "down", "smoke", "jar", "eval", "seed", "eval-llm", "seed-rec", "eval-rec", "bench", "openapi", "finalize", "lock", "demo")]
+    [ValidateSet("all", "build", "up", "down", "smoke", "jar", "eval", "eval-hard", "seed", "eval-llm", "seed-rec", "eval-rec", "bench", "openapi", "finalize", "lock", "demo")]
     [string]$Target = "all"
 )
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -24,6 +24,10 @@ switch ($Target) {
         exit $LASTEXITCODE
     }
     "eval" { py -3.13 scripts/eval_retrieval.py --split test; exit $LASTEXITCODE }
+    "eval-hard" {
+        py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query
+        exit $LASTEXITCODE
+    }
     "seed" { py -3.13 scripts/build_golden_150.py; exit $LASTEXITCODE }
     "eval-llm" { py -3.13 scripts/eval_llm_provider.py; exit $LASTEXITCODE }
     "seed-rec" { py -3.13 scripts/build_recommendation_golden.py; exit $LASTEXITCODE }

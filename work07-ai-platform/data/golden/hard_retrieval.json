@@ -1,0 +1,92 @@
+[
+  {
+    "id": "hard_001",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Які хвороби пшениці згадують буру іржа та фузаріоз?",
+    "expected_contains": "бура іржа",
+    "evidence": [{ "doc_id": "agri_016_wheat_disease_15" }]
+  },
+  {
+    "id": "hard_002",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Як поливати кукурудзу краплинною системою?",
+    "expected_contains": "краплин",
+    "evidence": [{ "doc_id": "agri_033_corn_irrigation_12" }]
+  },
+  {
+    "id": "hard_003",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Рекомендації щодо економічного порогу IPM для шкідників",
+    "expected_contains": "економічний поріг",
+    "evidence": [{ "doc_id": "agri_112_pest_ipm_11" }]
+  },
+  {
+    "id": "hard_004",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Яка щільність посіву насіння для соняшнику?",
+    "expected_contains": "щільність",
+    "evidence": [{ "doc_id": "agri_159_seed_rate_18" }]
+  },
+  {
+    "id": "hard_005",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Вапнування грунту при кислому pH",
+    "expected_contains": "вапнування",
+    "evidence": [{ "doc_id": "agri_043_soil_ph_2" }]
+  },
+  {
+    "id": "hard_006",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Дози азоту фосфору в NPK для поля",
+    "expected_contains": "азот",
+    "evidence": [{ "doc_id": "agri_062_npk_fertilizer_1" }]
+  },
+  {
+    "id": "hard_007",
+    "provenance": "work02_paraphrase",
+    "type": "multi_hop",
+    "answerable": true,
+    "question": "Порівняти ризики хвороб пшениці в різних сезонах",
+    "evidence": [
+      { "doc_id": "agri_015_wheat_disease_14" },
+      { "doc_id": "agri_016_wheat_disease_15" }
+    ]
+  },
+  {
+    "id": "hard_008",
+    "provenance": "work02_paraphrase",
+    "type": "unanswerable",
+    "answerable": false,
+    "question": "Чи вирощують рис на Марсі у 2040 році?",
+    "evidence": []
+  },
+  {
+    "id": "hard_009",
+    "provenance": "work02_paraphrase",
+    "type": "unanswerable",
+    "answerable": false,
+    "question": "Чи реєструвався агро-дрон NVIDIA H100 у ЄС?",
+    "evidence": []
+  },
+  {
+    "id": "hard_010",
+    "provenance": "work02_paraphrase",
+    "type": "paraphrase",
+    "answerable": true,
+    "question": "Органіка та сидерати для підвищення гумусу",
+    "expected_contains": "гумус",
+    "evidence": [{ "doc_id": "agri_099_organic_matter_18" }]
+  }
+]

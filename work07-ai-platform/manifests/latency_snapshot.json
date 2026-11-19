@@ -1,0 +1,9 @@
+{
+  "source": "REPORT.md + benchmark_latency.py",
+  "recorded_at_utc": "2026-11-18T00:00:00Z",
+  "bench_n": 25,
+  "slow": { "p50_ms": 172.6, "p95_ms": 197.0 },
+  "fast": { "p50_ms": 34.0, "p95_ms": 53.3 },
+  "speedup_p50": 5.1,
+  "jaeger_ui": "http://localhost:16687"
+}
