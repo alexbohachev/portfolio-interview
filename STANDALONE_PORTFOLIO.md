@@ -1,6 +1,6 @@
 # Senior AI/ML Engineer — Portfolio Teardown & Engineering Evidence
 
-[![CI: Clean-Clone Reproducibility (Run #44543672145 Passed)](https://img.shields.io/badge/CI_Run_44543672145-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44543672145)
+[![CI: Clean-Clone Reproducibility (Run #44549558026 Passed)](https://img.shields.io/badge/CI_Run_44549558026-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44549558026)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
 [![Demo Walkthrough (5-7 min)](https://img.shields.io/badge/Demo_Recording-5--7_min_Walkthrough-purple)](work07-ai-platform/DEMO_SCRIPT_5MIN.md#quick-visual-summary-for-recruiters)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
@@ -18,7 +18,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 
 | Core Competency | Demonstrated In | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
-| **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Multi-series demand forecasting across 20 series (21,920 samples). **Strict 4-fold expanding-window backtesting ($H=14$) with zero lookahead**. LightGBM achieves **38.7% WAPE reduction vs Seasonal Naive** (7.23% vs 11.79%). Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts inventory stockout/holding costs by **49.70%**. FastAPI serving with ~64 ms latency. | Multi-series tabular data with daily discretization; without real-time streaming Kafka connectors. |
+| **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Calibrated supply chain demand simulation benchmark (20 series, 21,920 daily samples). **Strict 4-fold expanding-window backtesting ($H=14$, isolated series rolling)**. LightGBM achieves **38.8% WAPE reduction vs Seasonal Naive** (7.22% vs 11.79%). Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts simulated inventory costs by **49.58%**. FastAPI serving with ~61 ms latency. | Calibrated synthetic benchmark with realistic agro-dynamics; direct forecasting model locked to operational horizon $H=14$. |
 | **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security & Governance** | **Work 05 (DocGuard)** | Zero-Trust Pre-LLM Security Gateway. Enforces multi-tenant principal ACL filtering **before** documents reach LLM or vector search. **100% tenant isolation across 8 security scenarios**, verbatim prompt injection audit logging, automated degraded mode. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
@@ -158,15 +158,15 @@ In distributed workflow systems, non-deterministic external tool calls (API effe
 In supply chain networks, forecasting errors carry highly asymmetric costs: stockouts during seasonal application windows penalize the business heavily ($C_{under} = 5.0$), while inventory holding and spoilage penalties are lower ($C_{over} = 1.0$). Optimal service level demands the **Newsvendor critical fractile** $\tau^* = \frac{C_{under}}{C_{under} + C_{over}} = 83.33\%$. Point forecasting at the median ($P_{50}$) leads to structural inventory deficits.
 
 #### Strict 4-Fold Chronological Expanding Backtesting
-* **Data Scale:** 21,920 daily records across 20 distinct time series (5 regional distribution hubs $\times$ 4 agricultural product lines) spanning 3 full years.
-* **Target Leakage Elimination:** For forecast horizon $H = 14$ days, all lag steps are shifted to $t - 14$ or earlier ($lag_{14}, lag_{21}, lag_{28}, lag_{35}$). All rolling means and rolling standard deviations (windows 7, 14, 28) are computed strictly on data prior to $t - 14$.
+* **Data Scale & Nature:** 21,920 daily records across 20 distinct time series (5 regional distribution hubs $\times$ 4 agricultural product lines) spanning 3 full years. Formatted as a calibrated simulation benchmark with authentic agro-seasonal dynamics for 100% autonomous CI reproducibility without external data dropouts.
+* **Target Leakage Elimination & Series Isolation:** For forecast horizon $H = 14$ days, all lag steps are shifted to $t - 14$ or earlier ($lag_{14}, lag_{21}, lag_{28}, lag_{35}$). All rolling statistics (windows 7, 14, 28) are computed strictly on data prior to $t - 14$ via grouped transforms, preventing cross-series boundary contamination.
 * **Validation Rigor:** 4 sequential expanding-window folds (56 days total test horizon) with zero future data leakage.
 
 #### Empirical Results & Business Cost Impact
-* **WAPE Reduction:** LightGBM achieves **7.23% WAPE** compared to **11.79% for Seasonal Naive** ($y_{t-7}$) and **24.31% for 4-Week DOW MA** (a **38.68% relative error reduction**).
-* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts aggregate stockout and holding costs from **5,445.8 to 2,739.4 units (a 49.70% cost reduction)**.
+* **WAPE Reduction:** LightGBM achieves **7.22% WAPE** compared to **11.79% for Seasonal Naive** ($y_{t-7}$) and **24.31% for 4-Week DOW MA** (a **38.76% relative error reduction**).
+* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts simulated aggregate stockout and holding costs from **5,445.8 to 2,745.7 units (a 49.58% cost reduction)**.
 * **Uncertainty Calibration:** Empirical coverage of the $[P_{10}, P_{90}]$ prediction interval is **80.7%** (against theoretical 80.0%).
-* **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~64 ms**. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
+* **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~61 ms** under a strict $H=14$ operational contract. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
 
 ---
 

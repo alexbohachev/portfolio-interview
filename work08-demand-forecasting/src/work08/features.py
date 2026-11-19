@@ -69,18 +69,21 @@ def create_features(
         df[col_name] = grouped.shift(lag)
         feature_cols.append(col_name)
 
-    # Базовий лаг для ковзних агрегатів = horizon_days
-    shifted_base = grouped.shift(horizon_days)
-
+    # Розрахунок ковзних статистик суворо в межах кожного ряду (hub_id x sku_id)
+    # без перетікання значень через межі рядів
     for w in rolling_windows:
-        # Rolling mean на спостереженнях до моменту (t - H)
+        min_p = max(1, w // 2)
         mean_col = f"rolling_mean_{w}_lag{horizon_days}"
-        df[mean_col] = shifted_base.rolling(window=w, min_periods=max(1, w // 2)).mean().values
-        feature_cols.append(mean_col)
-
-        # Rolling std на спостереженнях до моменту (t - H)
         std_col = f"rolling_std_{w}_lag{horizon_days}"
-        df[std_col] = shifted_base.rolling(window=w, min_periods=max(1, w // 2)).std().fillna(0.0).values
+
+        df[mean_col] = grouped.transform(
+            lambda s: s.shift(horizon_days).rolling(window=w, min_periods=min_p).mean()
+        )
+        df[std_col] = grouped.transform(
+            lambda s: s.shift(horizon_days).rolling(window=w, min_periods=min_p).std()
+        ).fillna(0.0)
+
+        feature_cols.append(mean_col)
         feature_cols.append(std_col)
 
     # Дропаємо рядки з початковими NaN через лаги

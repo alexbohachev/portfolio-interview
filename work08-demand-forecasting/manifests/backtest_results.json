@@ -6,11 +6,11 @@
   "critical_fractile": 0.8333,
   "summary": {
     "seasonal_naive_wape": 0.1179,
-    "lightgbm_wape": 0.0723,
-    "wape_reduction_pct": 38.68,
+    "lightgbm_wape": 0.0722,
+    "wape_reduction_pct": 38.76,
     "seasonal_naive_cost": 5445.8,
-    "lightgbm_safety_cost": 2739.4,
-    "cost_reduction_pct": 49.7
+    "lightgbm_safety_cost": 2745.7,
+    "cost_reduction_pct": 49.58
   },
   "folds": [
     {
@@ -115,14 +115,14 @@
         "inventory_cost": 4487.8
       },
       "lightgbm_safety_stock": {
-        "wape": 0.0931,
-        "mae": 6.405,
-        "rmse": 9.637,
-        "bias": 0.0732,
-        "inventory_cost": 2559.2
+        "wape": 0.0933,
+        "mae": 6.423,
+        "rmse": 9.723,
+        "bias": 0.0729,
+        "inventory_cost": 2584.0
       },
-      "quantile_coverage_80": 0.8,
-      "pinball_loss_p50": 2.555
+      "quantile_coverage_80": 0.7929,
+      "pinball_loss_p50": 2.56
     },
     {
       "fold": 4,
@@ -145,11 +145,11 @@
         "inventory_cost": 3653.1
       },
       "lightgbm_point": {
-        "wape": 0.0764,
-        "mae": 5.058,
-        "rmse": 7.653,
-        "bias": -0.022,
-        "inventory_cost": 5064.4
+        "wape": 0.0759,
+        "mae": 5.026,
+        "rmse": 7.668,
+        "bias": -0.0231,
+        "inventory_cost": 5078.8
       },
       "lightgbm_safety_stock": {
         "wape": 0.1068,

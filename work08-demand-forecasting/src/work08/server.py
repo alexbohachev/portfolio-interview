@@ -19,7 +19,10 @@ from work08.features import create_features
 class ForecastRequest(BaseModel):
     hub_id: str = Field(..., description="ID регіонального розподільчого хабу")
     sku_id: str = Field(..., description="ID товарної позиції / категорії")
-    horizon_days: int = Field(default=14, ge=1, le=28, description="Горизонт прогнозу (1..28 днів)")
+    horizon_days: int = Field(
+        default=14,
+        description="Операційний горизонт прогнозу. Модель прямого прогнозування підтримує фіксований контракт H=14 днів.",
+    )
 
 
 class DailyForecast(BaseModel):
@@ -108,6 +111,16 @@ def health():
 @app.post("/v1/forecast", response_model=ForecastResponse)
 def get_forecast(req: ForecastRequest):
     t0 = time.perf_counter()
+    if req.horizon_days != 14:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Непідтримуваний горизонт прогнозу: {req.horizon_days}. "
+                "Модель прямого прогнозування натренована за суворим операційним контрактом H=14 днів "
+                "(лаги та ковзні агрегати зміщені рівно на 14 днів для запобігання target leakage)."
+            ),
+        )
+
     if state.historical_df is None or state.model_point is None:
         raise HTTPException(status_code=503, detail="Моделі або історичні дані ще не ініціалізовані")
 

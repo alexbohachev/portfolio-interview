@@ -64,3 +64,47 @@ def test_future_demand_tampering_does_not_affect_cutoff_features():
         val1 = row1[col]
         val2 = row2[col]
         assert np.isclose(val1, val2), f"Виявлено витік у колонці {col}: {val1} != {val2}"
+
+
+def test_rolling_features_isolated_between_series():
+    """Перевірка ізоляції між рядами: ковзні вікна на початку ряду B не повинні
+    захоплювати хвіст значень ряду A.
+    """
+    n_days = 60
+    dates = pd.date_range("2016-01-01", periods=n_days)
+    
+    # Ряд A має попит 1000, Ряд B має попит 10
+    df_a = pd.DataFrame({
+        "date": dates,
+        "hub_id": "hub_A",
+        "sku_id": "SKU_1",
+        "demand": 1000.0,
+        "unit_price": 50.0,
+        "promo": 0,
+        "temperature_c": 15.0,
+        "is_holiday": 0,
+    })
+    df_b = pd.DataFrame({
+        "date": dates,
+        "hub_id": "hub_B",
+        "sku_id": "SKU_2",
+        "demand": 10.0,
+        "unit_price": 50.0,
+        "promo": 0,
+        "temperature_c": 15.0,
+        "is_holiday": 0,
+    })
+    
+    combined = pd.concat([df_a, df_b], ignore_index=True)
+    horizon = 14
+    feat_df, feature_cols, _ = create_features(combined, horizon_days=horizon)
+    
+    # Перевіряємо перші доступні рядки ряду B
+    feat_b = feat_df[feat_df["hub_id"] == "hub_B"]
+    rolling_cols = [c for c in feature_cols if "rolling_mean" in c]
+    
+    for col in rolling_cols:
+        # Середнє для ряду B повинно бути рівно 10.0, а не сотні від ряду A!
+        vals = feat_b[col].values
+        assert (vals < 100.0).all(), f"Виявлено перетікання між рядами у {col}: max={vals.max()}"
+        assert np.isclose(vals[0], 10.0), f"Перше значення {col} має бути 10.0, отримано {vals[0]}"

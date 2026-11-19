@@ -38,14 +38,16 @@ def test_forecast_endpoint_valid():
 
 def test_forecast_endpoint_invalid_horizon():
     with TestClient(app) as client:
-        # Horizon > 28 неприпустимий
-        payload = {
-            "hub_id": "hub_central",
-            "sku_id": "SKU_FERT_NPK",
-            "horizon_days": 40,
-        }
-        resp = client.post("/v1/forecast", json=payload)
-        assert resp.status_code == 422
+        # Horizon != 14 (наприклад 7, 21 або 28) повертає 422 за контрактом прямої моделі H=14
+        for bad_h in [7, 21, 28, 40]:
+            payload = {
+                "hub_id": "hub_central",
+                "sku_id": "SKU_FERT_NPK",
+                "horizon_days": bad_h,
+            }
+            resp = client.post("/v1/forecast", json=payload)
+            assert resp.status_code == 422
+            assert "Непідтримуваний горизонт прогнозу" in resp.json()["detail"]
 
 
 def test_forecast_endpoint_unknown_series():
