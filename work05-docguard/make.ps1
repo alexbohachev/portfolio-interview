@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "test", "compose-up", "compose-down", "smoke", "load")]
+    [ValidateSet("all", "test", "compose-up", "compose-down", "smoke", "load", "demo")]
     [string]$Target = "all"
 )
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -25,6 +25,10 @@ switch ($Target) {
     }
     "load" {
         py -3.13 "$Root\scripts\load_probe.py" --duration-sec 60 --rps 1
+        exit $LASTEXITCODE
+    }
+    "demo" {
+        & "$Root\scripts\smoke.ps1"
         exit $LASTEXITCODE
     }
     "all" {

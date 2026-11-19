@@ -13,9 +13,26 @@ function Step($name, [scriptblock]$fn) {
     }
 }
 
+Step "work01 demo offline" {
+    Set-Location "$Root\work01-bank-marketing"
+    $env:PYTHONPATH = "$Root\work01-bank-marketing\src"
+    py -3.13 scripts/demo_offline.py | Out-Null
+}
+
 Step "work02 demo offline" {
     Set-Location "$Root\work02-rag-citations"
     $env:PYTHONPATH = "$Root\work02-rag-citations\src"
+    py -3.13 scripts/demo_offline.py | Out-Null
+}
+
+Step "work03 demo offline" {
+    Set-Location "$Root\work03-agent-workflow"
+    py -3.13 scripts/demo_offline.py | Out-Null
+}
+
+Step "work04 demo offline" {
+    Set-Location "$Root\work04-ml-serving"
+    $env:PYTHONPATH = "$Root\work04-ml-serving\src"
     py -3.13 scripts/demo_offline.py | Out-Null
 }
 

@@ -10,12 +10,19 @@
 | 5 | work05-docguard | work05-v1.0 | `.\make.ps1 all` | ACL gateway + filtered retrieval |
 | 6 | work06-bible-rag | work06-v1.0 | `.\make.ps1 all` | E5+FAISS, API :8098, Streamlit |
 
-## Демо (рекомендований порядок на екрані)
+## Демо (скрипти)
 
-1. **work07** — повна платформа ([`work07-ai-platform/DEMO.md`](work07-ai-platform/DEMO.md))
-2. **work05** — `docker compose up` + `.\make.ps1 smoke` (ACL до retrieval)
-3. **work02** — `.\make.ps1 demo` (метрики + gate)
-4. **work06** — `.\make.ps1 serve` + `.\make.ps1 demo` або UI
+| № | Файл | Команда |
+|---|------|---------|
+| 1 | [`work01-bank-marketing/DEMO.md`](work01-bank-marketing/DEMO.md) | `.\make.ps1 demo` |
+| 2 | [`work02-rag-citations/DEMO.md`](work02-rag-citations/DEMO.md) | `.\make.ps1 demo` |
+| 3 | [`work03-agent-workflow/DEMO.md`](work03-agent-workflow/DEMO.md) | `.\make.ps1 demo` |
+| 4 | [`work04-ml-serving/DEMO.md`](work04-ml-serving/DEMO.md) | `.\make.ps1 demo` |
+| 5 | [`work05-docguard/DEMO.md`](work05-docguard/DEMO.md) | `.\make.ps1 demo` (= smoke) |
+| 6 | [`work06-bible-rag/DEMO.md`](work06-bible-rag/DEMO.md) | `serve` + `.\make.ps1 demo` |
+| 7 | [`work07-ai-platform/DEMO.md`](work07-ai-platform/DEMO.md) | `.\scripts\demo.ps1` |
+
+**Порядок на екрані:** 7 → 5 → 2 → 6 → (1,3,4 за часом).
 
 ```powershell
 .\scripts\portfolio_smoke.ps1
