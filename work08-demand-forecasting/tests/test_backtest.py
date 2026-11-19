@@ -39,10 +39,13 @@ def test_backtest_seasonal_folds_are_chronological_and_ex_ante():
             assert test_start > prev_test_start, f"Fold {i+1}: test_start ({test_start}) <= prev ({prev_test_start})"
         prev_test_start = test_start
 
-    # 4. Перевірка наявності ex-ante полів у прогнозах
+    # 4. Перевірка наявності ex-ante та каліброваних полів у прогнозах
     preds = bt["combined_predictions"]
     assert "ex_ante_temperature_c" in preds.columns
     assert "ex_ante_unit_price" in preds.columns
+    assert "pred_p10_raw" in preds.columns
+    assert "pred_p10_calibrated" in preds.columns
+    assert "pred_p90_calibrated" in preds.columns
     assert "season" in preds.columns
     assert len(preds["season"].unique()) == n_folds
 

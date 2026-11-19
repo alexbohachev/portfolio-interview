@@ -86,7 +86,7 @@ def analyze_errors_by_segments(preds_df: pd.DataFrame) -> dict[str, list[dict]]:
             "wape_lift_pct": round((wape(y_true, naive_p) - wape(y_true, lgb_p)) / wape(y_true, naive_p) * 100, 2),
         })
 
-    # 5. Помилки за агро-сезонами (Spring, Summer, Autumn, Winter)
+    # 5. Помилки та покриття інтервалів за агро-сезонами (Spring, Summer, Autumn, Winter)
     season_analysis = []
     if "season" in preds_df.columns:
         for season, grp in preds_df.groupby("season", sort=False):
@@ -96,7 +96,8 @@ def analyze_errors_by_segments(preds_df: pd.DataFrame) -> dict[str, list[dict]]:
             naive_w = wape(y_true, naive_p)
             lgb_w = wape(y_true, lgb_p)
             lift = round((naive_w - lgb_w) / naive_w * 100, 2) if naive_w > 0 else 0.0
-            season_analysis.append({
+
+            season_entry = {
                 "segment": "season",
                 "key": str(season),
                 "sample_count": len(grp),
@@ -105,7 +106,21 @@ def analyze_errors_by_segments(preds_df: pd.DataFrame) -> dict[str, list[dict]]:
                 "naive_wape": round(naive_w, 4),
                 "lgb_bias": round(normalized_bias(y_true, lgb_p), 4),
                 "wape_lift_pct": lift,
-            })
+            }
+
+            if "pred_p10_raw" in grp.columns and "pred_p90_raw" in grp.columns:
+                p10_r = grp["pred_p10_raw"].values
+                p90_r = grp["pred_p90_raw"].values
+                cov_r = ((y_true >= p10_r) & (y_true <= p90_r)).mean()
+                season_entry["raw_coverage_80"] = round(float(cov_r), 4)
+
+            if "pred_p10_calibrated" in grp.columns and "pred_p90_calibrated" in grp.columns:
+                p10_c = grp["pred_p10_calibrated"].values
+                p90_c = grp["pred_p90_calibrated"].values
+                cov_c = ((y_true >= p10_c) & (y_true <= p90_c)).mean()
+                season_entry["calibrated_coverage_80"] = round(float(cov_c), 4)
+
+            season_analysis.append(season_entry)
 
     return {
         "by_sku": sku_analysis,

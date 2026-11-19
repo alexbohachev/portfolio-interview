@@ -1,0 +1,319 @@
+{
+  "dataset_name": "Capital Bikeshare Real Daily Demand (2011-2012)",
+  "dataset_type": "empirical_sensor_series",
+  "horizon_days": 14,
+  "n_folds": 4,
+  "c_under": 5.0,
+  "c_over": 1.0,
+  "critical_fractile": 0.8333,
+  "summary": {
+    "seasonal_naive_wape": 0.3542,
+    "lightgbm_wape": 0.3774,
+    "wape_reduction_pct": -6.55,
+    "seasonal_naive_cost": 33576.2,
+    "lightgbm_safety_cost": 51629.5,
+    "cost_reduction_pct": -53.77,
+    "mean_raw_coverage_80": 0.2679,
+    "mean_calibrated_coverage_80": 0.7589
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "season": "Spring Sowing/Commuter Peak",
+      "cutoff_date": "2012-04-15",
+      "train_end": "2012-04-15",
+      "test_start": "2012-04-16",
+      "test_end": "2012-04-29",
+      "n_test_samples": 28,
+      "baseline_seasonal_naive": {
+        "wape": 0.2617,
+        "mae": 708.071,
+        "rmse": 1074.073,
+        "bias": 0.1289,
+        "inventory_cost": 39942.0
+      },
+      "baseline_dow_ma": {
+        "wape": 0.2366,
+        "mae": 640.054,
+        "rmse": 892.697,
+        "bias": 0.1164,
+        "inventory_cost": 36130.5
+      },
+      "lightgbm_point": {
+        "wape": 0.3907,
+        "mae": 1057.159,
+        "rmse": 1239.688,
+        "bias": -0.0575,
+        "inventory_cost": 97517.5
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.3674,
+        "mae": 993.995,
+        "rmse": 1164.571,
+        "bias": 0.0135,
+        "inventory_cost": 81451.4
+      },
+      "quantile_coverage_80": 0.1786,
+      "raw_quantile_coverage_80": 0.1786,
+      "calibrated_quantile_coverage_80": 0.7143,
+      "conformal_adjustment_demand_units": 1108.19,
+      "pinball_loss_p50": 563.212
+    },
+    {
+      "fold": 2,
+      "season": "Summer High Season",
+      "cutoff_date": "2012-07-15",
+      "train_end": "2012-07-15",
+      "test_start": "2012-07-16",
+      "test_end": "2012-07-29",
+      "n_test_samples": 28,
+      "baseline_seasonal_naive": {
+        "wape": 0.1433,
+        "mae": 478.321,
+        "rmse": 620.474,
+        "bias": 0.0289,
+        "inventory_cost": 34781.0
+      },
+      "baseline_dow_ma": {
+        "wape": 0.1195,
+        "mae": 398.929,
+        "rmse": 510.055,
+        "bias": -0.0387,
+        "inventory_cost": 40738.0
+      },
+      "lightgbm_point": {
+        "wape": 0.2204,
+        "mae": 735.618,
+        "rmse": 934.245,
+        "bias": -0.135,
+        "inventory_cost": 87026.0
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.1674,
+        "mae": 558.652,
+        "rmse": 718.299,
+        "bias": -0.0249,
+        "inventory_cost": 51584.6
+      },
+      "quantile_coverage_80": 0.2857,
+      "raw_quantile_coverage_80": 0.2857,
+      "calibrated_quantile_coverage_80": 0.8571,
+      "conformal_adjustment_demand_units": 607.65,
+      "pinball_loss_p50": 358.41
+    },
+    {
+      "fold": 3,
+      "season": "Autumn Transition",
+      "cutoff_date": "2012-10-01",
+      "train_end": "2012-10-01",
+      "test_start": "2012-10-02",
+      "test_end": "2012-10-15",
+      "n_test_samples": 28,
+      "baseline_seasonal_naive": {
+        "wape": 0.1586,
+        "mae": 527.786,
+        "rmse": 819.841,
+        "bias": 0.1223,
+        "inventory_cost": 21542.0
+      },
+      "baseline_dow_ma": {
+        "wape": 0.1479,
+        "mae": 492.411,
+        "rmse": 776.732,
+        "bias": 0.1124,
+        "inventory_cost": 20407.5
+      },
+      "lightgbm_point": {
+        "wape": 0.1726,
+        "mae": 574.418,
+        "rmse": 733.493,
+        "bias": -0.0152,
+        "inventory_cost": 51093.6
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.1985,
+        "mae": 660.624,
+        "rmse": 899.522,
+        "bias": 0.1372,
+        "inventory_cost": 29919.3
+      },
+      "quantile_coverage_80": 0.1786,
+      "raw_quantile_coverage_80": 0.1786,
+      "calibrated_quantile_coverage_80": 0.7857,
+      "conformal_adjustment_demand_units": 479.48,
+      "pinball_loss_p50": 317.133
+    },
+    {
+      "fold": 4,
+      "season": "Winter Off-Season",
+      "cutoff_date": "2012-12-15",
+      "train_end": "2012-12-15",
+      "test_start": "2012-12-16",
+      "test_end": "2012-12-29",
+      "n_test_samples": 28,
+      "baseline_seasonal_naive": {
+        "wape": 0.8532,
+        "mae": 1200.714,
+        "rmse": 1914.396,
+        "bias": 0.7971,
+        "inventory_cost": 38040.0
+      },
+      "baseline_dow_ma": {
+        "wape": 0.7567,
+        "mae": 1064.911,
+        "rmse": 1747.345,
+        "bias": 0.7391,
+        "inventory_cost": 31201.5
+      },
+      "lightgbm_point": {
+        "wape": 0.7259,
+        "mae": 1021.614,
+        "rmse": 1466.944,
+        "bias": 0.6745,
+        "inventory_cost": 32653.5
+      },
+      "lightgbm_safety_stock": {
+        "wape": 1.1055,
+        "mae": 1555.808,
+        "rmse": 2174.08,
+        "bias": 1.1055,
+        "inventory_cost": 43562.6
+      },
+      "quantile_coverage_80": 0.4286,
+      "raw_quantile_coverage_80": 0.4286,
+      "calibrated_quantile_coverage_80": 0.6786,
+      "conformal_adjustment_demand_units": 320.33,
+      "pinball_loss_p50": 406.016
+    }
+  ],
+  "segment_metrics": {
+    "by_sku": [
+      {
+        "segment": "sku",
+        "key": "SKU-Commuter",
+        "sample_count": 56,
+        "total_demand": 248791.0,
+        "lgb_wape": 0.2722,
+        "naive_wape": 0.253,
+        "lgb_bias": -0.0311,
+        "wape_lift_pct": -7.6
+      },
+      {
+        "segment": "sku",
+        "key": "SKU-Leisure",
+        "sample_count": 56,
+        "total_demand": 53018.0,
+        "lgb_wape": 0.5123,
+        "naive_wape": 0.3522,
+        "lgb_bias": 0.3002,
+        "wape_lift_pct": -45.45
+      }
+    ],
+    "by_hub": [
+      {
+        "segment": "hub",
+        "key": "Hub-East",
+        "sample_count": 112,
+        "total_demand": 301809.0,
+        "lgb_wape": 0.3144,
+        "naive_wape": 0.2704,
+        "lgb_bias": 0.0271,
+        "wape_lift_pct": -16.26
+      }
+    ],
+    "by_season": [
+      {
+        "segment": "season",
+        "key": "Spring Sowing/Commuter Peak",
+        "sample_count": 28,
+        "total_demand": 75760.0,
+        "lgb_wape": 0.3907,
+        "naive_wape": 0.2617,
+        "lgb_bias": -0.0575,
+        "wape_lift_pct": -49.3,
+        "raw_coverage_80": 0.1786,
+        "calibrated_coverage_80": 0.7143
+      },
+      {
+        "segment": "season",
+        "key": "Summer High Season",
+        "sample_count": 28,
+        "total_demand": 93437.0,
+        "lgb_wape": 0.2204,
+        "naive_wape": 0.1433,
+        "lgb_bias": -0.135,
+        "wape_lift_pct": -53.79,
+        "raw_coverage_80": 0.2857,
+        "calibrated_coverage_80": 0.8571
+      },
+      {
+        "segment": "season",
+        "key": "Autumn Transition",
+        "sample_count": 28,
+        "total_demand": 93206.0,
+        "lgb_wape": 0.1726,
+        "naive_wape": 0.1586,
+        "lgb_bias": -0.0152,
+        "wape_lift_pct": -8.84,
+        "raw_coverage_80": 0.1786,
+        "calibrated_coverage_80": 0.7857
+      },
+      {
+        "segment": "season",
+        "key": "Winter Off-Season",
+        "sample_count": 28,
+        "total_demand": 39406.0,
+        "lgb_wape": 0.7259,
+        "naive_wape": 0.8532,
+        "lgb_bias": 0.6745,
+        "wape_lift_pct": 14.92,
+        "raw_coverage_80": 0.4286,
+        "calibrated_coverage_80": 0.6786
+      }
+    ],
+    "by_promo": [
+      {
+        "segment": "promo",
+        "key": "Non-Promo (Звичайний)",
+        "sample_count": 56,
+        "total_demand": 248791.0,
+        "lgb_wape": 0.2722,
+        "naive_wape": 0.253,
+        "lgb_bias": -0.0311,
+        "wape_lift_pct": -7.6
+      },
+      {
+        "segment": "promo",
+        "key": "Promo (Акція)",
+        "sample_count": 56,
+        "total_demand": 53018.0,
+        "lgb_wape": 0.5123,
+        "naive_wape": 0.3522,
+        "lgb_bias": 0.3002,
+        "wape_lift_pct": -45.45
+      }
+    ],
+    "by_day_type": [
+      {
+        "segment": "day_type",
+        "key": "Weekday (Будні)",
+        "sample_count": 80,
+        "total_demand": 224597.0,
+        "lgb_wape": 0.308,
+        "naive_wape": 0.2235,
+        "lgb_bias": -0.0006,
+        "wape_lift_pct": -37.82
+      },
+      {
+        "segment": "day_type",
+        "key": "Weekend (Вихідні)",
+        "sample_count": 32,
+        "total_demand": 77212.0,
+        "lgb_wape": 0.3331,
+        "naive_wape": 0.4071,
+        "lgb_bias": 0.1078,
+        "wape_lift_pct": 18.17
+      }
+    ]
+  }
+}

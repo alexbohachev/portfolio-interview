@@ -39,13 +39,16 @@ def run_rolling_backtest(
     c_under: float = 5.0,
     c_over: float = 1.0,
     use_seasonal_slices: bool = True,
+    custom_folds: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Виконує строгий хронологічний expanding-window бектестинг з ex-ante конструюванням ознак."""
     df = df.copy()
     df["date"] = pd.to_datetime(df["date"])
 
     # Визначаємо конфігурацію фолдів
-    if use_seasonal_slices and n_folds == len(DEFAULT_SEASONAL_FOLDS):
+    if custom_folds is not None:
+        fold_configs = custom_folds
+    elif use_seasonal_slices and n_folds == len(DEFAULT_SEASONAL_FOLDS):
         fold_configs = DEFAULT_SEASONAL_FOLDS
     else:
         # Fallback на рівномірне розбиття з кінця історії
@@ -112,7 +115,8 @@ def run_rolling_backtest(
 
         # 7. Точкова модель: LightGBM Point Forecaster
         train_dates = sorted(train_feat["date"].unique())
-        val_start_date = train_dates[-horizon_days]
+        val_days = min(56, max(horizon_days, len(train_dates) // 4))
+        val_start_date = train_dates[-val_days]
         val_submask = train_feat["date"] >= val_start_date
 
         sub_train = train_feat[~val_submask]
@@ -128,21 +132,34 @@ def run_rolling_backtest(
         pred_lgb_point = lgb_point.predict(test_feat)
         metrics_lgb_point = evaluate_forecasts(y_test, pred_lgb_point, c_under, c_over)
 
-        # 8. Квантильна модель: LightGBM Quantile Forecaster (Newsvendor Loss)
+        # 8. Квантильна модель: LightGBM Quantile Forecaster з конформним калібруванням (CQR)
         crit_ratio = c_under / (c_under + c_over)
         lgb_quantile = LightGBMQuantileForecaster(
             quantiles=[0.10, 0.50, 0.90],
             critical_ratio=crit_ratio,
+            conformal_target=0.85,
         )
-        lgb_quantile.fit(train_feat, train_feat[target_col].values, feature_cols)
-        preds_q = lgb_quantile.predict(test_feat)
-        pred_p10 = preds_q[0.10]
-        pred_p50 = preds_q[0.50]
-        pred_p90 = preds_q[0.90]
-        pred_safety = lgb_quantile.predict_safety_stock(test_feat)
+        lgb_quantile.fit(
+            sub_train,
+            sub_train[target_col].values,
+            feature_cols,
+            val_set=(sub_val, sub_val[target_col].values),
+        )
+        preds_q_raw = lgb_quantile.predict(test_feat, calibrated=False)
+        pred_p10_raw = preds_q_raw[0.10]
+        pred_p50 = preds_q_raw[0.50]
+        pred_p90_raw = preds_q_raw[0.90]
 
+        preds_q_cal = lgb_quantile.predict(test_feat, calibrated=True)
+        pred_p10_cal = preds_q_cal[0.10]
+        pred_p90_cal = preds_q_cal[0.90]
+
+        pred_safety = lgb_quantile.predict_safety_stock(test_feat)
         metrics_lgb_safety = evaluate_forecasts(y_test, pred_safety, c_under, c_over)
-        cov_80 = round(coverage_rate(y_test, pred_p10, pred_p90), 4)
+
+        cov_80_raw = round(coverage_rate(y_test, pred_p10_raw, pred_p90_raw), 4)
+        cov_80_cal = round(coverage_rate(y_test, pred_p10_cal, pred_p90_cal), 4)
+        q_conf_adj = round(lgb_quantile.conformal_adjustment_80_, 2)
 
         fold_summary = {
             "fold": fold_idx + 1,
@@ -156,7 +173,10 @@ def run_rolling_backtest(
             "baseline_dow_ma": metrics_dow_ma,
             "lightgbm_point": metrics_lgb_point,
             "lightgbm_safety_stock": metrics_lgb_safety,
-            "quantile_coverage_80": cov_80,
+            "quantile_coverage_80": cov_80_raw,
+            "raw_quantile_coverage_80": cov_80_raw,
+            "calibrated_quantile_coverage_80": cov_80_cal,
+            "conformal_adjustment_demand_units": q_conf_adj,
             "pinball_loss_p50": round(pinball_loss(y_test, pred_p50, 0.50), 3),
         }
         fold_results.append(fold_summary)
@@ -170,8 +190,12 @@ def run_rolling_backtest(
         test_pred_df["pred_dow_ma"] = pred_dow_ma
         test_pred_df["pred_lgb_point"] = pred_lgb_point
         test_pred_df["pred_safety_stock"] = pred_safety
-        test_pred_df["pred_p10"] = pred_p10
-        test_pred_df["pred_p90"] = pred_p90
+        test_pred_df["pred_p10"] = pred_p10_raw
+        test_pred_df["pred_p90"] = pred_p90_raw
+        test_pred_df["pred_p10_raw"] = pred_p10_raw
+        test_pred_df["pred_p90_raw"] = pred_p90_raw
+        test_pred_df["pred_p10_calibrated"] = pred_p10_cal
+        test_pred_df["pred_p90_calibrated"] = pred_p90_cal
         test_pred_df["ex_ante_temperature_c"] = test_feat["temperature_c"].values
         test_pred_df["ex_ante_unit_price"] = test_feat["unit_price"].values
         test_pred_df["ex_ante_promo"] = test_feat["promo"].values
@@ -211,6 +235,8 @@ def run_rolling_backtest(
             "seasonal_naive_cost": avg_s_naive["mean_fold_cost"],
             "lightgbm_safety_cost": avg_safety["mean_fold_cost"],
             "cost_reduction_pct": cost_reduction_pct,
+            "mean_raw_coverage_80": round(float(pd.Series([f["raw_quantile_coverage_80"] for f in fold_results]).mean()), 4),
+            "mean_calibrated_coverage_80": round(float(pd.Series([f["calibrated_quantile_coverage_80"] for f in fold_results]).mean()), 4),
         },
         "combined_predictions": combined_preds,
         "feature_cols": feature_cols_cached,

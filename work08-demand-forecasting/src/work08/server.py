@@ -151,7 +151,7 @@ def get_forecast(req: ForecastRequest):
         raise HTTPException(status_code=500, detail="Помилка формування вектора ознак майбутнього горизонту")
 
     p50_preds = state.model_point.predict(inference_df)
-    q_preds = state.model_quantile.predict(inference_df)
+    q_preds = state.model_quantile.predict(inference_df, calibrated=True)
     safety_preds = state.model_quantile.predict_safety_stock(inference_df)
     
     future_dates = inference_df["date"].tolist()

@@ -25,6 +25,7 @@ def create_features(
     horizon_days: int = 14,
     lag_steps: list[int] | None = None,
     rolling_windows: list[int] | None = None,
+    align_ex_ante_temperature: bool = True,
 ) -> tuple[pd.DataFrame, list[str], str]:
     """Генерує вектор ознак для прогнозування попиту з горизонтом H днів.
 
@@ -32,6 +33,8 @@ def create_features(
     - Усі лаги попиту зміщуються як мінімум на horizon_days (наприклад, t-14, t-21, t-28).
     - Ковзні середні та відхилення рахуються суворо на даних, відомих на момент t - H.
     - Календарні ознаки, планові промоакції та святкові дні відомі заздалегідь для дати t.
+    - align_ex_ante_temperature: заміна стохастичного шуму погоди на детерміністичний кліматологічний
+      прогноз (compute_seasonal_temperature) для усунення розбіжності розподілу (Train-Inference Alignment).
     """
     if lag_steps is None:
         lag_steps = [14, 21, 28, 35]
@@ -46,6 +49,13 @@ def create_features(
         )
 
     df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+
+    # Train-Serving Distribution Alignment: тренуємо на кліматологічній оцінці,
+    # оскільки на інференсі доступний лише прогноз, а не фактичні постфактум спостереження
+    if align_ex_ante_temperature and "temperature_c" in df.columns:
+        df["temperature_c"] = compute_seasonal_temperature(df["date"].dt.dayofyear)
+
     df = df.sort_values(by=["hub_id", "sku_id", "date"]).reset_index(drop=True)
 
     feature_cols: list[str] = []

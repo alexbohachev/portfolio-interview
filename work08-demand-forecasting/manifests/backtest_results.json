@@ -6,11 +6,13 @@
   "critical_fractile": 0.8333,
   "summary": {
     "seasonal_naive_wape": 0.132,
-    "lightgbm_wape": 0.0791,
-    "wape_reduction_pct": 40.08,
+    "lightgbm_wape": 0.0783,
+    "wape_reduction_pct": 40.68,
     "seasonal_naive_cost": 7308.0,
-    "lightgbm_safety_cost": 4254.3,
-    "cost_reduction_pct": 41.79
+    "lightgbm_safety_cost": 4160.9,
+    "cost_reduction_pct": 43.06,
+    "mean_raw_coverage_80": 0.759,
+    "mean_calibrated_coverage_80": 0.8411
   },
   "folds": [
     {
@@ -36,21 +38,24 @@
         "inventory_cost": 16796.1
       },
       "lightgbm_point": {
-        "wape": 0.0809,
-        "mae": 11.991,
-        "rmse": 19.127,
-        "bias": -0.0115,
-        "inventory_cost": 11029.4
+        "wape": 0.0798,
+        "mae": 11.835,
+        "rmse": 19.04,
+        "bias": -0.0117,
+        "inventory_cost": 10913.3
       },
       "lightgbm_safety_stock": {
         "wape": 0.0962,
-        "mae": 14.267,
-        "rmse": 21.261,
-        "bias": 0.0668,
-        "inventory_cost": 6437.2
+        "mae": 14.258,
+        "rmse": 21.442,
+        "bias": 0.0682,
+        "inventory_cost": 6314.1
       },
-      "quantile_coverage_80": 0.7214,
-      "pinball_loss_p50": 5.821
+      "quantile_coverage_80": 0.7179,
+      "raw_quantile_coverage_80": 0.7179,
+      "calibrated_quantile_coverage_80": 0.8036,
+      "conformal_adjustment_demand_units": 2.64,
+      "pinball_loss_p50": 6.206
     },
     {
       "fold": 2,
@@ -75,21 +80,24 @@
         "inventory_cost": 6761.2
       },
       "lightgbm_point": {
-        "wape": 0.0786,
-        "mae": 5.626,
+        "wape": 0.078,
+        "mae": 5.582,
         "rmse": 8.425,
-        "bias": 0.0075,
-        "inventory_cost": 4427.2
+        "bias": 0.0023,
+        "inventory_cost": 4598.4
       },
       "lightgbm_safety_stock": {
-        "wape": 0.1151,
-        "mae": 8.241,
-        "rmse": 12.674,
-        "bias": 0.094,
-        "inventory_cost": 3152.4
+        "wape": 0.1166,
+        "mae": 8.342,
+        "rmse": 12.407,
+        "bias": 0.096,
+        "inventory_cost": 3158.5
       },
-      "quantile_coverage_80": 0.7679,
-      "pinball_loss_p50": 2.837
+      "quantile_coverage_80": 0.7714,
+      "raw_quantile_coverage_80": 0.7714,
+      "calibrated_quantile_coverage_80": 0.8929,
+      "conformal_adjustment_demand_units": 2.02,
+      "pinball_loss_p50": 2.793
     },
     {
       "fold": 3,
@@ -114,21 +122,24 @@
         "inventory_cost": 6060.9
       },
       "lightgbm_point": {
-        "wape": 0.0819,
-        "mae": 7.852,
-        "rmse": 12.301,
-        "bias": -0.0096,
-        "inventory_cost": 7111.9
+        "wape": 0.0794,
+        "mae": 7.61,
+        "rmse": 11.924,
+        "bias": -0.0054,
+        "inventory_cost": 6681.0
       },
       "lightgbm_safety_stock": {
-        "wape": 0.1134,
-        "mae": 10.87,
-        "rmse": 16.49,
-        "bias": 0.0876,
-        "inventory_cost": 4431.6
+        "wape": 0.1142,
+        "mae": 10.943,
+        "rmse": 16.875,
+        "bias": 0.0933,
+        "inventory_cost": 4185.0
       },
-      "quantile_coverage_80": 0.7464,
-      "pinball_loss_p50": 3.886
+      "quantile_coverage_80": 0.7679,
+      "raw_quantile_coverage_80": 0.7679,
+      "calibrated_quantile_coverage_80": 0.85,
+      "conformal_adjustment_demand_units": 1.32,
+      "pinball_loss_p50": 3.877
     },
     {
       "fold": 4,
@@ -153,21 +164,24 @@
         "inventory_cost": 3532.2
       },
       "lightgbm_point": {
-        "wape": 0.0751,
-        "mae": 4.974,
-        "rmse": 7.496,
-        "bias": -0.0202,
-        "inventory_cost": 4927.5
+        "wape": 0.076,
+        "mae": 5.033,
+        "rmse": 7.732,
+        "bias": -0.0206,
+        "inventory_cost": 4991.4
       },
       "lightgbm_safety_stock": {
-        "wape": 0.1072,
-        "mae": 7.093,
-        "rmse": 10.951,
-        "bias": 0.0799,
-        "inventory_cost": 2995.9
+        "wape": 0.1091,
+        "mae": 7.218,
+        "rmse": 11.267,
+        "bias": 0.083,
+        "inventory_cost": 2985.8
       },
-      "quantile_coverage_80": 0.7821,
-      "pinball_loss_p50": 2.651
+      "quantile_coverage_80": 0.7786,
+      "raw_quantile_coverage_80": 0.7786,
+      "calibrated_quantile_coverage_80": 0.8179,
+      "conformal_adjustment_demand_units": 0.51,
+      "pinball_loss_p50": 2.727
     }
   ]
 }

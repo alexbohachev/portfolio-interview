@@ -68,16 +68,38 @@ def main() -> int:
     
     # 4. Фінальне навчання моделей на всій доступній історії для продакшн сервінгу
     print("\n--- Навчання фінальних моделей для продакшн-сервінгу ---")
-    feat_df, feature_cols, target_col = create_features(df, horizon_days=cfg.horizon_days)
-    
+    feat_df, feature_cols, target_col = create_features(
+        df,
+        horizon_days=cfg.horizon_days,
+        align_ex_ante_temperature=True,
+    )
+
+    final_dates = sorted(feat_df["date"].unique())
+    val_days = min(56, max(cfg.horizon_days, len(final_dates) // 6))
+    val_start = final_dates[-val_days]
+    val_mask = feat_df["date"] >= val_start
+    final_train = feat_df[~val_mask]
+    final_val = feat_df[val_mask]
+
     final_point_model = LightGBMPointForecaster()
-    final_point_model.fit(feat_df, feat_df[target_col].values, feature_cols)
-    
+    final_point_model.fit(
+        final_train,
+        final_train[target_col].values,
+        feature_cols,
+        val_set=(final_val, final_val[target_col].values),
+    )
+
     final_quantile_model = LightGBMQuantileForecaster(
         quantiles=cfg.quantiles,
         critical_ratio=cfg.critical_fractile,
+        conformal_target=0.85,
     )
-    final_quantile_model.fit(feat_df, feat_df[target_col].values, feature_cols)
+    final_quantile_model.fit(
+        final_train,
+        final_train[target_col].values,
+        feature_cols,
+        val_set=(final_val, final_val[target_col].values),
+    )
     
     # Серіалізація
     joblib.dump(final_point_model, artifacts_dir / "model_point.joblib")

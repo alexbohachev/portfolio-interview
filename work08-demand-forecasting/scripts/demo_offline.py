@@ -24,13 +24,17 @@ def main() -> int:
     print(f"LightGBM WAPE:         {summary['lightgbm_wape'] * 100:.2f}% (зменшення на {summary['wape_reduction_pct']}%)")
     print(f"Seasonal Naive Cost:   {summary['seasonal_naive_cost']:,.1f} у.о.")
     print(f"LightGBM Safety Cost:  {summary['lightgbm_safety_cost']:,.1f} у.о. (скорочення на {summary['cost_reduction_pct']}%)")
+    if "mean_raw_coverage_80" in summary and "mean_calibrated_coverage_80" in summary:
+        print(f"Сире покриття P10-P90: {summary['mean_raw_coverage_80'] * 100:.2f}%")
+        print(f"Каліброване (CQR):     {summary['mean_calibrated_coverage_80'] * 100:.2f}% (гарантовано >= 80%)")
     
     if SEGMENTS_PATH.is_file():
         seg = json.loads(SEGMENTS_PATH.read_text(encoding="utf-8"))
         if "by_season" in seg and seg["by_season"]:
-            print("\nСезонний зріз бектестингу (Ex-Ante Features across 4 Seasons):")
+            print("\nСезонний зріз бектестингу (Ex-Ante Features & Calibrated Coverage):")
             for s in seg.get("by_season", []):
-                print(f"  * {s['key']:25}: WAPE {s['lgb_wape']*100:.2f}% vs Naive {s['naive_wape']*100:.2f}% (+{s['wape_lift_pct']:.1f}% lift)")
+                cov_str = f" | CalCov: {s.get('calibrated_coverage_80', 0)*100:.1f}%" if "calibrated_coverage_80" in s else ""
+                print(f"  * {s['key']:25}: WAPE {s['lgb_wape']*100:.2f}% vs Naive {s['naive_wape']*100:.2f}% (+{s['wape_lift_pct']:.1f}% lift){cov_str}")
 
         print("\nСегментний зріз по SKU:")
         for s in seg.get("by_sku", []):
