@@ -18,7 +18,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 
 | Core Competency | Demonstrated In | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
-| **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Calibrated supply chain demand simulation benchmark (20 series, 21,920 daily samples). **Strict 4-fold expanding-window backtesting ($H=14$, isolated series rolling)**. LightGBM achieves **38.8% WAPE reduction vs Seasonal Naive** (7.22% vs 11.79%). Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts simulated inventory costs by **49.58%**. FastAPI serving with ~61 ms latency. | Calibrated synthetic benchmark with realistic agro-dynamics; direct forecasting model locked to operational horizon $H=14$. |
+| **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Calibrated supply chain demand simulation benchmark (20 series, 21,920 daily samples). **Strict 4-season expanding-window backtesting ($H=14$, isolated series rolling, ex-ante feature alignment with zero train-serving skew)**. LightGBM achieves **40.1% WAPE reduction vs Seasonal Naive** (7.91% vs 13.20%). Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts simulated inventory costs by **41.79%**. FastAPI serving with ~60 ms latency. | Calibrated synthetic benchmark with realistic agro-dynamics; direct forecasting model locked to operational horizon $H=14$. |
 | **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security & Governance** | **Work 05 (DocGuard)** | Zero-Trust Pre-LLM Security Gateway. Enforces multi-tenant principal ACL filtering **before** documents reach LLM or vector search. **100% tenant isolation across 8 security scenarios**, verbatim prompt injection audit logging, automated degraded mode. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
@@ -157,16 +157,17 @@ In distributed workflow systems, non-deterministic external tool calls (API effe
 #### Business Formulation & Asymmetric Risk
 In supply chain networks, forecasting errors carry highly asymmetric costs: stockouts during seasonal application windows penalize the business heavily ($C_{under} = 5.0$), while inventory holding and spoilage penalties are lower ($C_{over} = 1.0$). Optimal service level demands the **Newsvendor critical fractile** $\tau^* = \frac{C_{under}}{C_{under} + C_{over}} = 83.33\%$. Point forecasting at the median ($P_{50}$) leads to structural inventory deficits.
 
-#### Strict 4-Fold Chronological Expanding Backtesting
+#### Strict 4-Season Chronological Expanding Backtesting
 * **Data Scale & Nature:** 21,920 daily records across 20 distinct time series (5 regional distribution hubs $\times$ 4 agricultural product lines) spanning 3 full years. Formatted as a calibrated simulation benchmark with authentic agro-seasonal dynamics for 100% autonomous CI reproducibility without external data dropouts.
 * **Target Leakage Elimination & Series Isolation:** For forecast horizon $H = 14$ days, all lag steps are shifted to $t - 14$ or earlier ($lag_{14}, lag_{21}, lag_{28}, lag_{35}$). All rolling statistics (windows 7, 14, 28) are computed strictly on data prior to $t - 14$ via grouped transforms, preventing cross-series boundary contamination.
-* **Validation Rigor:** 4 sequential expanding-window folds (56 days total test horizon) with zero future data leakage.
+* **Ex-Ante Feature Alignment & Zero Skew:** Shared `build_ex_ante_features` pipeline ensures backtesting features exactly mirror production inference features at cutoff $T_0$ (last known price persistence, noise-free seasonal climatological temperature harmonic, planned promo schedule).
+* **Multi-Seasonal Coverage:** 4 sequential expanding-window folds covering all 4 operational agro-seasons (Spring Sowing Peak, Summer Crop Protection, Autumn Harvest & Sowing, Winter Baseline).
 
 #### Empirical Results & Business Cost Impact
-* **WAPE Reduction:** LightGBM achieves **7.22% WAPE** compared to **11.79% for Seasonal Naive** ($y_{t-7}$) and **24.31% for 4-Week DOW MA** (a **38.76% relative error reduction**).
-* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts simulated aggregate stockout and holding costs from **5,445.8 to 2,745.7 units (a 49.58% cost reduction)**.
-* **Uncertainty Calibration:** Empirical coverage of the $[P_{10}, P_{90}]$ prediction interval is **80.7%** (against theoretical 80.0%).
-* **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~61 ms** under a strict $H=14$ operational contract. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
+* **WAPE Reduction:** LightGBM achieves **7.91% WAPE** compared to **13.20% for Seasonal Naive** ($y_{t-7}$) and **11.78% for 4-Week DOW MA** (a **40.08% relative error reduction**).
+* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts simulated aggregate stockout and holding costs from **7,308.0 to 4,254.3 units (a 41.79% cost reduction)**.
+* **Multi-Season Stability:** Model WAPE remains tightly bounded between **7.51% and 8.19% across all 4 seasons**, whereas seasonal baseline degrades to 16.92% during seasonal transitions.
+* **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~55–65 ms** under a strict $H=14$ operational contract with support for planned promo schedules. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
 
 ---
 

@@ -108,3 +108,38 @@ def test_rolling_features_isolated_between_series():
         vals = feat_b[col].values
         assert (vals < 100.0).all(), f"Виявлено перетікання між рядами у {col}: max={vals.max()}"
         assert np.isclose(vals[0], 10.0), f"Перше значення {col} має бути 10.0, отримано {vals[0]}"
+
+
+def test_build_ex_ante_features_isolation_and_no_lookahead():
+    """Тест ex-ante генератора ознак:
+    1. unit_price береться з останнього відомого значення історії T0.
+    2. temperature_c генерується без шуму за детермінованою синусоїдою.
+    3. Довжина рівно horizon_days.
+    """
+    from work08.features import build_ex_ante_features, compute_seasonal_temperature
+
+    n_days = 90
+    dates = pd.date_range("2016-01-01", periods=n_days)
+    df = pd.DataFrame({
+        "date": dates,
+        "hub_id": "hub_central",
+        "sku_id": "SKU_FERT_NPK",
+        "demand": 100.0,
+        "unit_price": np.linspace(50.0, 75.0, n_days),
+        "promo": 0,
+        "temperature_c": 12.0,
+        "is_holiday": 0,
+    })
+
+    cutoff = dates[-1]
+    horizon = 14
+    inf_df, feat_cols = build_ex_ante_features(df, cutoff_date=cutoff, horizon_days=horizon)
+
+    assert len(inf_df) == horizon
+    # 1. unit_price перенесена з останньої дати cutoff
+    assert (inf_df["unit_price"] == 75.0).all()
+    # 2. temperature_c відповідає точній кліматичній формулі
+    for _, row in inf_df.iterrows():
+        expected_temp = compute_seasonal_temperature(row["date"].dayofyear)
+        assert np.isclose(row["temperature_c"], expected_temp)
+

@@ -4,41 +4,41 @@
       "segment": "sku",
       "key": "SKU_EQUIP_PARTS",
       "sample_count": 280,
-      "total_demand": 5254.6,
-      "lgb_wape": 0.0701,
-      "naive_wape": 0.1154,
-      "lgb_bias": -0.0212,
-      "wape_lift_pct": 39.26
+      "total_demand": 5936.7,
+      "lgb_wape": 0.0744,
+      "naive_wape": 0.106,
+      "lgb_bias": -0.0118,
+      "wape_lift_pct": 29.77
     },
     {
       "segment": "sku",
       "key": "SKU_FERT_NPK",
       "sample_count": 280,
-      "total_demand": 34074.5,
-      "lgb_wape": 0.0708,
-      "naive_wape": 0.1133,
-      "lgb_bias": -0.0157,
-      "wape_lift_pct": 37.46
+      "total_demand": 46582.9,
+      "lgb_wape": 0.0775,
+      "naive_wape": 0.1203,
+      "lgb_bias": -0.0057,
+      "wape_lift_pct": 35.56
     },
     {
       "segment": "sku",
       "key": "SKU_PEST_HERB",
       "sample_count": 280,
-      "total_demand": 12382.4,
-      "lgb_wape": 0.0768,
-      "naive_wape": 0.1205,
-      "lgb_bias": -0.0054,
-      "wape_lift_pct": 36.24
+      "total_demand": 14728.1,
+      "lgb_wape": 0.079,
+      "naive_wape": 0.1114,
+      "lgb_bias": -0.0114,
+      "wape_lift_pct": 29.09
     },
     {
       "segment": "sku",
       "key": "SKU_SEED_WHEAT",
       "sample_count": 280,
-      "total_demand": 23766.5,
-      "lgb_wape": 0.0723,
-      "naive_wape": 0.1235,
-      "lgb_bias": 0.0015,
-      "wape_lift_pct": 41.43
+      "total_demand": 39671.7,
+      "lgb_wape": 0.0834,
+      "naive_wape": 0.1412,
+      "lgb_bias": -0.0116,
+      "wape_lift_pct": 40.93
     }
   ],
   "by_hub": [
@@ -46,73 +46,105 @@
       "segment": "hub",
       "key": "hub_central",
       "sample_count": 224,
-      "total_demand": 19212.4,
-      "lgb_wape": 0.0787,
-      "naive_wape": 0.13,
-      "lgb_bias": -0.0215,
-      "wape_lift_pct": 39.42
+      "total_demand": 27305.6,
+      "lgb_wape": 0.084,
+      "naive_wape": 0.1259,
+      "lgb_bias": -0.0202,
+      "wape_lift_pct": 33.3
     },
     {
       "segment": "hub",
       "key": "hub_east",
       "sample_count": 224,
-      "total_demand": 12117.0,
-      "lgb_wape": 0.0727,
-      "naive_wape": 0.1187,
-      "lgb_bias": -0.001,
-      "wape_lift_pct": 38.7
+      "total_demand": 17316.1,
+      "lgb_wape": 0.0813,
+      "naive_wape": 0.117,
+      "lgb_bias": -0.01,
+      "wape_lift_pct": 30.51
     },
     {
       "segment": "hub",
       "key": "hub_north",
       "sample_count": 224,
-      "total_demand": 14885.5,
-      "lgb_wape": 0.071,
-      "naive_wape": 0.1099,
-      "lgb_bias": -0.0021,
-      "wape_lift_pct": 35.34
+      "total_demand": 21249.5,
+      "lgb_wape": 0.0753,
+      "naive_wape": 0.1306,
+      "lgb_bias": -0.0174,
+      "wape_lift_pct": 42.34
     },
     {
       "segment": "hub",
       "key": "hub_south",
       "sample_count": 224,
-      "total_demand": 16528.6,
-      "lgb_wape": 0.0678,
-      "naive_wape": 0.1116,
-      "lgb_bias": -0.0135,
-      "wape_lift_pct": 39.28
+      "total_demand": 22984.4,
+      "lgb_wape": 0.08,
+      "naive_wape": 0.1331,
+      "lgb_bias": 0.0056,
+      "wape_lift_pct": 39.93
     },
     {
       "segment": "hub",
       "key": "hub_west",
       "sample_count": 224,
-      "total_demand": 12734.5,
-      "lgb_wape": 0.0692,
-      "naive_wape": 0.1161,
-      "lgb_bias": 0.0003,
-      "wape_lift_pct": 40.43
+      "total_demand": 18063.8,
+      "lgb_wape": 0.0767,
+      "naive_wape": 0.1204,
+      "lgb_bias": 0.0002,
+      "wape_lift_pct": 36.3
+    }
+  ],
+  "by_season": [
+    {
+      "segment": "season",
+      "key": "Spring Sowing Peak",
+      "sample_count": 280,
+      "total_demand": 41511.8,
+      "lgb_wape": 0.0809,
+      "naive_wape": 0.0925,
+      "lgb_bias": -0.0115,
+      "wape_lift_pct": 12.61
+    },
+    {
+      "segment": "season",
+      "key": "Summer Crop Protection",
+      "sample_count": 280,
+      "total_demand": 20040.5,
+      "lgb_wape": 0.0786,
+      "naive_wape": 0.104,
+      "lgb_bias": 0.0075,
+      "wape_lift_pct": 24.44
+    },
+    {
+      "segment": "season",
+      "key": "Autumn Harvest & Sowing",
+      "sample_count": 280,
+      "total_demand": 26834.1,
+      "lgb_wape": 0.0819,
+      "naive_wape": 0.1692,
+      "lgb_bias": -0.0096,
+      "wape_lift_pct": 51.58
+    },
+    {
+      "segment": "season",
+      "key": "Winter Baseline",
+      "sample_count": 280,
+      "total_demand": 18533.0,
+      "lgb_wape": 0.0751,
+      "naive_wape": 0.1622,
+      "lgb_bias": -0.0202,
+      "wape_lift_pct": 53.66
     }
   ],
   "by_promo": [
     {
       "segment": "promo",
       "key": "Non-Promo (Звичайний)",
-      "sample_count": 1080,
-      "total_demand": 71334.2,
-      "lgb_wape": 0.0725,
-      "naive_wape": 0.1118,
-      "lgb_bias": -0.0094,
-      "wape_lift_pct": 35.16
-    },
-    {
-      "segment": "promo",
-      "key": "Promo (Акція)",
-      "sample_count": 40,
-      "total_demand": 4143.8,
-      "lgb_wape": 0.0683,
-      "naive_wape": 0.2222,
-      "lgb_bias": -0.0013,
-      "wape_lift_pct": 69.26
+      "sample_count": 1120,
+      "total_demand": 106919.4,
+      "lgb_wape": 0.0797,
+      "naive_wape": 0.126,
+      "lgb_bias": -0.009,
+      "wape_lift_pct": 36.73
     }
   ],
   "by_day_type": [
@@ -120,21 +152,21 @@
       "segment": "day_type",
       "key": "Weekday (Будні)",
       "sample_count": 800,
-      "total_demand": 64239.9,
-      "lgb_wape": 0.0717,
-      "naive_wape": 0.1211,
-      "lgb_bias": -0.0092,
-      "wape_lift_pct": 40.75
+      "total_demand": 90836.6,
+      "lgb_wape": 0.0776,
+      "naive_wape": 0.1289,
+      "lgb_bias": -0.0138,
+      "wape_lift_pct": 39.75
     },
     {
       "segment": "day_type",
       "key": "Weekend (Вихідні)",
       "sample_count": 320,
-      "total_demand": 11238.1,
-      "lgb_wape": 0.0751,
-      "naive_wape": 0.0991,
-      "lgb_bias": -0.0077,
-      "wape_lift_pct": 24.28
+      "total_demand": 16082.8,
+      "lgb_wape": 0.0914,
+      "naive_wape": 0.1098,
+      "lgb_bias": 0.0182,
+      "wape_lift_pct": 16.74
     }
   ]
 }

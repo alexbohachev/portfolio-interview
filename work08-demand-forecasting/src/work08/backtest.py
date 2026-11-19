@@ -1,12 +1,35 @@
-"""Хронологічний ковзний бектестинг (Rolling-Window Chronological Backtesting) без витоку даних."""
+"""Хронологічний ковзний бектестинг (Rolling-Window Chronological Backtesting) з повною ексанте ізоляцією.
+
+Усуває Train-Serving / Backtest-Inference Skew:
+Для кожного тестового фолду ознаки майбутнього горизонту генеруються функцією `build_ex_ante_features`,
+що відтворює рівно ту інформацію, яка доступна API сервінгу на момент cutoff:
+- unit_price: остання відома ціна до дати прогнозу (persistence)
+- temperature_c: кліматологічна сезонна гармоніка (детермінований прогноз без стохастичного шуму)
+- promo: плановий графік промоакцій (0 за замовчуванням за відсутності затверджених кампаній)
+- is_holiday: відомі календарні свята
+- лаги та ковзні агрегати: розраховуються строго на історії <= cutoff_date
+"""
 from __future__ import annotations
 
-import pandas as pd
 from typing import Any
-from work08.baselines import SeasonalNaiveForecaster, HistoricalDowMovingAverageForecaster
-from work08.features import create_features
-from work08.metrics import evaluate_forecasts, coverage_rate, pinball_loss
+import pandas as pd
+
+from work08.baselines import HistoricalDowMovingAverageForecaster, SeasonalNaiveForecaster
+from work08.features import build_ex_ante_features, create_features
+from work08.metrics import coverage_rate, evaluate_forecasts, pinball_loss
 from work08.models import LightGBMPointForecaster, LightGBMQuantileForecaster
+
+# 4 репрезентативні агро-сезони року 2017:
+# 1. Весняна посівна кампанія (пік насіння та добрив)
+# 2. Літній вегетаційний догляд (пік ЗЗР/гербіцидів)
+# 3. Осіння кампанія та збір (другий сплеск озимих культур)
+# 4. Зимове міжсезоння (базовий попит та запчастини ТО)
+DEFAULT_SEASONAL_FOLDS = [
+    {"season": "Spring Sowing Peak", "cutoff": "2017-04-15"},
+    {"season": "Summer Crop Protection", "cutoff": "2017-07-15"},
+    {"season": "Autumn Harvest & Sowing", "cutoff": "2017-10-01"},
+    {"season": "Winter Baseline", "cutoff": "2017-12-15"},
+]
 
 
 def run_rolling_backtest(
@@ -15,56 +38,86 @@ def run_rolling_backtest(
     n_folds: int = 4,
     c_under: float = 5.0,
     c_over: float = 1.0,
+    use_seasonal_slices: bool = True,
 ) -> dict[str, Any]:
-    """Виконує строгий хронологічний expanding-window бектестинг на n_folds фолдах."""
-    feat_df, feature_cols, target_col = create_features(df, horizon_days=horizon_days)
-    
-    unique_dates = sorted(feat_df["date"].unique())
-    total_dates = len(unique_dates)
-    total_test_days = horizon_days * n_folds
-    
-    if total_dates < total_test_days + 60:
-        raise ValueError("Недостатньо історичних дат для проведення надійного бектестингу.")
+    """Виконує строгий хронологічний expanding-window бектестинг з ex-ante конструюванням ознак."""
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+
+    # Визначаємо конфігурацію фолдів
+    if use_seasonal_slices and n_folds == len(DEFAULT_SEASONAL_FOLDS):
+        fold_configs = DEFAULT_SEASONAL_FOLDS
+    else:
+        # Fallback на рівномірне розбиття з кінця історії
+        unique_dates = sorted(df["date"].unique())
+        total_test_days = horizon_days * n_folds
+        if len(unique_dates) < total_test_days + 60:
+            raise ValueError("Недостатньо історичних дат для проведення надійного бектестингу.")
+        fold_configs = []
+        for fold_idx in range(n_folds):
+            test_offset_start = total_test_days - (fold_idx * horizon_days)
+            cutoff_dt = unique_dates[-test_offset_start - 1]
+            fold_configs.append({
+                "season": f"Window {fold_idx + 1}",
+                "cutoff": str(cutoff_dt.strftime("%Y-%m-%d")),
+            })
 
     fold_results = []
     all_predictions = []
+    feature_cols_cached: list[str] = []
 
-    for fold_idx in range(n_folds):
-        # Розрахунок меж для fold_idx (відлік з кінця історії)
-        # fold 0: найбільш ранній з тестових фолдів, fold n-1: найсвіжіший
-        test_offset_start = total_test_days - (fold_idx * horizon_days)
-        test_offset_end = test_offset_start - horizon_days
-        
-        test_start_date = unique_dates[-test_offset_start]
-        test_end_date = unique_dates[-test_offset_end - 1]
-        
-        train_mask = feat_df["date"] < test_start_date
-        test_mask = (feat_df["date"] >= test_start_date) & (feat_df["date"] <= test_end_date)
-        
-        train_fold = feat_df[train_mask].copy()
-        test_fold = feat_df[test_mask].copy()
-        
-        y_test = test_fold[target_col].values
-        
-        # 1. Baseline 1: Seasonal Naive
-        s_naive = SeasonalNaiveForecaster(season_length=7).fit(train_fold)
-        pred_s_naive = s_naive.predict(test_fold)
+    for fold_idx, fold_cfg in enumerate(fold_configs):
+        cutoff_dt = pd.to_datetime(fold_cfg["cutoff"])
+        season_name = fold_cfg["season"]
+
+        # 1. Історія спостережень строго до cutoff_dt
+        history_df = df[df["date"] <= cutoff_dt].copy()
+
+        # 2. Фактичні спостереження майбутнього горизонту H днів для валідації
+        future_start_dt = cutoff_dt + pd.Timedelta(days=1)
+        future_end_dt = cutoff_dt + pd.Timedelta(days=horizon_days)
+        actual_test_df = (
+            df[(df["date"] >= future_start_dt) & (df["date"] <= future_end_dt)]
+            .sort_values(by=["hub_id", "sku_id", "date"])
+            .reset_index(drop=True)
+        )
+
+        if len(actual_test_df) == 0:
+            raise ValueError(f"Тестовий горизонт для cutoff={cutoff_dt} виходить за межі доступного датасету.")
+
+        # 3. Навчальні ознаки на історії (без витоку даних)
+        train_feat, feature_cols, target_col = create_features(history_df, horizon_days=horizon_days)
+        feature_cols_cached = feature_cols
+
+        # 4. Ex-Ante вектори ознак для тестового періоду (ідентично сервінгу в API)
+        test_feat, _ = build_ex_ante_features(
+            history_df=history_df,
+            cutoff_date=cutoff_dt,
+            horizon_days=horizon_days,
+            series_subset=None,
+            planned_promos=None,  # стандартна operational policy: без припущення про несподівані акції
+        )
+
+        y_test = actual_test_df[target_col].values
+
+        # 5. Бейзлайн 1: Seasonal Naive
+        s_naive = SeasonalNaiveForecaster(season_length=7).fit(train_feat)
+        pred_s_naive = s_naive.predict(test_feat)
         metrics_s_naive = evaluate_forecasts(y_test, pred_s_naive, c_under, c_over)
-        
-        # 2. Baseline 2: Historical DOW MA
-        dow_ma = HistoricalDowMovingAverageForecaster(n_weeks=4).fit(train_fold)
-        pred_dow_ma = dow_ma.predict(test_fold)
+
+        # 6. Бейзлайн 2: Historical DOW MA
+        dow_ma = HistoricalDowMovingAverageForecaster(n_weeks=4).fit(train_feat)
+        pred_dow_ma = dow_ma.predict(test_feat)
         metrics_dow_ma = evaluate_forecasts(y_test, pred_dow_ma, c_under, c_over)
-        
-        # 3. Model: LightGBM Point Forecaster
-        # Останні 14 днів навчальної вибірки беремо як early-stopping val set
-        train_dates = sorted(train_fold["date"].unique())
+
+        # 7. Точкова модель: LightGBM Point Forecaster
+        train_dates = sorted(train_feat["date"].unique())
         val_start_date = train_dates[-horizon_days]
-        val_submask = train_fold["date"] >= val_start_date
-        
-        sub_train = train_fold[~val_submask]
-        sub_val = train_fold[val_submask]
-        
+        val_submask = train_feat["date"] >= val_start_date
+
+        sub_train = train_feat[~val_submask]
+        sub_val = train_feat[val_submask]
+
         lgb_point = LightGBMPointForecaster()
         lgb_point.fit(
             sub_train,
@@ -72,31 +125,33 @@ def run_rolling_backtest(
             feature_cols,
             val_set=(sub_val, sub_val[target_col].values),
         )
-        pred_lgb_point = lgb_point.predict(test_fold)
+        pred_lgb_point = lgb_point.predict(test_feat)
         metrics_lgb_point = evaluate_forecasts(y_test, pred_lgb_point, c_under, c_over)
-        
-        # 4. Model: LightGBM Quantile Forecaster
+
+        # 8. Квантильна модель: LightGBM Quantile Forecaster (Newsvendor Loss)
         crit_ratio = c_under / (c_under + c_over)
         lgb_quantile = LightGBMQuantileForecaster(
             quantiles=[0.10, 0.50, 0.90],
             critical_ratio=crit_ratio,
         )
-        lgb_quantile.fit(train_fold, train_fold[target_col].values, feature_cols)
-        preds_q = lgb_quantile.predict(test_fold)
+        lgb_quantile.fit(train_feat, train_feat[target_col].values, feature_cols)
+        preds_q = lgb_quantile.predict(test_feat)
         pred_p10 = preds_q[0.10]
         pred_p50 = preds_q[0.50]
         pred_p90 = preds_q[0.90]
-        pred_safety = lgb_quantile.predict_safety_stock(test_fold)
-        
+        pred_safety = lgb_quantile.predict_safety_stock(test_feat)
+
         metrics_lgb_safety = evaluate_forecasts(y_test, pred_safety, c_under, c_over)
         cov_80 = round(coverage_rate(y_test, pred_p10, pred_p90), 4)
-        
+
         fold_summary = {
             "fold": fold_idx + 1,
+            "season": season_name,
+            "cutoff_date": str(cutoff_dt.strftime("%Y-%m-%d")),
             "train_end": str(train_dates[-1].strftime("%Y-%m-%d")),
-            "test_start": str(test_start_date.strftime("%Y-%m-%d")),
-            "test_end": str(test_end_date.strftime("%Y-%m-%d")),
-            "n_test_samples": len(test_fold),
+            "test_start": str(future_start_dt.strftime("%Y-%m-%d")),
+            "test_end": str(future_end_dt.strftime("%Y-%m-%d")),
+            "n_test_samples": len(actual_test_df),
             "baseline_seasonal_naive": metrics_s_naive,
             "baseline_dow_ma": metrics_dow_ma,
             "lightgbm_point": metrics_lgb_point,
@@ -105,23 +160,26 @@ def run_rolling_backtest(
             "pinball_loss_p50": round(pinball_loss(y_test, pred_p50, 0.50), 3),
         }
         fold_results.append(fold_summary)
-        
-        # Збереження детальних прогнозів для сегментного аналізу
-        test_fold_copy = test_fold.copy()
-        test_fold_copy["fold"] = fold_idx + 1
-        test_fold_copy["pred_s_naive"] = pred_s_naive
-        test_fold_copy["pred_dow_ma"] = pred_dow_ma
-        test_fold_copy["pred_lgb_point"] = pred_lgb_point
-        test_fold_copy["pred_safety_stock"] = pred_safety
-        test_fold_copy["pred_p10"] = pred_p10
-        test_fold_copy["pred_p90"] = pred_p90
-        all_predictions.append(test_fold_copy)
 
-    # Агрегація середніх метрик за всіма фолдами
+        # Збереження прогнозів для сегментного аналізу
+        test_pred_df = actual_test_df.copy()
+        test_pred_df["fold"] = fold_idx + 1
+        test_pred_df["season"] = season_name
+        test_pred_df["is_weekend"] = (test_pred_df["date"].dt.dayofweek >= 5).astype(int)
+        test_pred_df["pred_s_naive"] = pred_s_naive
+        test_pred_df["pred_dow_ma"] = pred_dow_ma
+        test_pred_df["pred_lgb_point"] = pred_lgb_point
+        test_pred_df["pred_safety_stock"] = pred_safety
+        test_pred_df["pred_p10"] = pred_p10
+        test_pred_df["pred_p90"] = pred_p90
+        test_pred_df["ex_ante_temperature_c"] = test_feat["temperature_c"].values
+        test_pred_df["ex_ante_unit_price"] = test_feat["unit_price"].values
+        test_pred_df["ex_ante_promo"] = test_feat["promo"].values
+        all_predictions.append(test_pred_df)
+
     combined_preds = pd.concat(all_predictions, ignore_index=True)
-    
+
     avg_s_naive = {
-        "wape": round(float(combined_preds.apply(lambda _: 0, axis=1).mean() or 0), 4),
         "mean_fold_wape": round(float(pd.Series([f["baseline_seasonal_naive"]["wape"] for f in fold_results]).mean()), 4),
         "mean_fold_cost": round(float(pd.Series([f["baseline_seasonal_naive"]["inventory_cost"] for f in fold_results]).mean()), 1),
     }
@@ -133,7 +191,6 @@ def run_rolling_backtest(
         "mean_fold_cost": round(float(pd.Series([f["lightgbm_safety_stock"]["inventory_cost"] for f in fold_results]).mean()), 1),
     }
 
-    # Розрахунок відносного зниження WAPE та скорочення витрат на дефіцит/надлишок
     wape_reduction_pct = round(
         (avg_s_naive["mean_fold_wape"] - avg_lgb["mean_fold_wape"]) / avg_s_naive["mean_fold_wape"] * 100, 2
     )
@@ -156,5 +213,5 @@ def run_rolling_backtest(
             "cost_reduction_pct": cost_reduction_pct,
         },
         "combined_predictions": combined_preds,
-        "feature_cols": feature_cols,
+        "feature_cols": feature_cols_cached,
     }

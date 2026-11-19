@@ -65,7 +65,11 @@ def analyze_errors_by_segments(preds_df: pd.DataFrame) -> dict[str, list[dict]]:
 
     # 4. Помилки будні vs вихідні
     day_type_analysis = []
-    for is_wk, grp in preds_df.groupby("is_weekend"):
+    df_eval = preds_df.copy()
+    if "is_weekend" not in df_eval.columns:
+        df_eval["is_weekend"] = (pd.to_datetime(df_eval["date"]).dt.dayofweek >= 5).astype(int)
+
+    for is_wk, grp in df_eval.groupby("is_weekend"):
         label = "Weekend (Вихідні)" if is_wk == 1 else "Weekday (Будні)"
         y_true = grp["demand"].values
         lgb_p = grp["pred_lgb_point"].values
@@ -82,9 +86,31 @@ def analyze_errors_by_segments(preds_df: pd.DataFrame) -> dict[str, list[dict]]:
             "wape_lift_pct": round((wape(y_true, naive_p) - wape(y_true, lgb_p)) / wape(y_true, naive_p) * 100, 2),
         })
 
+    # 5. Помилки за агро-сезонами (Spring, Summer, Autumn, Winter)
+    season_analysis = []
+    if "season" in preds_df.columns:
+        for season, grp in preds_df.groupby("season", sort=False):
+            y_true = grp["demand"].values
+            lgb_p = grp["pred_lgb_point"].values
+            naive_p = grp["pred_s_naive"].values
+            naive_w = wape(y_true, naive_p)
+            lgb_w = wape(y_true, lgb_p)
+            lift = round((naive_w - lgb_w) / naive_w * 100, 2) if naive_w > 0 else 0.0
+            season_analysis.append({
+                "segment": "season",
+                "key": str(season),
+                "sample_count": len(grp),
+                "total_demand": round(float(y_true.sum()), 1),
+                "lgb_wape": round(lgb_w, 4),
+                "naive_wape": round(naive_w, 4),
+                "lgb_bias": round(normalized_bias(y_true, lgb_p), 4),
+                "wape_lift_pct": lift,
+            })
+
     return {
         "by_sku": sku_analysis,
         "by_hub": hub_analysis,
+        "by_season": season_analysis,
         "by_promo": promo_analysis,
         "by_day_type": day_type_analysis,
     }

@@ -13,7 +13,7 @@ from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from work08.data import load_demand_data
-from work08.features import create_features
+from work08.features import build_ex_ante_features, create_features
 
 
 class ForecastRequest(BaseModel):
@@ -22,6 +22,10 @@ class ForecastRequest(BaseModel):
     horizon_days: int = Field(
         default=14,
         description="Операційний горизонт прогнозу. Модель прямого прогнозування підтримує фіксований контракт H=14 днів.",
+    )
+    planned_promos: list[int] | None = Field(
+        default=None,
+        description="Опціональний графік запланованих промо-акцій на 14 днів (0 або 1). Якщо не вказано — за замовчуванням 0.",
     )
 
 
@@ -132,33 +136,17 @@ def get_forecast(req: ForecastRequest):
             detail=f"Серія для hub_id={req.hub_id} та sku_id={req.sku_id} не знайдена в історії.",
         )
 
-    # Визначаємо дати майбутнього горизонту
+    # Визначаємо максимальну дату доступної історії
     max_dt = series_df["date"].max()
-    future_dates = pd.date_range(start=max_dt + pd.Timedelta(days=1), periods=req.horizon_days, freq="D")
-    
-    # Створюємо синтетичні майбутні рядки для конструювання ознак (з відомими календарем і ціною)
-    last_price = float(series_df.iloc[-1]["unit_price"])
-    future_rows = []
-    for f_dt in future_dates:
-        dow = f_dt.weekday()
-        is_hol = 1 if (f_dt.month == 1 and f_dt.day in (1, 7)) or (f_dt.month == 5 and f_dt.day in (1, 9)) else 0
-        avg_temp = 10.0 + 15.0 * np.sin(2 * np.pi * (f_dt.timetuple().tm_yday - 100) / 365.25)
-        future_rows.append({
-            "date": f_dt,
-            "hub_id": req.hub_id,
-            "sku_id": req.sku_id,
-            "demand": 0.0, # плейсхолдер, не використовується для t - H ознак
-            "unit_price": last_price,
-            "promo": 0,
-            "temperature_c": round(avg_temp, 1),
-            "is_holiday": is_hol,
-        })
-    
-    extended_df = pd.concat([series_df, pd.DataFrame(future_rows)], ignore_index=True)
-    extended_feat, feat_cols, _ = create_features(extended_df, horizon_days=req.horizon_days)
-    
-    # Вибираємо тільки майбутні рядки
-    inference_df = extended_feat[extended_feat["date"].isin(future_dates)].copy()
+
+    # Створюємо ex-ante вектори ознак майбутнього горизонту за єдиним алгоритмом із бектестингом
+    inference_df, feat_cols = build_ex_ante_features(
+        history_df=series_df,
+        cutoff_date=max_dt,
+        horizon_days=req.horizon_days,
+        series_subset=(req.hub_id, req.sku_id),
+        planned_promos=req.planned_promos,
+    )
     if len(inference_df) != req.horizon_days:
         raise HTTPException(status_code=500, detail="Помилка формування вектора ознак майбутнього горизонту")
 
@@ -166,6 +154,7 @@ def get_forecast(req: ForecastRequest):
     q_preds = state.model_quantile.predict(inference_df)
     safety_preds = state.model_quantile.predict_safety_stock(inference_df)
     
+    future_dates = inference_df["date"].tolist()
     daily_preds = []
     for i, f_dt in enumerate(future_dates):
         daily_preds.append(

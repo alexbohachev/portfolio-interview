@@ -27,6 +27,11 @@ def main() -> int:
     
     if SEGMENTS_PATH.is_file():
         seg = json.loads(SEGMENTS_PATH.read_text(encoding="utf-8"))
+        if "by_season" in seg and seg["by_season"]:
+            print("\nСезонний зріз бектестингу (Ex-Ante Features across 4 Seasons):")
+            for s in seg.get("by_season", []):
+                print(f"  * {s['key']:25}: WAPE {s['lgb_wape']*100:.2f}% vs Naive {s['naive_wape']*100:.2f}% (+{s['wape_lift_pct']:.1f}% lift)")
+
         print("\nСегментний зріз по SKU:")
         for s in seg.get("by_sku", []):
             print(f"  * {s['key']:16}: WAPE {s['lgb_wape']*100:.2f}% vs Naive {s['naive_wape']*100:.2f}% (+{s['wape_lift_pct']:.1f}% lift)")
