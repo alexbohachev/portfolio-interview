@@ -23,6 +23,7 @@ work04-ml-serving/artifacts/
 work04-ml-serving/data/raw/
 work05-docguard/.gradle/
 work05-docguard/build/
+work05-docguard/bin/
 work06-bible-rag/data/bible.sqlite
 work06-bible-rag/artifacts/
 work06-bible-rag/.pytest_cache/

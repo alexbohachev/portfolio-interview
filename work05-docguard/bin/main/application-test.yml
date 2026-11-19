@@ -1,4 +1,0 @@
-acl:
-  file: classpath:acl-test.yaml
-retrieval:
-  base-url: http://localhost:8097
