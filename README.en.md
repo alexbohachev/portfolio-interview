@@ -20,7 +20,7 @@ Every claim below is backed by committed test suites, committed raw latency arra
 | **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces and committed raw samples. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **100% tenant isolation across 8 security vectors**, verbatim prompt injection logging, degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
-| **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Multi-series supply chain demand forecasting benchmark (20 series, 21,920 daily samples). **Zero-leakage 4-season rolling backtesting ($H=14$, isolated series rolling, ex-ante feature alignment)**. LightGBM achieves **40.68% WAPE reduction vs Seasonal Naive baseline** (7.83% vs 13.20%). Split Conformal Quantile Regression (CQR) guarantees $\ge 80.0\%$ out-of-sample empirical coverage across all 4 seasons (**mean 84.11%** vs 75.90% uncalibrated). Newsvendor asymmetric critical fractile ($\tau^* = 83.33\%$) cuts simulated stockout/holding costs by **43.06%**. Evaluated on real empirical sensors (Capital Bikeshare 2011–2012, `scripts/eval_real_benchmark.py`). FastAPI production serving with ~60 ms latency and calibrated intervals. | Calibrated simulation benchmark + real empirical sensor benchmark; direct forecasting model locked to operational horizon $H=14$. |
+| **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Multi-series supply chain demand forecasting benchmark (20 series, 21,920 daily samples). **Zero-leakage 4-season rolling backtesting ($H=14$, isolated series rolling, ex-ante feature alignment)**. On synthetic agro demand, LightGBM achieves **40.68% WAPE reduction vs Seasonal Naive baseline** (7.83% vs 13.20%) and Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts simulated costs by **43.06%**, with Split Conformal Quantile Regression (CQR) delivering **observed $\ge 80.0\%$ coverage across four synthetic test windows** (**mean 84.11%** vs 75.90% uncalibrated). On real empirical sensor data (Capital Bikeshare 2011–2012), CQR lifts coverage from 26.79% to 75.89%, while Seasonal Naive beats LightGBM (35.42% vs 37.74% WAPE) — and **we explicitly choose the Seasonal Baseline for production**. FastAPI serving with ~60 ms latency and calibrated intervals. | Calibrated simulation benchmark + real empirical sensor benchmark; direct forecasting model locked to operational horizon $H=14$. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
 | **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
 | **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters motivate testing a 2nd-stage Cross-Encoder re-ranker to improve discrimination beyond bi-encoder retrieval. |
@@ -171,6 +171,39 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
   # live with Postgres:
   .\make.ps1 boot
   .\scripts\reliability_demo.ps1
+  ```
+
+---
+
+### 5. Work 08 — Demand Forecasting: Multi-Seasonal Backtesting & Inventory Risk (ML Track)
+
+#### Side-by-Side Evaluation: Synthetic Benchmark vs Real-World Empirical Series
+
+To stress-test forecasting robustness across both stationary seasonal domains and non-stationary physical sensor series, we evaluated identical 4-season expanding-window backtesting pipelines ($H=14$) on two datasets:
+
+| Metric / Dimension | Synthetic Agro Simulation (20 series, 21,920 records) | Real-World Capital Bikeshare (2 series, 1,456 records) |
+|---|:---:|:---:|
+| **Seasonal Naive ($y_{t-7}$) WAPE** | 13.20% | **35.42% (Winner)** |
+| **Historical 4-Week DOW MA WAPE** | 11.78% | 34.02% |
+| **LightGBM Point ($P_{50}$) WAPE** | **7.83% (-40.68% error)** | 37.74% |
+| **Baseline Simulated Inventory Cost** | 7,308.0 units | **33,576.2 units (Winner)** |
+| **LightGBM Safety Stock ($P_{83.3}$) Cost** | **4,160.9 units (-43.06% cost)** | 51,629.5 units |
+| **Raw 80% Interval Coverage $[P_{10}, P_{90}]$** | 75.90% | 26.79% |
+| **Calibrated Conformal Coverage (CQR)** | **84.11%** (observed $\ge 80\%$ across all 4 windows) | **75.89%** (+49.10 p.p. lift) |
+| **Senior ML Production Decision** | **Deploy LightGBM + CQR Calibration** | **Deploy Seasonal Baseline in Production** |
+
+#### Senior ML Engineering Decision: Why We Choose the Simple Baseline for Bikeshare
+> **The Senior ML Takeaway:** When evaluating candidate machine learning architectures against strong domain baselines, real-world data often exhibits structural shifts — here, massive network expansion in Washington D.C. throughout 2011–2012 that nearly doubled daily volume without available fleet capacity features. In our 4-season chronological backtest, the zero-training **Seasonal Naive baseline outperformed LightGBM** both in forecast accuracy (**35.42% vs 37.74% WAPE**) and in simulated business inventory costs (**33,576 vs 51,630 units**).
+>
+> A Senior ML Engineer does not deploy a complex GBDT regressor when a simple domain heuristic outperforms it. **For Capital Bikeshare in production, we choose the Seasonal Baseline**. This eliminates model training pipelines, feature store latency, and model drift monitoring overhead, while providing an honest performance baseline.
+>
+> Regarding prediction intervals, on synthetic agro data Split Conformal Quantile Regression delivered **observed $\ge 80.0\%$ coverage across four synthetic test windows** (**80.4% Spring, 89.3% Summer, 85.0% Autumn, 81.8% Winter; mean 84.11%** vs 75.90% uncalibrated). On real Bikeshare data, CQR substantially lifted empirical coverage from **26.79% to 75.89%**; however, it remained below the nominal 80% target because rapid capacity expansion violated the exchangeability assumption between the trailing 56-day calibration window and the forward 14-day test horizon. This demonstrates an honest, senior-level understanding of conformal calibration boundaries under distribution shift.
+
+* **Verification Command:**
+  ```powershell
+  cd work08-demand-forecasting
+  py -3.13 scripts/demo_offline.py
+  py -3.13 scripts/eval_real_benchmark.py
   ```
 
 ---

@@ -29,7 +29,7 @@ def test_safety_stock_reduces_inventory_costs():
     assert cost_lift >= 30.0, f"Скорочення витрат на запаси ({cost_lift}%) менше за 30%"
 
 
-def test_conformal_calibration_guarantees_target_coverage():
+def test_conformal_calibration_achieves_target_coverage_on_synthetic_folds():
     assert BACKTEST_PATH.is_file(), "backtest_results.json відсутній"
     bt = json.loads(BACKTEST_PATH.read_text(encoding="utf-8"))
     summary = bt["summary"]
@@ -37,7 +37,7 @@ def test_conformal_calibration_guarantees_target_coverage():
     mean_cal_cov = summary["mean_calibrated_coverage_80"]
     mean_raw_cov = summary["mean_raw_coverage_80"]
 
-    # Каліброване покриття повинно перевершувати сире та досягати номінальних 80%
+    # Каліброване покриття повинно перевершувати сире та досягати номінальних 80% на тестових вікнах
     assert mean_cal_cov >= 0.80, f"Каліброване покриття ({mean_cal_cov * 100:.2f}%) нижче номінальних 80%"
     assert mean_cal_cov > mean_raw_cov, "Конформне калібрування мало підвищити емпіричне покриття"
 
