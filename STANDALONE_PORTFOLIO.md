@@ -164,9 +164,11 @@ In supply chain networks, forecasting errors carry highly asymmetric costs: stoc
 * **Multi-Seasonal Coverage:** 4 sequential expanding-window folds covering all 4 operational agro-seasons (Spring Sowing Peak, Summer Crop Protection, Autumn Harvest & Sowing, Winter Baseline).
 
 #### Empirical Results & Business Cost Impact
-* **WAPE Reduction:** LightGBM achieves **7.91% WAPE** compared to **13.20% for Seasonal Naive** ($y_{t-7}$) and **11.78% for 4-Week DOW MA** (a **40.08% relative error reduction**).
-* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts simulated aggregate stockout and holding costs from **7,308.0 to 4,254.3 units (a 41.79% cost reduction)**.
-* **Multi-Season Stability:** Model WAPE remains tightly bounded between **7.51% and 8.19% across all 4 seasons**, whereas seasonal baseline degrades to 16.92% during seasonal transitions.
+* **WAPE Reduction:** LightGBM achieves **7.83% WAPE** compared to **13.20% for Seasonal Naive** ($y_{t-7}$) and **11.78% for 4-Week DOW MA** (a **40.68% relative error reduction**).
+* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts simulated aggregate stockout and holding costs from **7,308.0 to 4,160.9 units (a 43.06% cost reduction)**.
+* **Calibrated Conformal Coverage ($\ge 80\%$):** Split Conformal Quantile Regression (CQR) calibrates prediction intervals to guarantee $\ge 80.0\%$ out-of-sample coverage across all 4 seasons (**80.4% Spring, 89.3% Summer, 85.0% Autumn, 81.8% Winter; mean 84.11%** vs 75.90% uncalibrated).
+* **Real-World Empirical Validation:** Validated on empirical sensors and daily demand series (Capital Bikeshare 2011–2012, `scripts/eval_real_benchmark.py`), where conformal calibration lifts coverage from 26.8% to 75.9% under non-stationary trend expansion.
+* **Multi-Season Stability:** Model WAPE remains tightly bounded between **7.60% and 7.98% across all 4 seasons**, whereas seasonal baseline degrades to 16.92% during seasonal transitions.
 * **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~55–65 ms** under a strict $H=14$ operational contract with support for planned promo schedules. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
 
 ---
