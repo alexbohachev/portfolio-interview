@@ -1,24 +1,26 @@
-# Senior AI Backend Engineer — Portfolio Teardown
+# Senior AI/ML Engineer — Portfolio Teardown
 
-Production-grade monorepo of **7 end-to-end engineering projects** demonstrating distributed systems, AI/RAG infrastructure, performance engineering, and enterprise resilience.
+Production-grade monorepo of **7 end-to-end engineering projects** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
 
-> **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md)
+> **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
 ---
 
 ## 2-Minute Recruiter Summary
 
-| Dimension | Proof in Monorepo | Impact |
+| Dimension | Proof in Monorepo | Engineering Impact |
 |---|---|---|
-| **Performance & Latency** | Work 07: Fixed N+1 microservice pattern Java → Python RAG API | **p95 reduced from 195.7 ms → 46.7 ms (4.19× speedup, p50 5.06×)** |
-| **Enterprise AI Security** | Work 05: DocGuard zero-trust pre-LLM gateway (Java + FastAPI) | **100% tenant isolation across 8 security vectors, zero cross-tenant leak** |
-| **Distributed Resilience** | Work 03: Fault-tolerant workflow engine (Transactional Outbox + Checkpoint) | **30/30 crash scenarios recovered without duplicate external effects** |
-| **Search & Retrieval** | Work 02 & 07: Hybrid RRF search (Elasticsearch BM25 + dense kNN) | **1.0 Recall@5 on domain corpus; citation grounding & hallucination gate** |
-| **Stack Competence** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker Compose, Kafka, Elasticsearch, Jaeger, OpenTelemetry | **Single clone runs full offline suite + live Docker clusters** |
+| **AI Systems & Performance** | Work 07: Eliminated N+1 microservice pattern Java → Python RAG API | **p95 reduced 195.7 ms → 46.7 ms (4.19× speedup, p50 5.06×)**; confirmed in Jaeger |
+| **Enterprise AI Security** | Work 05: DocGuard zero-trust pre-LLM gateway (Java + FastAPI) | **100% tenant isolation across 8 security vectors, zero cross-tenant leak**, degraded fallback |
+| **Applied ML & Temporal Backtesting** | Work 01: Real UCI data, temporal validation without lookahead bias | **Strict target leakage guard (`duration` removed), honest covariate shift handling (5.8%→39.3%)**, bootstrap CI |
+| **Production ML Serving & Drift** | Work 04: Production serving on FastAPI with temporal data contracts | **`event_time` vs `available_at` contracts, business cost matrix thresholding, live feature drift alerts** |
+| **Distributed Resilience** | Work 03: Fault-tolerant workflow engine (Transactional Outbox + Checkpoint) | **30/30 crash scenarios recovered without duplicate external side effects** |
+| **Search & Retrieval Science** | Work 02 & 07: Hybrid RRF search (Elasticsearch BM25 + dense kNN) | **1.0 Recall@5 on domain corpus; hallucination gate threshold tuned on validation** |
+| **Full Stack Competence** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger | **Single clean clone runs 100% reproducible offline suite + live Docker clusters** |
 
 ---
 
-## 10-Minute Engineering Deep Dive: Three Flagship Cases
+## 10-Minute Engineering Deep Dive: Core Cases
 
 ### 1. Work 07 — Distributed AI Platform & N+1 Latency Elimination (Primary Case)
 
@@ -81,7 +83,47 @@ Production-grade monorepo of **7 end-to-end engineering projects** demonstrating
 
 ---
 
-### 3. Work 03 — Agent Workflow: Crash Recovery & Transactional Outbox
+### 3. Work 01 & 04 — Applied ML Track: Temporal Backtesting, Leakage Prevention & MLOps Serving
+
+```
+[Raw Historical Data] 
+       │
+       ▼ (Chronological order only — NO future data leakage)
+[Temporal Split (Train 5.8% -> Val 11.5% -> Test 39.3%)] 
+       │
+       ├─► [Leakage Guard: Strips post-event 'duration' feature]
+       ├─► [Baseline: Balanced LogReg] ──► [Val macro-F1 tuning] ──► [Test Eval]
+       └─► [Candidate: MLP 5 Seeds]    ──► [Temperature Scaling] ──► [Bootstrap CI]
+                                                                        │
+                                                                        ▼
+                                                   [FastAPI MLOps Serving (Work 04)]
+                                                   * event_time vs available_at contract
+                                                   * Business cost matrix decisioning
+                                                   * Feature z-score drift monitoring
+```
+
+* **The Problem (Real-world Tabular ML):** Naive random train/test splits severely overestimate model performance due to lookahead bias and target leakage. On the UCI Bank Marketing benchmark, naive models incorporate `duration` (call duration), which is impossible to know before initiating a call.
+* **The Rigorous ML Solution (Work 01):**
+  * **Target Leakage Guard:** Strict elimination of `duration` and downstream signals.
+  * **Temporal Backtesting:** Chronological split reflecting real operational deployment.
+  * **Covariate Shift Management:** Train positive rate is 5.8%, validation is 11.5%, while test jumps to 39.3%. All thresholds (baseline=0.73, candidate=0.69) were strictly tuned on validation, avoiding test-set overfitting.
+  * **Statistical Rigor:** 5-seed validation std (0.0045) and 95% Bootstrap Confidence Interval on test delta (`[-0.0085, 0.0089]`) documenting an honest negative result where complex neural nets fail to outperform calibrated linear baselines on tabular data.
+  * **Slices & Error Cases:** Automated categorization into 5 error archetypes (`FN_borderline_high`, `FP_high_confidence`, etc.) across 20 documented rows.
+* **Production Serving & MLOps (Work 04):**
+  * **Temporal Data Contracts:** `event_time` vs `available_at` distinction enforced in JSON schemas to guarantee no feature ingestion from the future.
+  * **Business Cost Matrix:** Decision threshold is derived from financial costs ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$) rather than arbitrary 0.5 probability.
+  * **Production Serving:** FastAPI endpoints (`/v1/predict`, `/health`, `/v1/drift`) with live z-score drift alerts when feature distributions deviate.
+* **Verification Command:**
+  ```powershell
+  # Work 01 offline demo
+  cd work01-bank-marketing; py -3.13 scripts/demo_offline.py
+  # Work 04 serving & drift demo
+  cd ../work04-ml-serving; py -3.13 scripts/demo_offline.py
+  ```
+
+---
+
+### 4. Work 03 — Agent Workflow: Crash Recovery & Transactional Outbox
 
 * **The Problem:** Non-deterministic external tool calls (API effects, machinery commands, logistics dispatch) can execute twice if network fails after the side effect but before the workflow commits state.
 * **The Architecture:**

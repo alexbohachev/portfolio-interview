@@ -66,6 +66,5 @@ jobs:
         working-directory: work07-ai-platform
         run: |
           sleep 120
-          pip install -q -r python/rag-api/requirements.txt -r python/worker/requirements.txt
           python scripts/smoke_test.py
           python scripts/benchmark_latency.py
