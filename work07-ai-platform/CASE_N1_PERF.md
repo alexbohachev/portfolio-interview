@@ -50,7 +50,10 @@ Reference run (local Docker, 2026-11-18):
 ## Hybrid vs BM25 on harder queries
 
 ```powershell
-py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query
+.\make.ps1 eval-hard
+# or: py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query --doc-id-prefix agri_
 ```
+
+Use `docIdPrefix=agri_` so live farm-event docs do not dominate hybrid RRF vs the work02 corpus.
 
 Inspect `artifacts/eval_per_query.json` for queries where hybrid wins, ties, or loses vs BM25 (shared corpus with Work 02).

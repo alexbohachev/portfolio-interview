@@ -25,7 +25,7 @@ switch ($Target) {
     }
     "eval" { py -3.13 scripts/eval_retrieval.py --split test; exit $LASTEXITCODE }
     "eval-hard" {
-        py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query
+        py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query --doc-id-prefix agri_
         exit $LASTEXITCODE
     }
     "seed" { py -3.13 scripts/build_golden_150.py; exit $LASTEXITCODE }

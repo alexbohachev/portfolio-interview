@@ -18,6 +18,7 @@ class SearchRequest(BaseModel):
     query: str
     top_k: int = Field(default=5, alias="topK")
     mode: str = "hybrid"
+    doc_id_prefix: str | None = Field(default=None, alias="docIdPrefix")
 
     model_config = {"populate_by_name": True}
 
@@ -67,10 +68,11 @@ def health():
 def search(req: SearchRequest):
     es: Elasticsearch = app.state.es
     embed = app.state.embed
+    prefix = req.doc_id_prefix or None
     if req.mode == "bm25":
-        hits = search_bm25(es, req.query, req.top_k)
+        hits = search_bm25(es, req.query, req.top_k, prefix)
     else:
-        hits = search_hybrid(es, req.query, embed(req.query), req.top_k)
+        hits = search_hybrid(es, req.query, embed(req.query), req.top_k, prefix)
     return {
         "mode": req.mode,
         "hits": [h.__dict__ for h in hits],

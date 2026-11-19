@@ -34,27 +34,48 @@ def _source_map(es: Elasticsearch, ids: list[str]) -> dict[str, dict]:
     return out
 
 
-def search_bm25(es: Elasticsearch, query: str, top_k: int) -> list[Hit]:
+def _prefix_filter(doc_id_prefix: str | None) -> list[dict]:
+    if not doc_id_prefix:
+        return []
+    return [{"prefix": {"doc_id": doc_id_prefix}}]
+
+
+def search_bm25(es: Elasticsearch, query: str, top_k: int, doc_id_prefix: str | None = None) -> list[Hit]:
+    bool_q: dict = {"must": [{"multi_match": {"query": query, "fields": ["title", "body"]}}]}
+    filt = _prefix_filter(doc_id_prefix)
+    if filt:
+        bool_q["filter"] = filt
     res = es.search(
         index=INDEX,
-        query={"multi_match": {"query": query, "fields": ["title", "body"]}},
+        query={"bool": bool_q},
         size=top_k,
     )
     return [_to_hit(h) for h in res["hits"]["hits"]]
 
 
-def search_dense(es: Elasticsearch, query_vector: list[float], top_k: int) -> list[Hit]:
+def search_dense(es: Elasticsearch, query_vector: list[float], top_k: int, doc_id_prefix: str | None = None) -> list[Hit]:
+    knn: dict = {
+        "field": "embedding",
+        "query_vector": query_vector,
+        "k": top_k,
+        "num_candidates": max(50, top_k * 5),
+    }
+    filt = _prefix_filter(doc_id_prefix)
+    if filt:
+        knn["filter"] = filt
     res = es.search(
         index=INDEX,
-        knn={"field": "embedding", "query_vector": query_vector, "k": top_k, "num_candidates": max(50, top_k * 5)},
+        knn=knn,
         size=top_k,
     )
     return [_to_hit(h) for h in res["hits"]["hits"]]
 
 
-def search_hybrid(es: Elasticsearch, query: str, query_vector: list[float], top_k: int) -> list[Hit]:
-    bm = search_bm25(es, query, top_k * 2)
-    de = search_dense(es, query_vector, top_k * 2)
+def search_hybrid(
+    es: Elasticsearch, query: str, query_vector: list[float], top_k: int, doc_id_prefix: str | None = None
+) -> list[Hit]:
+    bm = search_bm25(es, query, top_k * 2, doc_id_prefix)
+    de = search_dense(es, query_vector, top_k * 2, doc_id_prefix)
     merged = _rrf_merge(
         [[h.doc_id for h in bm], [h.doc_id for h in de]],
         RRF_K,

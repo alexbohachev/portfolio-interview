@@ -9,7 +9,7 @@ docker compose up -d
 .\make.ps1 boot
 ```
 
-Інший термінал: `.\scripts\demo.ps1` (або `.\scripts\demo_offline.py` без сервера).
+Інший термінал: `.\scripts\demo.ps1` · live надійність: `.\scripts\reliability_demo.ps1` (потрібен `.\make.ps1 boot`).
 
 ## Сценарій
 

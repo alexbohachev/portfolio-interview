@@ -16,8 +16,11 @@ ARTIFACTS = ROOT / "artifacts"
 OUT = ARTIFACTS / "eval_results.json"
 
 
-def post_search(query: str, mode: str) -> list[str]:
-    payload = json.dumps({"query": query, "topK": TOP_K, "mode": mode}).encode("utf-8")
+def post_search(query: str, mode: str, doc_id_prefix: str | None = None) -> list[str]:
+    body: dict = {"query": query, "topK": TOP_K, "mode": mode}
+    if doc_id_prefix:
+        body["docIdPrefix"] = doc_id_prefix
+    payload = json.dumps(body).encode("utf-8")
     req = urllib.request.Request(
         f"{RAG_URL}/v1/knowledge/search",
         data=payload,
@@ -36,7 +39,9 @@ def expected_doc_ids(item: dict) -> set[str]:
     return ids
 
 
-def metrics_at_k(items: list[dict], mode: str) -> tuple[float, float, int]:
+def metrics_at_k(
+    items: list[dict], mode: str, doc_id_prefix: str | None = None
+) -> tuple[float, float, int]:
     if not items:
         return 0.0, 0.0, 0
     recall_hits = 0
@@ -47,7 +52,7 @@ def metrics_at_k(items: list[dict], mode: str) -> tuple[float, float, int]:
         if not expected:
             continue
         evaluated += 1
-        ranked = post_search(item["question"], mode)[:TOP_K]
+        ranked = post_search(item["question"], mode, doc_id_prefix)[:TOP_K]
         retrieved = set(ranked)
         if expected & retrieved:
             recall_hits += 1
@@ -65,7 +70,13 @@ def main() -> int:
     parser.add_argument("--split", choices=("test", "dev"), default="test")
     parser.add_argument("--golden-file", type=str, default="", help="e.g. data/golden/hard_retrieval.json")
     parser.add_argument("--per-query", action="store_true", help="write artifacts/eval_per_query.json")
+    parser.add_argument(
+        "--doc-id-prefix",
+        default=os.getenv("EVAL_DOC_ID_PREFIX", ""),
+        help="limit search to doc_id prefix (e.g. agri_ for work02 corpus)",
+    )
     args = parser.parse_args()
+    doc_prefix = args.doc_id_prefix.strip() or None
 
     golden = Path(args.golden_file) if args.golden_file else GOLDEN_DIR / f"{args.split}.json"
     if not golden.is_absolute():
@@ -74,16 +85,16 @@ def main() -> int:
         print(f"FAIL: missing golden {golden} — run scripts/build_golden_150.py", file=sys.stderr)
         return 1
     items = json.loads(golden.read_text(encoding="utf-8"))
-    bm25_r, bm25_m, n = metrics_at_k(items, "bm25")
-    hyb_r, hyb_m, _ = metrics_at_k(items, "hybrid")
+    bm25_r, bm25_m, n = metrics_at_k(items, "bm25", doc_prefix)
+    hyb_r, hyb_m, _ = metrics_at_k(items, "hybrid", doc_prefix)
     per_query = []
     if args.per_query:
         for item in items:
             expected = expected_doc_ids(item)
             if not expected:
                 continue
-            bm25_hits = post_search(item["question"], "bm25")[:TOP_K]
-            hyb_hits = post_search(item["question"], "hybrid")[:TOP_K]
+            bm25_hits = post_search(item["question"], "bm25", doc_prefix)[:TOP_K]
+            hyb_hits = post_search(item["question"], "hybrid", doc_prefix)[:TOP_K]
             per_query.append(
                 {
                     "id": item.get("id"),
@@ -109,6 +120,7 @@ def main() -> int:
         "recall_at_5": {"bm25": bm25_r, "hybrid": hyb_r},
         "mrr_at_5": {"bm25": bm25_m, "hybrid": hyb_m},
         "delta_hybrid_minus_bm25_recall": hyb_r - bm25_r,
+        "doc_id_prefix": doc_prefix,
     }
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")

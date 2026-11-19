@@ -18,6 +18,7 @@ docker compose up -d --build
 
 ```powershell
 .\make.ps1 load
+.\scripts\reliability_demo.ps1
 ```
 
 **Тезис:** ACL + фільтр `doc_id` **до** відповіді; degraded без Python.
