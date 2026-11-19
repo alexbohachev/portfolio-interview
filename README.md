@@ -2,8 +2,8 @@
 
 [![CI: Clean-Clone Reproducibility (Run #44613215961 Passed)](https://img.shields.io/badge/CI_Run_44613215961-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44613215961)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Video (MP4)](https://img.shields.io/badge/Demo_Video-MP4_Walkthrough-blueviolet)](assets/work07_demo_walkthrough.mp4)
-[![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+[![Demo Video (MP4)](https://img.shields.io/badge/Demo_Video-MP4_Walkthrough-blueviolet)](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4)
+[![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
 Monorepo для позиції **Senior AI/ML Engineer**: поєднання розподілених AI-платформ (Java 21, Python 3.13, RAG, OpenTelemetry) та класичного машинного навчання на реальних даних (часовий backtesting, MLOps, serving, drift).

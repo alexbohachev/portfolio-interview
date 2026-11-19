@@ -2,8 +2,8 @@
 
 [![CI: Clean-Clone Reproducibility (Run #44613215961 Passed)](https://img.shields.io/badge/CI_Run_44613215961-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44613215961)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Video (MP4)](https://img.shields.io/badge/Demo_Video-MP4_Walkthrough-blueviolet)](assets/work07_demo_walkthrough.mp4)
-[![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+[![Demo Video (MP4)](https://img.shields.io/badge/Demo_Video-MP4_Walkthrough-blueviolet)](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4)
+[![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
 > **Author:** Alex Bohachev  
@@ -72,6 +72,7 @@ Replaced the iterative token-loop with a single batch hybrid call (`EquipmentSea
   * Artifact: `work07-ai-platform/artifacts/latency_before_after.json` & `latency_raw_samples.json`
 * **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in overall latency).
 * **Committed Raw Evidence:**
+  * Video walkthrough (MP4, 60s): [`assets/work07_demo_walkthrough.mp4`](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4) (watch online or download)
   * Raw timing arrays (all 25 samples per profile): [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) / [`artifacts/latency_raw_samples.json`](work07-ai-platform/artifacts/latency_raw_samples.json)
   * Summary metrics: [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json) / [`artifacts/latency_before_after.json`](work07-ai-platform/artifacts/latency_before_after.json)
 
