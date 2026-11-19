@@ -1,9 +1,9 @@
 # Senior AI/ML Engineer — Portfolio Teardown
 
-[![CI: Clean-Clone Reproducibility (Run #44540010760 Passed)](https://img.shields.io/badge/CI_Run_44540010760-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44540010760)
+[![CI: Clean-Clone Reproducibility (Run #44543672145 Passed)](https://img.shields.io/badge/CI_Run_44543672145-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44543672145)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
+[![Demo Walkthrough (5-7 min)](https://img.shields.io/badge/Demo_Recording-5--7_min_Walkthrough-purple)](work07-ai-platform/DEMO_SCRIPT_5MIN.md#quick-visual-summary-for-recruiters)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
-[![Demo Walkthrough Script](https://img.shields.io/badge/Demo_Script-5--7_min-yellow)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 
 Hardened engineering monorepo of **7 reproducible reference projects and benchmarks** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
 
@@ -22,7 +22,7 @@ Every claim below is backed by committed test suites, committed raw latency arra
 | **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
 | **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
-| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters require a 2nd-stage Cross-Encoder re-ranker for >0.85 Recall@5. |
+| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters motivate testing a 2nd-stage Cross-Encoder re-ranker to improve discrimination beyond bi-encoder retrieval. |
 | **Full Stack Competence** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger. | Multi-platform CI runs Windows offline suite (<30s) + Ubuntu Docker integration suite. |
 
 ---
@@ -70,7 +70,7 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
 |---|---|:---:|:---:|---|
 | **`hard_007`** (Multi-hop)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | **✅ (Rank 4)** | **Hybrid Wins (+1):** Semantic generalization across seasonal disease risks where BM25 lacks exact vocabulary. |
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 Wins (+1):** Exact keyword specificity. BM25 directly matched the specific NPK formula ratio. |
-| **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, demonstrating the architectural need for a **2nd-stage Cross-Encoder re-ranker** in production. |
+| **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, showing that bi-encoder retrieval identifies topic groups; a 2nd-stage Cross-Encoder re-ranker is the natural next hypothesis to evaluate for fine-grained ranking. |
 | **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
 
 *Committed Raw Artifacts: [`manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) / [`artifacts/eval_per_query.json`](work07-ai-platform/artifacts/eval_per_query.json) and [`manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
