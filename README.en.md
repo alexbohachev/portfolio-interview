@@ -1,37 +1,39 @@
-# Senior AI/ML Engineer — Portfolio Teardown
+# AI/ML Engineering Portfolio — Systems & Applied Machine Learning
 
-[![CI: Clean-Clone Reproducibility (Run #44613215961 Passed)](https://img.shields.io/badge/CI_Run_44613215961-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44613215961)
+[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Video (MP4)](https://img.shields.io/badge/Demo_Video-MP4_Walkthrough-blueviolet)](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4)
+[![Demo Video (60s MP4)](https://img.shields.io/badge/Demo_Video-60s_MP4_Walkthrough-blueviolet)](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4)
 [![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
-Hardened engineering monorepo of **8 reproducible reference projects and benchmarks** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
+Reproducible engineering monorepo of **8 reference projects and empirical benchmarks** covering two complementary disciplines:
+* **Distributed AI Systems:** Distributed RAG platform in Java 21 and Python 3.13, reproduced microservice N+1 query bottleneck with Jaeger tracing, zero-trust pre-LLM security gateway, and transactional outbox crash recovery.
+* **Applied Machine Learning & MLOps:** Leakage-free temporal backtesting on UCI data, multi-series supply chain demand forecasting with conformal prediction (evaluated on synthetic agro-series and real Capital Bikeshare data), and production model serving with feature drift monitoring.
 
-> **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
+> **Ukrainian overview:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
 ---
 
-## 2-Minute Recruiter Summary: Capabilities & Honest Boundaries
+## Capabilities & Operational Boundaries
 
-Every claim below is backed by committed test suites, committed raw latency arrays, and automated fault matrix tests in CI:
+Every metric below is backed by committed test suites, committed raw measurement arrays, and automated fault matrix tests in CI:
 
-| Dimension | Proof in Monorepo | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
+| Dimension | Proof in Monorepo | Capabilities & Measured Impact | Operational Boundaries (Scope) |
 |---|---|---|---|
-| **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces and committed raw samples. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
-| **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **100% tenant isolation across 8 security vectors**, verbatim prompt injection logging, degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
-| **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
-| **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Multi-series supply chain demand forecasting benchmark (20 series, 21,920 daily samples). **Zero-leakage 4-season rolling backtesting ($H=14$, isolated series rolling, ex-ante feature alignment)**. On synthetic agro demand, LightGBM achieves **40.68% WAPE reduction vs Seasonal Naive baseline** (7.83% vs 13.20%) and Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts simulated costs by **43.06%**, with Split Conformal Quantile Regression (CQR) delivering **observed $\ge 80.0\%$ coverage across four synthetic test windows** (**mean 84.11%** vs 75.90% uncalibrated). On real empirical sensor data (Capital Bikeshare 2011–2012), CQR lifts coverage from 26.79% to 75.89%, while Seasonal Naive beats LightGBM (35.42% vs 37.74% WAPE) — and **we explicitly choose the Seasonal Baseline for production**. FastAPI serving with ~60 ms latency and calibrated intervals. | Calibrated simulation benchmark + real empirical sensor benchmark; direct forecasting model locked to operational horizon $H=14$. |
+| **AI Systems & Performance** | **Work 07 (AI Platform)** | Benchmarked microservice N+1 anti-pattern (Java → Python RAG API). **p95 latency reduced from 195.7 ms → 46.7 ms (4.19× speedup; p50: 171.6 ms → 33.9 ms, 5.06× speedup)** via server-side hybrid RRF retrieval; verified with OpenTelemetry/Jaeger traces and committed raw timing arrays. | Local Docker Compose benchmark; not a geo-distributed Kubernetes cluster. |
+| **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **Verified tenant isolation across 8 automated adversarial test scenarios**, verbatim query audit logging, and degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise IdP (Ory/Keycloak). |
+| **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal split under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI showing neural nets fail to outperform calibrated linear baselines. | Tabular UCI dataset; temperature scaling alone does not eliminate shift without domain adaptation. |
+| **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Evaluated 4-season rolling backtests ($H=14$) across two benchmarks: (1) **Synthetic Agro Simulation (20 series)**: LightGBM reduced WAPE from 13.2% to 7.8% (-41%), Newsvendor policy cut simulated inventory costs by 43%, and CQR delivered observed $\ge 80.0\%$ coverage (mean 84.1%). (2) **Real Capital Bikeshare (2011–2012)**: Seasonal Naive baseline outperformed LightGBM (35.4% vs 37.7% WAPE), and we select the baseline for production. CQR lifted empirical coverage from 26.8% to 75.9%. | Direct forecasting model locked to operational horizon $H=14$; exchangeability holds on synthetic series but degrades under physical fleet expansion drift. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
-| **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
-| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters motivate testing a 2nd-stage Cross-Encoder re-ranker to improve discrimination beyond bi-encoder retrieval. |
-| **Full Stack Competence** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger. | Multi-platform CI runs Windows offline suite (<30s) + Ubuntu Docker integration suite. |
+| **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus (Raft/Paxos). |
+| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Stress-tested on 8 hard domain queries**: both methods scored Recall@5 = 0.125 (1/8 hits) and missed 6/8 queries, highlighting bi-encoder limits on adjacent agronomic clusters and motivating a 2nd-stage Cross-Encoder re-ranker. Calibrated pre-retrieval refusal gate for unanswerable queries. | 200 domain documents; bi-encoder alone requires domain fine-tuning or cross-encoder re-ranking for fine-grained discrimination. |
+| **Full Stack Engineering** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker Compose, Kafka, Elasticsearch, Jaeger. | Multi-platform CI verifies offline test suite (<30s) and Docker integration suite. |
 
 ---
 
-## 10-Minute Engineering Deep Dive: Core Cases
+## Core Case Studies
 
-### 1. Work 07 — Distributed AI Platform & N+1 Latency Elimination (Primary Case)
+### 1. Work 07 — Distributed AI Platform: Reproduced N+1 Anti-Pattern & Latency Optimization
 
 ```
 [Client / Mobile App]
@@ -39,51 +41,57 @@ Every claim below is backed by committed test suites, committed raw latency arra
        ▼
 [Logistics Service (Java 21)] ──(Trace: OpenTelemetry)──► [Jaeger UI :16687]
        │
-       ├─► (Before: N+1 calls per token) ──┐
-       │                                  ▼
-       └─► (After: Single hybrid call) ──► [RAG API (Python 3.13 / FastAPI)]
-                                                 │
-                                                 ▼
-                                     [Elasticsearch 8.17 (BM25 + kNN / RRF)]
+       ├─► (searchSlow: N+1 calls per token) ──┐
+       │                                       ▼
+       └─► (searchFast: Single hybrid call) ──► [RAG API (Python 3.13 / FastAPI)]
+                                                      │
+                                                      ▼
+                                          [Elasticsearch 8.17 (BM25 + kNN / RRF)]
 ```
 
-* **Root Cause Discovered in Jaeger:** During high-load testing of `POST /api/v1/equipment-requests`, Jaeger traces revealed that the logistics service split incoming query text into individual tokens and issued sequential HTTP requests back-and-forth to Python `rag-api`.
-* **Architectural Fix:** Replaced iterative search with a single batch hybrid call (`searchFast()`) requesting top-K items via Reciprocal Rank Fusion (RRF) in Elasticsearch.
-#### Quantitative Benchmarking Across Independent Runs (25 samples per profile):
+* **Context & Problem Reproduction:** In distributed search architectures, upstream services frequently exhibit an N+1 query anti-pattern by splitting user queries on the client side and issuing sequential round-trips to downstream search services. To quantify this latency tax, we reproduced this pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and benchmarked it against a single-shot batch hybrid retrieval call (`searchFast`: server-side Reciprocal Rank Fusion in Elasticsearch 8.17).
+* **Architectural Fix:** Replaced iterative search with a single batch hybrid call (`searchFast()`) requesting top-K items via server-side Reciprocal Rank Fusion (RRF) in Elasticsearch.
+
+#### Quantitative Benchmarking Across Independent Runs (25 samples per profile, local Docker Compose):
 
 * **Run 1 (Baseline, 2026-11-18, Git SHA `6efad68`):**
   * `slow` profile (N+1): p50 = **172.6 ms** | **p95 = 197.0 ms**
   * `fast` profile (batch hybrid): p50 = **34.0 ms** | **p95 = 53.3 ms**
-  * Artifact: `work07-ai-platform/manifests/latency_snapshot.json`
 * **Run 2 (Clean Clone Verification, 2026-11-19, Git SHA `45d550c`):**
   * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 195.7 ms** | mean = 179.2 ms
   * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
-  * Artifact: `work07-ai-platform/artifacts/latency_before_after.json` & `latency_raw_samples.json`
 * **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in latency).
 * **Committed Raw Evidence:**
-  * Raw timing arrays (all 25 samples per profile): [`manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) / [`artifacts/latency_raw_samples.json`](work07-ai-platform/artifacts/latency_raw_samples.json)
-  * Summary metrics: [`manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json) / [`artifacts/latency_before_after.json`](work07-ai-platform/artifacts/latency_before_after.json)
+  * Raw timing arrays (all 25 samples per profile): [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json)
+  * Summary metrics: [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json)
 
 #### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Trade-offs
 
-Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval limits, we evaluated on **hard paraphrases, multi-hop queries, and unanswerable prompts** (`data/golden/hard_retrieval.json`, scoped via `--doc-id-prefix agri_` to the 200 documents shared with Work 02):
+Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retrieval boundaries, we tested on **8 hard domain queries** (paraphrases, multi-hop questions, and unanswerable prompts in `data/golden/hard_retrieval.json` scoped to the 200 documents shared with Work 02):
 
-| Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Retrieval Outcome & Diagnosis |
+* **Aggregated Metrics (8 evaluated queries):**
+  * **Recall@5:** BM25 = **0.125** (1/8) | Hybrid = **0.125** (1/8)
+  * **MRR@5:** BM25 = **0.063** | Hybrid = **0.031**
+  * **Failure Rate:** Both systems missed 6 out of 8 queries.
+
+| Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Diagnosis & Analysis |
 |---|---|:---:|:---:|---|
 | **`hard_007`** (Multi-hop)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | **✅ (Rank 4)** | **Hybrid Wins (+1):** Semantic generalization across seasonal disease risks where BM25 lacks exact vocabulary. |
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 Wins (+1):** Exact keyword specificity. BM25 directly matched the specific NPK formula ratio. |
-| **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, showing that bi-encoder retrieval identifies topic groups; a 2nd-stage Cross-Encoder re-ranker is the natural next hypothesis to evaluate for fine-grained ranking. |
+| **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Miss) | ❌ (Miss) | **Both Miss:** Dense bi-encoder (`all-MiniLM-L6-v2`) groups documents into broad topic clusters but lacks fine-grained discrimination between adjacent agronomic paragraphs without domain fine-tuning. A 2nd-stage Cross-Encoder re-ranker is the required next architectural step. |
 | **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
 
-*Committed Raw Artifacts: [`manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) / [`artifacts/eval_per_query.json`](work07-ai-platform/artifacts/eval_per_query.json) and [`manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
+*Committed Raw Artifacts: [`work07-ai-platform/manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) and [`work07-ai-platform/manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
 
-* **Verification Command:**
-  ```powershell
+* **Reproduction Commands:**
+  ```bash
   cd work07-ai-platform
-  .\make.ps1 build; .\make.ps1 up
-  py -3.13 scripts/benchmark_latency.py
-  .\make.ps1 eval-hard
+  # Docker Compose startup:
+  docker compose up -d --build
+  python scripts/benchmark_latency.py
+  python scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --doc-id-prefix agri_
   ```
+  *(Windows PowerShell: `.\make.ps1 build; .\make.ps1 up; py -3.13 scripts/benchmark_latency.py; .\make.ps1 eval-hard`)*
 
 ---
 
@@ -108,11 +116,12 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
   2. Injects security filter directly into retrieval payload (`allowedDocIds`).
   3. Validates returned documents at gateway egress to prevent side-channel leaks.
   4. Automatic **Circuit Breaker / Degraded Mode**: if Python retrieval crashes or times out, Java gateway returns structured degraded fallback (`degraded: true`) without taking the microservice down.
-* **Verification Command:**
-  ```powershell
+  5. **Automated Verification:** Verified tenant isolation across 8 automated adversarial test scenarios in CI.
+* **Reproduction Commands:**
+  ```bash
   cd work05-docguard
   docker compose up -d --build
-  .\scripts\reliability_demo.ps1
+  bash scripts/reliability_demo.sh  # or PowerShell: .\scripts\reliability_demo.ps1
   ```
 
 ---
@@ -137,22 +146,22 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
 ```
 
 * **The Problem (Real-world Tabular ML):** Naive random train/test splits severely overestimate model performance due to lookahead bias and target leakage. On the UCI Bank Marketing benchmark, naive models incorporate `duration` (call duration), which is impossible to know before initiating a call.
-* **The Rigorous ML Solution (Work 01):**
+* **The ML Solution (Work 01):**
   * **Target Leakage Guard:** Strict elimination of `duration` and downstream signals.
   * **Temporal Backtesting:** Chronological split reflecting real operational deployment.
   * **Covariate Shift Management:** Train positive rate is 5.8%, validation is 11.5%, while test jumps to 39.3%. All thresholds (baseline=0.73, candidate=0.69) were strictly tuned on validation, avoiding test-set overfitting.
   * **Statistical Rigor:** 5-seed validation std (0.0045) and 95% Bootstrap Confidence Interval on test delta (`[-0.0085, 0.0089]`) documenting an honest negative result where complex neural nets fail to outperform calibrated linear baselines on tabular data.
-  * **Slices & Error Cases:** Automated categorization into 5 error archetypes (`FN_borderline_high`, `FP_high_confidence`, etc.) across 20 documented rows.
+  * **Error Slices:** Automated categorization into 5 error archetypes (`FN_borderline_high`, `FP_high_confidence`, etc.) across 20 documented rows.
 * **Production Serving & MLOps (Work 04):**
   * **Temporal Data Contracts:** `event_time` vs `available_at` distinction enforced in JSON schemas to guarantee no feature ingestion from the future.
-  * **Business Cost Matrix:** Decision threshold is derived from financial costs ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$) rather than arbitrary 0.5 probability.
+  * **Business Cost Matrix:** Decision threshold is derived from financial costs ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$) rather than an arbitrary 0.5 probability.
   * **Production Serving:** FastAPI endpoints (`/v1/predict`, `/health`, `/v1/drift`) with live z-score drift alerts when feature distributions deviate.
-* **Verification Command:**
-  ```powershell
+* **Reproduction Commands:**
+  ```bash
   # Work 01 offline demo
-  cd work01-bank-marketing; py -3.13 scripts/demo_offline.py
+  cd work01-bank-marketing && python scripts/demo_offline.py
   # Work 04 serving & drift demo
-  cd ../work04-ml-serving; py -3.13 scripts/demo_offline.py
+  cd ../work04-ml-serving && python scripts/demo_offline.py
   ```
 
 ---
@@ -165,46 +174,46 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
   * **Transactional Outbox:** External intents are stored in PostgreSQL within the same ACID transaction as the workflow state checkpoint.
   * **Recovery Loop:** On restart after an abrupt process kill, `WorkflowRecovery` inspects pending outbox entries, verifies external stub effects, and resumes from the exact checkpoint without re-running external side effects.
   * **Scope & Matrix Tests:** 30 automated fault scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
-* **Verification Command:**
-  ```powershell
+* **Reproduction Commands:**
+  ```bash
   cd work03-agent-workflow
-  py -3.13 scripts/demo_offline.py
-  # live with Postgres:
-  .\make.ps1 boot
-  .\scripts\reliability_demo.ps1
+  python scripts/demo_offline.py
+  # Live with Postgres (Docker):
+  docker compose up -d
+  python scripts/demo_offline.py
   ```
 
 ---
 
-### 5. Work 08 — Demand Forecasting: Multi-Seasonal Backtesting & Inventory Risk (ML Track)
+### 5. Work 08 — Demand Forecasting: Multi-Seasonal Backtesting & Inventory Risk
 
 #### Side-by-Side Evaluation: Synthetic Benchmark vs Real-World Empirical Series
 
-To stress-test forecasting robustness across both stationary seasonal domains and non-stationary physical sensor series, we evaluated identical 4-season expanding-window backtesting pipelines ($H=14$) on two datasets:
+To stress-test forecasting robustness across both stationary seasonal dynamics and non-stationary physical sensor series, we evaluated identical 4-season expanding-window backtesting pipelines ($H=14$) on two datasets:
 
 | Metric / Dimension | Synthetic Agro Simulation (20 series, 21,920 records) | Real-World Capital Bikeshare (2 series, 1,456 records) |
 |---|:---:|:---:|
-| **Seasonal Naive ($y_{t-7}$) WAPE** | 13.20% | **35.42% (Winner)** |
+| **Seasonal Naive ($y_{t-7}$) WAPE** | 13.20% | **35.42% (Lower Error)** |
 | **Historical 4-Week DOW MA WAPE** | 11.78% | 34.02% |
 | **LightGBM Point ($P_{50}$) WAPE** | **7.83% (-40.68% error)** | 37.74% |
-| **Baseline Simulated Inventory Cost** | 7,308.0 units | **33,576.2 units (Winner)** |
+| **Baseline Simulated Inventory Cost** | 7,308.0 units | **33,576.2 units (Lower Cost)** |
 | **LightGBM Safety Stock ($P_{83.3}$) Cost** | **4,160.9 units (-43.06% cost)** | 51,629.5 units |
 | **Raw 80% Interval Coverage $[P_{10}, P_{90}]$** | 75.90% | 26.79% |
 | **Calibrated Conformal Coverage (CQR)** | **84.11%** (observed $\ge 80\%$ across all 4 windows) | **75.89%** (+49.10 p.p. lift) |
-| **Senior ML Production Decision** | **Deploy LightGBM + CQR Calibration** | **Deploy Seasonal Baseline in Production** |
+| **Production Decision** | **Deploy LightGBM + CQR Calibration** | **Deploy Seasonal Baseline in Production** |
 
-#### Senior ML Engineering Decision: Why We Choose the Simple Baseline for Bikeshare
-> **The Senior ML Takeaway:** When evaluating candidate machine learning architectures against strong domain baselines, real-world data often exhibits structural shifts — here, massive network expansion in Washington D.C. throughout 2011–2012 that nearly doubled daily volume without available fleet capacity features. In our 4-season chronological backtest, the zero-training **Seasonal Naive baseline outperformed LightGBM** both in forecast accuracy (**35.42% vs 37.74% WAPE**) and in simulated business inventory costs (**33,576 vs 51,630 units**).
+#### Production Baseline Selection: Why We Choose the Simple Baseline on Real Data
+> **Engineering Trade-off:** When evaluating candidate machine learning models against domain baselines on real-world data, structural distribution shifts often dominate model variance. On the 2011–2012 Capital Bikeshare benchmark (where rapid fleet and station expansion nearly doubled daily volume without capacity covariates), our 4-season backtest showed that the zero-training **Seasonal Naive baseline outperformed LightGBM** in both forecast accuracy (**35.42% vs 37.74% WAPE**) and simulated inventory costs (**33,576 vs 51,630 units**).
 >
-> A Senior ML Engineer does not deploy a complex GBDT regressor when a simple domain heuristic outperforms it. **For Capital Bikeshare in production, we choose the Seasonal Baseline**. This eliminates model training pipelines, feature store latency, and model drift monitoring overhead, while providing an honest performance baseline.
+> **Production Choice:** Based on these backtest results, we select the Seasonal Baseline for Capital Bikeshare in production. Deploying a complex GBDT regressor is unjustified when a simpler heuristic delivers lower error, zero training pipeline overhead, and zero model drift vulnerability.
 >
-> Regarding prediction intervals, on synthetic agro data Split Conformal Quantile Regression delivered **observed $\ge 80.0\%$ coverage across four synthetic test windows** (**80.4% Spring, 89.3% Summer, 85.0% Autumn, 81.8% Winter; mean 84.11%** vs 75.90% uncalibrated). On real Bikeshare data, CQR substantially lifted empirical coverage from **26.79% to 75.89%**; however, it remained below the nominal 80% target because rapid capacity expansion violated the exchangeability assumption between the trailing 56-day calibration window and the forward 14-day test horizon. This demonstrates an honest, senior-level understanding of conformal calibration boundaries under distribution shift.
+> **Prediction Interval Coverage & Boundaries:** On synthetic agro data, Split Conformal Quantile Regression (CQR) achieved **observed $\ge 80.0\%$ empirical coverage across four test windows** (Spring: 80.4%, Summer: 89.3%, Autumn: 85.0%, Winter: 81.8%; mean 84.11% vs 75.90% uncalibrated). On real Bikeshare data, CQR improved coverage from 26.79% to 75.89% (+49.10 p.p.), but did not meet the nominal 80% target because rapid physical expansion violated the exchangeability assumption between the 56-day calibration window and the test horizon.
 
-* **Verification Command:**
-  ```powershell
+* **Reproduction Commands:**
+  ```bash
   cd work08-demand-forecasting
-  py -3.13 scripts/demo_offline.py
-  py -3.13 scripts/eval_real_benchmark.py
+  python scripts/demo_offline.py
+  python scripts/eval_real_benchmark.py
   ```
 
 ---
@@ -212,32 +221,36 @@ To stress-test forecasting robustness across both stationary seasonal domains an
 ## Clean-Clone Reproducibility Matrix
 
 Every project can be evaluated in two ways:
-1. **Offline Mode (< 30 seconds):** Evaluates models, manifests, and mock scenarios without needing running Docker daemons.
+1. **Offline Mode (< 30 seconds):** Evaluates models, manifests, and mock scenarios without running Docker daemons.
 2. **Full Live Cluster Mode:** Boots full stack in Docker Compose and executes live HTTP requests against microservices.
 
-```powershell
+```bash
 # 1. Clone repository
 git clone https://github.com/alexbohachev/portfolio-interview.git
 cd portfolio-interview
 
-# 2. Run offline validation across all 7 projects
-.\scripts\repro_check.ps1
+# 2. Run offline validation across all 8 projects
+# Linux / macOS / Windows PowerShell:
+python -m pytest work01-bank-marketing/tests work04-ml-serving/tests work08-demand-forecasting/tests
+# Or via PowerShell smoke script:
+powershell -ExecutionPolicy Bypass -File scripts/portfolio_smoke.ps1
 
 # 3. Run live Docker validation for Work 05 & Work 07
-.\scripts\repro_check.ps1 -Docker
+cd work07-ai-platform && docker compose up -d --build
+cd ../work05-docguard && docker compose up -d --build
 ```
 
 ---
 
 ## All Eight Works Summary
 
-| # | Project | Focus | Key Tech | Verification |
+| # | Project Directory | Focus & Architecture | Key Technologies | Fast Verification |
 |---|---|---|---|---|
-| **08** | Demand Forecasting | Multi-series forecasting, rolling backtesting, inventory risk | LightGBM, FastAPI, Pydantic, Pandas | `.\make.ps1 all` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
-| **07** | Distributed AI Platform | Enterprise microservices, N+1 fix, observability | Java 21, Python, Kafka, Elasticsearch, Jaeger | `.\make.ps1 smoke; py scripts/benchmark_latency.py` |
-| **05** | DocGuard Gateway | Multi-tenant security, pre-LLM ACL, degraded mode | Java 21, FastAPI, Docker Compose | `.\scripts\reliability_demo.ps1` |
-| **01** | Bank Marketing | ML classification, leakage guard, cost optimization | LightGBM, scikit-learn, Python 3.13 | `.\scripts\demo_offline.py` |
-| **04** | ML Serving | Production serving, schema validation, drift guard | FastAPI, scikit-learn, joblib | `python -m work04 all` |
-| **02** | RAG Citations | Hybrid RRF, citation accuracy, unanswerable gate | SentenceTransformers, BM25, NumPy | `.\make.ps1 all` |
-| **03** | Agent Workflow | Idempotent workflow, Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL, Docker | `.\scripts\reliability_demo.ps1` |
-| **06** | Verse RAG | Semantic vector retrieval, SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` |
+| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/) | Multi-series forecasting, 4-season backtesting, inventory risk | LightGBM, FastAPI, Conformal Prediction | `python scripts/demo_offline.py` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
+| **07** | [`work07-ai-platform/`](work07-ai-platform/) | Microservice N+1 benchmark, hybrid RRF search, OpenTelemetry | Java 21, Python, Kafka, Elasticsearch, Jaeger | `python scripts/demo_offline.py` · [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) |
+| **05** | [`work05-docguard/`](work05-docguard/) | Multi-tenant security, pre-LLM ACL, degraded circuit breaker | Java 21, FastAPI, Docker Compose | `python scripts/demo_offline.py` · [`REPORT.md`](work05-docguard/REPORT.md) |
+| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Tabular ML classification, leakage guard, cost optimization | LightGBM, scikit-learn, Python 3.13 | `python scripts/demo_offline.py` · [`REPORT.md`](work01-bank-marketing/REPORT.md) |
+| **04** | [`work04-ml-serving/`](work04-ml-serving/) | Production serving, schema contracts, feature drift guard | FastAPI, scikit-learn, Pydantic | `python scripts/demo_offline.py` · [`REPORT.md`](work04-ml-serving/REPORT.md) |
+| **02** | [`work02-rag-citations/`](work02-rag-citations/) | Hybrid RRF retrieval, citation validation, refusal gate | SentenceTransformers, BM25, NumPy | `python scripts/demo_offline.py` · [`REPORT.md`](work02-rag-citations/REPORT.md) |
+| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | Idempotent workflow, Transactional Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL | `python scripts/demo_offline.py` · [`REPORT.md`](work03-agent-workflow/REPORT.md) |
+| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Domain Verse RAG, vector retrieval, SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` · [`REPORT.md`](work06-bible-rag/REPORT.md) |

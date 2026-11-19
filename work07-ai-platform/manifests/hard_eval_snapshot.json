@@ -4,5 +4,5 @@
   "n_evaluated": 8,
   "recall_at_5": { "bm25": 0.125, "hybrid": 0.125 },
   "mrr_at_5": { "bm25": 0.0625, "hybrid": 0.03125 },
-  "note": "Hard paraphrases vs work02 corpus; per-query breakdown in artifacts/eval_per_query.json (not committed)."
+  "note": "Hard paraphrases vs work02 corpus; per-query breakdown committed in manifests/eval_per_query.json."
 }

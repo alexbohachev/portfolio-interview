@@ -33,8 +33,10 @@ work06-bible-rag/data/bible.sqlite
 work06-bible-rag/artifacts/
 work06-bible-rag/.pytest_cache/
 work08-demand-forecasting/.pytest_cache/
+work08-demand-forecasting/artifacts/*.joblib
 *.pt
 *.pkl
+*.joblib
 
 # Temp from docx inspection
 unpacked_docx/
