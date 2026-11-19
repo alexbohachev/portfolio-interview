@@ -1,5 +1,9 @@
 # Портфоліо — Senior AI/ML Engineer (7 робіт)
 
+[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
+[![Live CI Runs](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
+[![Demo Walkthrough](https://img.shields.io/badge/Demo_Script-5--7_min-orange)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+
 Monorepo для позиції **Senior AI/ML Engineer**: поєднання розподілених AI-платформ (Java 21, Python 3.13, RAG, OpenTelemetry) та класичного машинного навчання на реальних даних (часовий backtesting, MLOps, serving, drift).
 
 **Документація:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · [`PORTFOLIO.md`](PORTFOLIO.md) · **EN** [`README.en.md`](README.en.md) · [`REPRO.md`](REPRO.md) · [Автономний огляд (без репо)](STANDALONE_PORTFOLIO.md)
@@ -12,27 +16,31 @@ Monorepo для позиції **Senior AI/ML Engineer**: поєднання р�
 ## Два головні інженерні треки
 
 ### 1. Трек AI Platform & Distributed RAG (Головні кейси)
-* **Work 07 (Флагман):** Усунення N+1 патерну викликів Java → Python RAG API. Зниження **p95 з 195.7 мс до 46.7 мс (speedup ~4.2×)** підтверджено трейсами в Jaeger (`http://localhost:16687`). Деталі: [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) та сценарій демо: [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md).
-* **Work 05 (DocGuard):** Pre-LLM Zero-Trust ACL шлюз. Ізоляція тенантів, захист від prompt injection у логах, degraded mode при недоступності retrieval (`scripts/reliability_demo.ps1`).
-* **Work 02 (RAG із цитатами):** Гібридний пошук (BM25 + Dense RRF), поріг відмови від галюцинацій (retrieval gate) та extractive citations.
+* **Work 07 (Флагман):** Усунення N+1 патерну викликів Java → Python RAG API. Підтверджено двома незалежними прогонами на локальному стенді Docker Compose (Windows 11, n=25):
+  * **Базовий прогін (2026-11-18, `6efad68`):** p95 знизився з **197.0 мс до 53.3 мс** (p50: 172.6 → 34.0 мс, прискорення 5.08×).
+  * **Прогін із чистого клону (2026-11-19, `45d550c`):** p95 знизився з **195.7 мс до 46.7 мс** (p50: 171.6 → 33.9 мс, прискорення 5.06× на p50, 4.19× на p95).
+  * **Порівняння BM25 vs Hybrid на складних запитах (`eval-hard`):** на парафразах `hard_007` гібридний RRF виграв (+1 hit) завдяки семантичному узагальненню; на `hard_006` (дози NPK) BM25 виграв (+1 hit) завдяки точним формулам; на щільних кластерах обґрунтовано необхідність 2-го етапу — Cross-Encoder re-ranker.
+  * Трейси перевірені в Jaeger (`http://localhost:16687`). Деталі: [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) та сценарій демо: [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md).
+* **Work 05 (DocGuard):** Pre-LLM Zero-Trust ACL шлюз. 100% ізоляція двох тенантів на 8 безпекових векторах, фіксація prompt injection у незмінному аудиторському лозі, автоматичний degraded mode (`degraded: true`) при зупинці retrieval-сервісу (`scripts/reliability_demo.ps1`).
+* **Work 02 (RAG із цитатами):** Гібридний пошук (BM25 + Dense RRF), поріг відсікання галюцинацій (retrieval gate `0.0313`) та екстрактивна верифікація цитат (35/35).
 
 ### 2. Трек Applied Machine Learning & MLOps
-* **Work 01 (ML на реальних даних):** UCI Bank Marketing без `duration` (leakage guard). Суворий часовий сплит без заглядання в майбутнє, облік сильного covariate shift (train 5.8% → test 39.3% yes), bootstrap довірчий інтервал різниці macro-F1, поглиблений аналіз помилок по сегментах.
-* **Work 04 (Production ML Serving):** Сервінг моделі на FastAPI (`/v1/predict`, `/v1/drift`). Data contract із часовими мітками `event_time` / `available_at`, оптимізація порогу за матрицею бізнес-вартості (FP/FN/review), моніторинг вхідного дрейфу ознак через z-score.
+* **Work 01 (ML на реальних даних):** UCI Bank Marketing без `duration` (leakage guard). Суворий часовий сплит без заглядання в майбутнє, чесний облік сильного covariate shift (train 5.8% → val 11.5% → test 39.3% yes), bootstrap 95% довірчий інтервал різниці macro-F1 (`[-0.0085, 0.0089]`), що доводить чесний негативний результат MLP vs збалансованого лінійного baseline, поглиблений аналіз помилок по 5 сегментах.
+* **Work 04 (Production ML Serving):** Сервінг моделі на FastAPI (`/v1/predict`, `/v1/drift`). Data contract із часовими мітками `event_time` / `available_at`, оптимізація порогу за матрицею бізнес-вартості ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), моніторинг вхідного дрейфу ознак через z-score.
 
 ---
 
-## Роботи (усі зафіксовані тегами v1.0)
+## Роботи: перевірені можливості та чесні межі (Scope)
 
-| № | Каталог | Фокус ролі | Статус |
-|---|---------|------------|--------|
-| **07** | [`work07-ai-platform/`](work07-ai-platform/) | AI Platform: Java 21 + Python, N+1 латентність, Kafka, ES, Jaeger | **tag** `work07-v1.0` |
-| **05** | [`work05-docguard/`](work05-docguard/) | AI Security: Zero-Trust Pre-LLM ACL Gateway, Degraded fallback | **tag** `work05-v1.0` |
-| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Classical ML: часовий backtesting, covariate shift, leakage guard | **tag** `work01-v1.0` |
-| **04** | [`work04-ml-serving/`](work04-ml-serving/) | MLOps / Serving: Data contracts (`available_at`), cost matrix, drift | **tag** `work04-v1.0` |
-| **02** | [`work02-rag-citations/`](work02-rag-citations/) | RAG Science: Hybrid RRF, citation grounding, retrieval gate | **tag** `work02-v1.0` |
-| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | Distributed Systems: Transactional Outbox, checkpoint recovery | **tag** `work03-v1.0` |
-| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Semantic Search: FAISS vector retrieval, SQLite, Streamlit UI | **tag** `work06-v1.0` |
+| № | Каталог | Що перевірено й доведено | Чесні операційні межі (Scope) | Статус |
+|---|---|---|---|---|
+| **07** | [`work07-ai-platform/`](work07-ai-platform/) | Усунення N+1 латентності Java→Python (speedup ~5.1× на p50, ~4.2× на p95); порівняння BM25 vs Hybrid на парафразах; Jaeger OTel трейси. | Локальний кластер Docker Compose; не гео-розподілений багаторегіональний Kubernetes. | **tag** `work07-v1.0` |
+| **05** | [`work05-docguard/`](work05-docguard/) | Zero-Trust Pre-LLM ACL шлюз: 100% ізоляція 2 тенантів на 8 векторах, audit log ін'єкцій, degraded fallback при відмові Python. | In-memory кеш ACL із REST-інвалідацією; не зовнішній провайдер посвідчень (Keycloak/Ory). | **tag** `work05-v1.0` |
+| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Усунення target leakage (`duration`), часовий backtesting, калібрування ймовірностей, bootstrap 95% CI на реальних даних UCI. | Табличний датасет UCI; temperature scaling не усуває covariate shift повністю без domain adaptation. | **tag** `work01-v1.0` |
+| **04** | [`work04-ml-serving/`](work04-ml-serving/) | Data contract (`event_time` vs `available_at`), поріг за бізнес-матрицею витрат, живий моніторинг z-score дрейфу в FastAPI. | Перевірено на потокових батчах подій; у великому ентерпрайзі потребує коннектора до Feature Store. | **tag** `work04-v1.0` |
+| **02** | [`work02-rag-citations/`](work02-rag-citations/) | Гібридний пошук RRF, калібрований refusal gate (`0.0313`), екстрактивна верифікація цитат без галюцинацій (35/35). | Корпус 200 агро-документів; для щільних термінологічних кластерів потрібен Cross-Encoder re-ranker. | **tag** `work02-v1.0` |
+| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | 3-кроковий ідемпотентний оркестратор, Transactional Outbox, 409 Conflict при зміні payload, відновлення з checkpoint (30/30 fault-тестів). | Транзакційна межа Spring Boot + PostgreSQL на одному вузлі; не розподілений консенсус Raft/Paxos. | **tag** `work03-v1.0` |
+| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Семантичний пошук через векторний індекс FAISS, метадані в SQLite, Streamlit UI. | Класичний однопроцесний векторний індекс для автономного пошуку. | **tag** `work06-v1.0` |
 
 ## Запуск (приклад)
 

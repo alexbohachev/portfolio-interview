@@ -1,22 +1,28 @@
 # Senior AI/ML Engineer — Portfolio Teardown
 
+[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
+[![Live CI Runs](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
+[![Demo Walkthrough](https://img.shields.io/badge/Demo_Script-5--7_min-orange)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+
 Production-grade monorepo of **7 end-to-end engineering projects** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
 
 > **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
 ---
 
-## 2-Minute Recruiter Summary
+## 2-Minute Recruiter Summary: Capabilities & Honest Boundaries
 
-| Dimension | Proof in Monorepo | Engineering Impact |
-|---|---|---|
-| **AI Systems & Performance** | Work 07: Eliminated N+1 microservice pattern Java → Python RAG API | **p95 reduced 195.7 ms → 46.7 ms (4.19× speedup, p50 5.06×)**; confirmed in Jaeger |
-| **Enterprise AI Security** | Work 05: DocGuard zero-trust pre-LLM gateway (Java + FastAPI) | **100% tenant isolation across 8 security vectors, zero cross-tenant leak**, degraded fallback |
-| **Applied ML & Temporal Backtesting** | Work 01: Real UCI data, temporal validation without lookahead bias | **Strict target leakage guard (`duration` removed), honest covariate shift handling (5.8%→39.3%)**, bootstrap CI |
-| **Production ML Serving & Drift** | Work 04: Production serving on FastAPI with temporal data contracts | **`event_time` vs `available_at` contracts, business cost matrix thresholding, live feature drift alerts** |
-| **Distributed Resilience** | Work 03: Fault-tolerant workflow engine (Transactional Outbox + Checkpoint) | **30/30 crash scenarios recovered without duplicate external side effects** |
-| **Search & Retrieval Science** | Work 02 & 07: Hybrid RRF search (Elasticsearch BM25 + dense kNN) | **1.0 Recall@5 on domain corpus; hallucination gate threshold tuned on validation** |
-| **Full Stack Competence** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger | **Single clean clone runs 100% reproducible offline suite + live Docker clusters** |
+Every claim below is backed by committed test suites, raw latency arrays, and automated fault matrix tests in CI:
+
+| Dimension | Proof in Monorepo | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
+|---|---|---|---|
+| **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
+| **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **100% tenant isolation across 8 security vectors**, verbatim prompt injection logging, degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
+| **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Production-grade tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
+| **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
+| **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; not a distributed multi-node consensus (Raft/Paxos). |
+| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters require a 2nd-stage Cross-Encoder re-ranker for >0.85 Recall@5. |
+| **Full Stack Competence** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger. | Multi-platform CI runs Windows offline suite (<30s) + Ubuntu Docker integration suite. |
 
 ---
 
@@ -40,15 +46,37 @@ Production-grade monorepo of **7 end-to-end engineering projects** demonstrating
 
 * **Root Cause Discovered in Jaeger:** During high-load testing of `POST /api/v1/equipment-requests`, Jaeger traces revealed that the logistics service split incoming query text into individual tokens and issued sequential HTTP requests back-and-forth to Python `rag-api`.
 * **Architectural Fix:** Replaced iterative search with a single batch hybrid call (`searchFast()`) requesting top-K items via Reciprocal Rank Fusion (RRF) in Elasticsearch.
-* **Empirical Verification (Local Docker Bench, 25 samples):**
-  * `slow` profile (N+1): **p50 = 171.6 ms**, **p95 = 195.7 ms**, mean = 179.2 ms
-  * `fast` profile (batch): **p50 = 33.9 ms**, **p95 = 46.7 ms**, mean = 37.9 ms
-  * **Net Speedup:** **5.06× at p50**, **4.19× at p95**
+#### Quantitative Benchmarking Across Independent Runs (25 samples per profile):
+
+* **Run 1 (Baseline, 2026-11-18, Git SHA `6efad68`):**
+  * `slow` profile (N+1): p50 = **172.6 ms** | **p95 = 197.0 ms**
+  * `fast` profile (batch hybrid): p50 = **34.0 ms** | **p95 = 53.3 ms**
+  * Artifact: `work07-ai-platform/manifests/latency_snapshot.json`
+* **Run 2 (Clean Clone Verification, 2026-11-19, Git SHA `45d550c`):**
+  * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 195.7 ms** | mean = 179.2 ms
+  * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
+  * Artifact: `work07-ai-platform/artifacts/latency_before_after.json` & `latency_raw_samples.json`
+* **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in latency).
+
+#### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Trade-offs
+
+Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval limits, we evaluated on **hard paraphrases, multi-hop queries, and unanswerable prompts** (`data/golden/hard_retrieval.json`, scoped via `--doc-id-prefix agri_` to the 200 documents shared with Work 02):
+
+| Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Retrieval Outcome & Diagnosis |
+|---|---|:---:|:---:|---|
+| **`hard_007`** (Multi-hop)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | **✅ (Rank 4)** | **Hybrid Wins (+1):** Semantic generalization across seasonal disease risks where BM25 lacks exact vocabulary. |
+| **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 Wins (+1):** Exact keyword specificity. BM25 directly matched the specific NPK formula ratio. |
+| **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, demonstrating the architectural need for a **2nd-stage Cross-Encoder re-ranker** in production. |
+| **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
+
+*Artifacts: `manifests/hard_eval_snapshot.json` and `artifacts/eval_per_query.json`.*
+
 * **Verification Command:**
   ```powershell
   cd work07-ai-platform
   .\make.ps1 build; .\make.ps1 up
   py -3.13 scripts/benchmark_latency.py
+  .\make.ps1 eval-hard
   ```
 
 ---

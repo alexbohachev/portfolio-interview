@@ -37,14 +37,27 @@
 
 ## Продуктивність logistics → rag-api
 
-`scripts/benchmark_latency.py` (n=25):
+`scripts/benchmark_latency.py` (n=25 на профіль, `POST /api/v1/equipment-requests`):
 
-| Профіль | p50 | p95 |
-|---------|-----|-----|
-| **slow** (N+1) | 172.6 ms | 197.0 ms |
-| **fast** (1× hybrid) | 34.0 ms | 53.3 ms |
+| Прогін | Дата й Git SHA | Умови | Профіль slow (N+1) | Профіль fast (1× Hybrid) | Speedup (p50 / p95) | Артефакти |
+|---|---|---|---|---|---|---|
+| **Run 1** (Baseline) | 2026-11-18 (`6efad68`) | Локальний Docker Compose, Win11 | p50: **172.6 ms**<br>p95: **197.0 ms** | p50: **34.0 ms**<br>p95: **53.3 ms** | **5.08×** (p50)<br>**3.70×** (p95) | `manifests/latency_snapshot.json` |
+| **Run 2** (Clean-clone) | 2026-11-19 (`45d550c`) | Повний рестарт контейнерів, Win11 | p50: **171.6 ms**<br>p95: **195.7 ms** | p50: **33.9 ms**<br>p95: **46.7 ms** | **5.06×** (p50)<br>**4.19×** (p95) | `artifacts/latency_before_after.json`<br>`artifacts/latency_raw_samples.json` |
 
-**speedup p50 ≈ 5.1×** — `artifacts/latency_before_after.json`, деталі `PERFORMANCE.md`.
+Обидва незалежні прогони підтверджують стабільне скорочення затримки в **~5.1× на p50** та **~4× на p95** (~75% зниження latency) без погіршення результатів пошуку. Детальний аналіз: `CASE_N1_PERF.md`.
+
+## Retrieval на складних запитах (`eval-hard`, n=8 оцінених)
+
+`.\make.ps1 eval-hard` (або `py -3.13 scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --per-query --doc-id-prefix agri_`):
+
+| Запит | Цільовий doc_id | BM25 Hit@5 | Hybrid Hit@5 | Підсумок порівняння |
+|---|---|:---:|:---:|---|
+| `hard_007`: «Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | **✅ (Rank 4)** | **Hybrid виграв (+1)**: семантичне узагальнення зв'язку хвороб та сезонів |
+| `hard_006`: «Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 виграв (+1)**: точний збіг термінів і пропорцій формули |
+| `hard_001`–`005`, `010`: парафрази та синоніми | Різні (агро-кластери) | ❌ | ❌ | **Кластерний паритет**: знайдено релевантні кластери, потрібен Cross-Encoder |
+| `hard_008`, `hard_009`: нерелевантні (поза доменом) | Відсутні | Відфільтровано | Відфільтровано | **Коректна відмова (Gate)**: нуль галюцинацій |
+
+Артефакти: `manifests/hard_eval_snapshot.json` та `artifacts/eval_per_query.json`.
 
 ## Інше (MVP)
 
