@@ -35,6 +35,10 @@ Load (30 с @ 1 RPS): **30/30 OK**, p50 **~18 ms**.
 
 OpenAPI (контракт MVP): `openapi/gateway.openapi.json`
 
+## Контракт
+
+`GatewayResponseShapeIT` (2) + `openapi/gateway.openapi.json`.
+
 ## Backlog
 
-Automated OpenAPI contract test (RestAssured), load 10 хв@1 RPS у CI.
+RestAssured + повна JSON Schema; load 10 хв@1 RPS у CI.

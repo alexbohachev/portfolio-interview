@@ -1,6 +1,6 @@
 param(
     [Parameter(Position = 0)]
-    [ValidateSet("all", "build", "up", "down", "smoke", "jar", "eval", "seed", "eval-llm", "seed-rec", "eval-rec", "bench", "openapi", "finalize", "lock")]
+    [ValidateSet("all", "build", "up", "down", "smoke", "jar", "eval", "seed", "eval-llm", "seed-rec", "eval-rec", "bench", "openapi", "finalize", "lock", "demo")]
     [string]$Target = "all"
 )
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -17,6 +17,12 @@ switch ($Target) {
     "up" { docker compose up -d; exit $LASTEXITCODE }
     "down" { docker compose down; exit 0 }
     "smoke" { py -3.13 scripts/smoke_test.py; exit $LASTEXITCODE }
+    "demo" {
+        py -3.13 scripts/demo_offline.py
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        if (Test-Path "$Root\scripts\demo.ps1") { & "$Root\scripts\demo.ps1" }
+        exit $LASTEXITCODE
+    }
     "eval" { py -3.13 scripts/eval_retrieval.py --split test; exit $LASTEXITCODE }
     "seed" { py -3.13 scripts/build_golden_150.py; exit $LASTEXITCODE }
     "eval-llm" { py -3.13 scripts/eval_llm_provider.py; exit $LASTEXITCODE }

@@ -24,6 +24,7 @@ jobs:
       - run: python scripts/seed_corpus.py && PYTHONPATH=src python scripts/seed_golden.py
         env:
           PYTHONPATH: src
+      - run: python scripts/verify_sources.py
       - run: PYTHONPATH=src python -m pytest -q
         env:
           PYTHONPATH: src

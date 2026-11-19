@@ -42,6 +42,11 @@ Step "work06 pytest (fast)" {
     py -3.13 -m pytest -q tests/test_generate.py tests/test_db.py
 }
 
+Step "work07 demo offline" {
+    Set-Location "$Root\work07-ai-platform"
+    py -3.13 scripts/demo_offline.py | Out-Null
+}
+
 Step "work05 docker smoke" {
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw "no docker" }
     Set-Location "$Root\work05-docguard"

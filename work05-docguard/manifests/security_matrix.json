@@ -11,5 +11,6 @@
     "prompt_injection_audit"
   ],
   "n_automated": 8,
+  "openapi_shape_it": 2,
   "target_tz": 8
 }
