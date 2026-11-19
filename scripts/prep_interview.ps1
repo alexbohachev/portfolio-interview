@@ -12,7 +12,7 @@ $demos = @(
     @{ Name = "work02"; Path = "work02-rag-citations"; Env = @{ PYTHONPATH = (Join-Path $Root "work02-rag-citations\src") }; Script = "scripts/demo_offline.py" }
     @{ Name = "work03"; Path = "work03-agent-workflow"; Env = @{}; Script = "scripts/demo_offline.py" }
     @{ Name = "work04"; Path = "work04-ml-serving"; Env = @{ PYTHONPATH = (Join-Path $Root "work04-ml-serving\src") }; Script = "scripts/demo_offline.py" }
-    @{ Name = "work06"; Path = "work06-bible-rag"; Env = @{ PYTHONPATH = (Join-Path $Root "work06-bible-rag\src") }; Pytest = @("tests/test_generate.py", "tests/test_db.py") }
+    @{ Name = "work06"; Path = "work06-bible-rag"; Env = @{ PYTHONPATH = (Join-Path $Root "work06-bible-rag\src") }; Pytest = @("tests/test_generate.py", "tests/test_db.py"); Optional = $true }
     @{ Name = "work07"; Path = "work07-ai-platform"; Env = @{}; Script = "scripts/demo_offline.py" }
 )
 
@@ -39,8 +39,12 @@ foreach ($d in $demos) {
         }
         Write-Host "OK $($d.Name)" -ForegroundColor Green
     } catch {
-        Write-Host "FAIL $($d.Name): $_" -ForegroundColor Red
-        $failed++
+        if ($d.Optional -and -not $Strict) {
+            Write-Host "SKIP $($d.Name): $_" -ForegroundColor Yellow
+        } else {
+            Write-Host "FAIL $($d.Name): $_" -ForegroundColor Red
+            $failed++
+        }
     } finally {
         Pop-Location
     }

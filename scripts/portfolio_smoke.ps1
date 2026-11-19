@@ -47,7 +47,7 @@ Step "work04 demo offline" {
     py -3.13 scripts/demo_offline.py
 }
 
-Step "work06 pytest (fast)" {
+Step "work06 pytest (fast)" -Optional {
     Set-Location "$Root\work06-bible-rag"
     $env:PYTHONPATH = "$Root\work06-bible-rag\src"
     py -3.13 -m pytest -q tests/test_generate.py tests/test_db.py

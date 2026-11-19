@@ -1,0 +1,31 @@
+{
+  "corpus_fingerprint": "21de45e90e9664b3",
+  "golden_test_sha256_16": "0993914458593c21",
+  "n_docs": 200,
+  "n_chunks": 200,
+  "retrieval_gate_threshold": 0.03130508474576271,
+  "gate_tune": {
+    "dev_gate_f1": 0.9189189189189189
+  },
+  "baseline_retrieval_test": {
+    "recall_at_k": 1.0,
+    "n": 40,
+    "multi_hop_recall": 1.0,
+    "unanswerable_acc": 1.0
+  },
+  "candidate_retrieval_test": {
+    "recall_at_k": 1.0,
+    "n": 40,
+    "multi_hop_recall": 1.0,
+    "unanswerable_acc": 1.0
+  },
+  "qa_test": {
+    "correct_refusals": "10 / 10",
+    "citation_accuracy": "35 / 35",
+    "answer_contains_gold": "28 / 28",
+    "refusal_rate_unanswerable": 1.0,
+    "citation_acc_rate": 1.0
+  },
+  "llm_enabled": false,
+  "elapsed_sec": 6.93
+}

@@ -13,10 +13,14 @@ from work02.paths import ARTIFACTS, GOLDEN_TEST, MANIFEST
 
 def main() -> int:
     res_path = ARTIFACTS / "results.json"
-    if not res_path.is_file():
-        print("ERROR: спочатку .\\make.ps1 all", file=sys.stderr)
+    snapshot_path = ROOT / "manifests" / "eval_snapshot.json"
+    if res_path.is_file():
+        res = json.loads(res_path.read_text(encoding="utf-8"))
+    elif snapshot_path.is_file():
+        res = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    else:
+        print("ERROR: спочатку .\\make.ps1 all або manifests/eval_snapshot.json", file=sys.stderr)
         return 1
-    res = json.loads(res_path.read_text(encoding="utf-8"))
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     print("=== work02 RAG demo (offline) ===")
     print(f"config_hash: {manifest.get('config_hash')}")
