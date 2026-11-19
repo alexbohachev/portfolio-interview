@@ -32,6 +32,7 @@ work05-docguard/bin/
 work06-bible-rag/data/bible.sqlite
 work06-bible-rag/artifacts/
 work06-bible-rag/.pytest_cache/
+work08-demand-forecasting/.pytest_cache/
 *.pt
 *.pkl
 

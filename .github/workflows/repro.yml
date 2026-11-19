@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scripts/**"
+      - "work08-demand-forecasting/**"
       - ".github/workflows/repro.yml"
   workflow_dispatch:
 
@@ -28,6 +29,13 @@ jobs:
           python scripts/seed_data.py
           $env:PYTHONPATH="src"
           python -m work04 all
+      - name: work08 train & test
+        working-directory: work08-demand-forecasting
+        run: |
+          pip install -q -r requirements.txt
+          $env:PYTHONPATH="src"
+          python scripts/run_pipeline.py
+          python -m pytest -v tests
       - name: repro_check offline
         shell: pwsh
         run: ./scripts/repro_check.ps1

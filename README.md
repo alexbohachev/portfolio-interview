@@ -1,4 +1,4 @@
-# Портфоліо — Senior AI/ML Engineer (7 робіт)
+# Портфоліо — Senior AI/ML Engineer (8 робіт)
 
 [![CI: Clean-Clone Reproducibility (Run #44543672145 Passed)](https://img.shields.io/badge/CI_Run_44543672145-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44543672145)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
@@ -27,6 +27,7 @@ Monorepo для позиції **Senior AI/ML Engineer**: поєднання р�
 * **Work 02 (RAG із цитатами):** Гібридний пошук (BM25 + Dense RRF), поріг відсікання галюцинацій (retrieval gate `0.0313`) та екстрактивна верифікація цитат (35/35).
 
 ### 2. Трек Applied Machine Learning & MLOps
+* **Work 08 (Флагман ML — Demand Forecasting):** Прогнозування попиту на 20 часових рядах (21,920 спостережень). Суворий 4-фолдовий expanding-window хронологічний бектестинг без витоку даних ($H=14$ днів). LightGBM знижує WAPE з 11.79% до 7.23% (**-38.68% відносно Seasonal Naive бейзлайну**). Квантильна модель на критичному квантилі Newsvendor ($\tau^* = 83.33\%$) скорочує фінансові втрати складу (дефіцит vs надлишок) на **49.70%**. Продакшн FastAPI сервінг (`POST /v1/forecast`, `GET /v1/health`) з latency ~64 мс. Деталі: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
 * **Work 01 (ML на реальних даних):** UCI Bank Marketing без `duration` (leakage guard). Суворий часовий сплит без заглядання в майбутнє, чесний облік сильного covariate shift (train 5.8% → val 11.5% → test 39.3% yes), bootstrap 95% довірчий інтервал різниці macro-F1 (`[-0.0085, 0.0089]`), що доводить чесний негативний результат MLP vs збалансованого лінійного baseline, поглиблений аналіз помилок по 5 сегментах.
 * **Work 04 (Production ML Serving):** Сервінг моделі на FastAPI (`/v1/predict`, `/v1/drift`). Data contract із часовими мітками `event_time` / `available_at`, оптимізація порогу за матрицею бізнес-вартості ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), моніторинг вхідного дрейфу ознак через z-score.
 
@@ -36,6 +37,7 @@ Monorepo для позиції **Senior AI/ML Engineer**: поєднання р�
 
 | № | Каталог | Що перевірено й доведено | Чесні операційні межі (Scope) | Статус |
 |---|---|---|---|---|
+| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/) | Прогнозування попиту на 20 рядах: LightGBM знижує WAPE на 38.7% проти Seasonal Naive; оптимізація Newsvendor заощаджує 49.7% витрат; FastAPI інференс ~64 мс. | Мульти-серійні табличні дані з денною дискретизацією; без інтеграції з потоковими брокерами Kafka у реальному часі. | **tag** `work08-v1.0` |
 | **07** | [`work07-ai-platform/`](work07-ai-platform/) | Усунення N+1 латентності Java→Python (speedup ~5.1× на p50, ~4.2× на p95); порівняння BM25 vs Hybrid на парафразах; Jaeger OTel трейси. | Локальний кластер Docker Compose; не гео-розподілений багаторегіональний Kubernetes. | **tag** `work07-v1.0` |
 | **05** | [`work05-docguard/`](work05-docguard/) | Zero-Trust Pre-LLM ACL шлюз: 100% ізоляція 2 тенантів на 8 векторах, audit log ін'єкцій, degraded fallback при відмові Python. | In-memory кеш ACL із REST-інвалідацією; не зовнішній провайдер посвідчень (Keycloak/Ory). | **tag** `work05-v1.0` |
 | **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Усунення target leakage (`duration`), часовий backtesting, калібрування ймовірностей, bootstrap 95% CI на реальних даних UCI. | Табличний датасет UCI; temperature scaling не усуває covariate shift повністю без domain adaptation. | **tag** `work01-v1.0` |

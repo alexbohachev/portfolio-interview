@@ -1,0 +1,140 @@
+{
+  "by_sku": [
+    {
+      "segment": "sku",
+      "key": "SKU_EQUIP_PARTS",
+      "sample_count": 280,
+      "total_demand": 5254.6,
+      "lgb_wape": 0.0705,
+      "naive_wape": 0.1154,
+      "lgb_bias": -0.0208,
+      "wape_lift_pct": 38.9
+    },
+    {
+      "segment": "sku",
+      "key": "SKU_FERT_NPK",
+      "sample_count": 280,
+      "total_demand": 34074.5,
+      "lgb_wape": 0.0709,
+      "naive_wape": 0.1133,
+      "lgb_bias": -0.0148,
+      "wape_lift_pct": 37.43
+    },
+    {
+      "segment": "sku",
+      "key": "SKU_PEST_HERB",
+      "sample_count": 280,
+      "total_demand": 12382.4,
+      "lgb_wape": 0.0769,
+      "naive_wape": 0.1205,
+      "lgb_bias": -0.006,
+      "wape_lift_pct": 36.19
+    },
+    {
+      "segment": "sku",
+      "key": "SKU_SEED_WHEAT",
+      "sample_count": 280,
+      "total_demand": 23766.5,
+      "lgb_wape": 0.0725,
+      "naive_wape": 0.1235,
+      "lgb_bias": 0.0014,
+      "wape_lift_pct": 41.27
+    }
+  ],
+  "by_hub": [
+    {
+      "segment": "hub",
+      "key": "hub_central",
+      "sample_count": 224,
+      "total_demand": 19212.4,
+      "lgb_wape": 0.0783,
+      "naive_wape": 0.13,
+      "lgb_bias": -0.0207,
+      "wape_lift_pct": 39.76
+    },
+    {
+      "segment": "hub",
+      "key": "hub_east",
+      "sample_count": 224,
+      "total_demand": 12117.0,
+      "lgb_wape": 0.0732,
+      "naive_wape": 0.1187,
+      "lgb_bias": -0.0014,
+      "wape_lift_pct": 38.3
+    },
+    {
+      "segment": "hub",
+      "key": "hub_north",
+      "sample_count": 224,
+      "total_demand": 14885.5,
+      "lgb_wape": 0.0713,
+      "naive_wape": 0.1099,
+      "lgb_bias": -0.0019,
+      "wape_lift_pct": 35.09
+    },
+    {
+      "segment": "hub",
+      "key": "hub_south",
+      "sample_count": 224,
+      "total_demand": 16528.6,
+      "lgb_wape": 0.068,
+      "naive_wape": 0.1116,
+      "lgb_bias": -0.0131,
+      "wape_lift_pct": 39.03
+    },
+    {
+      "segment": "hub",
+      "key": "hub_west",
+      "sample_count": 224,
+      "total_demand": 12734.5,
+      "lgb_wape": 0.0694,
+      "naive_wape": 0.1161,
+      "lgb_bias": 0.0002,
+      "wape_lift_pct": 40.22
+    }
+  ],
+  "by_promo": [
+    {
+      "segment": "promo",
+      "key": "Non-Promo (Звичайний)",
+      "sample_count": 1080,
+      "total_demand": 71334.2,
+      "lgb_wape": 0.0726,
+      "naive_wape": 0.1118,
+      "lgb_bias": -0.0091,
+      "wape_lift_pct": 35.05
+    },
+    {
+      "segment": "promo",
+      "key": "Promo (Акція)",
+      "sample_count": 40,
+      "total_demand": 4143.8,
+      "lgb_wape": 0.0683,
+      "naive_wape": 0.2222,
+      "lgb_bias": -0.0013,
+      "wape_lift_pct": 69.26
+    }
+  ],
+  "by_day_type": [
+    {
+      "segment": "day_type",
+      "key": "Weekday (Будні)",
+      "sample_count": 800,
+      "total_demand": 64239.9,
+      "lgb_wape": 0.072,
+      "naive_wape": 0.1211,
+      "lgb_bias": -0.009,
+      "wape_lift_pct": 40.58
+    },
+    {
+      "segment": "day_type",
+      "key": "Weekend (Вихідні)",
+      "sample_count": 320,
+      "total_demand": 11238.1,
+      "lgb_wape": 0.0746,
+      "naive_wape": 0.0991,
+      "lgb_bias": -0.0069,
+      "wape_lift_pct": 24.72
+    }
+  ]
+}

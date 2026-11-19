@@ -1,4 +1,4 @@
-﻿# Усі offline-демо (1–7) перед співбесідою
+﻿# Усі offline-демо (1–8) перед співбесідою
 param(
     [switch]$Strict
 )
@@ -14,6 +14,7 @@ $demos = @(
     @{ Name = "work04"; Path = "work04-ml-serving"; Env = @{ PYTHONPATH = (Join-Path $Root "work04-ml-serving\src") }; Script = "scripts/demo_offline.py" }
     @{ Name = "work06"; Path = "work06-bible-rag"; Env = @{ PYTHONPATH = (Join-Path $Root "work06-bible-rag\src") }; Pytest = @("tests/test_generate.py", "tests/test_db.py"); Optional = $true }
     @{ Name = "work07"; Path = "work07-ai-platform"; Env = @{}; Script = "scripts/demo_offline.py" }
+    @{ Name = "work08"; Path = "work08-demand-forecasting"; Env = @{ PYTHONPATH = (Join-Path $Root "work08-demand-forecasting\src") }; Script = "scripts/demo_offline.py" }
 )
 
 Write-Host "=== Portfolio prep (offline) ===" -ForegroundColor Cyan

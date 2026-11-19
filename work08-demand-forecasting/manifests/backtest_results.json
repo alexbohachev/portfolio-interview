@@ -1,0 +1,165 @@
+{
+  "horizon_days": 14,
+  "n_folds": 4,
+  "c_under": 5.0,
+  "c_over": 1.0,
+  "critical_fractile": 0.8333,
+  "summary": {
+    "seasonal_naive_wape": 0.1179,
+    "lightgbm_wape": 0.0723,
+    "wape_reduction_pct": 38.68,
+    "seasonal_naive_cost": 5445.8,
+    "lightgbm_safety_cost": 2739.4,
+    "cost_reduction_pct": 49.7
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_end": "2017-11-05",
+      "test_start": "2017-11-06",
+      "test_end": "2017-11-19",
+      "n_test_samples": 280,
+      "baseline_seasonal_naive": {
+        "wape": 0.1042,
+        "mae": 7.14,
+        "rmse": 10.777,
+        "bias": 0.0587,
+        "inventory_cost": 3743.1
+      },
+      "baseline_dow_ma": {
+        "wape": 0.2282,
+        "mae": 15.642,
+        "rmse": 23.6,
+        "bias": 0.2179,
+        "inventory_cost": 4774.5
+      },
+      "lightgbm_point": {
+        "wape": 0.0748,
+        "mae": 5.13,
+        "rmse": 7.695,
+        "bias": 0.0049,
+        "inventory_cost": 4122.0
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.12,
+        "mae": 8.221,
+        "rmse": 11.882,
+        "bias": 0.1008,
+        "inventory_cost": 3036.2
+      },
+      "quantile_coverage_80": 0.825,
+      "pinball_loss_p50": 2.639
+    },
+    {
+      "fold": 2,
+      "train_end": "2017-11-19",
+      "test_start": "2017-11-20",
+      "test_end": "2017-12-03",
+      "n_test_samples": 280,
+      "baseline_seasonal_naive": {
+        "wape": 0.0893,
+        "mae": 5.888,
+        "rmse": 8.773,
+        "bias": 0.0282,
+        "inventory_cost": 3902.1
+      },
+      "baseline_dow_ma": {
+        "wape": 0.1047,
+        "mae": 6.906,
+        "rmse": 10.458,
+        "bias": 0.0864,
+        "inventory_cost": 2609.3
+      },
+      "lightgbm_point": {
+        "wape": 0.0658,
+        "mae": 4.343,
+        "rmse": 6.425,
+        "bias": -0.0101,
+        "inventory_cost": 4022.9
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.0993,
+        "mae": 6.549,
+        "rmse": 9.03,
+        "bias": 0.0824,
+        "inventory_cost": 2455.8
+      },
+      "quantile_coverage_80": 0.8179,
+      "pinball_loss_p50": 2.212
+    },
+    {
+      "fold": 3,
+      "train_end": "2017-12-03",
+      "test_start": "2017-12-04",
+      "test_end": "2017-12-17",
+      "n_test_samples": 280,
+      "baseline_seasonal_naive": {
+        "wape": 0.1191,
+        "mae": 8.194,
+        "rmse": 13.352,
+        "bias": -0.0388,
+        "inventory_cost": 8377.6
+      },
+      "baseline_dow_ma": {
+        "wape": 0.1032,
+        "mae": 7.101,
+        "rmse": 12.31,
+        "bias": -0.0229,
+        "inventory_cost": 6848.6
+      },
+      "lightgbm_point": {
+        "wape": 0.0723,
+        "mae": 4.975,
+        "rmse": 7.608,
+        "bias": -0.008,
+        "inventory_cost": 4487.8
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.0931,
+        "mae": 6.405,
+        "rmse": 9.637,
+        "bias": 0.0732,
+        "inventory_cost": 2559.2
+      },
+      "quantile_coverage_80": 0.8,
+      "pinball_loss_p50": 2.555
+    },
+    {
+      "fold": 4,
+      "train_end": "2017-12-17",
+      "test_start": "2017-12-18",
+      "test_end": "2017-12-31",
+      "n_test_samples": 280,
+      "baseline_seasonal_naive": {
+        "wape": 0.1591,
+        "mae": 10.541,
+        "rmse": 18.292,
+        "bias": 0.0834,
+        "inventory_cost": 5760.4
+      },
+      "baseline_dow_ma": {
+        "wape": 0.0773,
+        "mae": 5.118,
+        "rmse": 8.222,
+        "bias": 0.0174,
+        "inventory_cost": 3653.1
+      },
+      "lightgbm_point": {
+        "wape": 0.0764,
+        "mae": 5.058,
+        "rmse": 7.653,
+        "bias": -0.022,
+        "inventory_cost": 5064.4
+      },
+      "lightgbm_safety_stock": {
+        "wape": 0.1068,
+        "mae": 7.077,
+        "rmse": 11.171,
+        "bias": 0.0819,
+        "inventory_cost": 2906.6
+      },
+      "quantile_coverage_80": 0.7821,
+      "pinball_loss_p50": 2.672
+    }
+  ]
+}

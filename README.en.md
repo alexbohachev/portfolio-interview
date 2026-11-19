@@ -5,7 +5,7 @@
 [![Demo Walkthrough (5-7 min)](https://img.shields.io/badge/Demo_Recording-5--7_min_Walkthrough-purple)](work07-ai-platform/DEMO_SCRIPT_5MIN.md#quick-visual-summary-for-recruiters)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
-Hardened engineering monorepo of **7 reproducible reference projects and benchmarks** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
+Hardened engineering monorepo of **8 reproducible reference projects and benchmarks** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
 
 > **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
@@ -20,6 +20,7 @@ Every claim below is backed by committed test suites, committed raw latency arra
 | **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces and committed raw samples. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **100% tenant isolation across 8 security vectors**, verbatim prompt injection logging, degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
+| **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | End-to-end multi-series supply chain demand forecasting (20 series, 21,920 samples). **Zero-leakage 4-fold rolling backtesting ($H=14$)**. LightGBM achieves **38.7% WAPE reduction vs Seasonal Naive baseline** (7.23% vs 11.79%). Newsvendor asymmetric critical fractile ($\tau^* = 83.33\%$) cuts stockout/holding costs by **49.70%**. FastAPI production serving with ~64 ms latency. | Tabular multi-series with daily discretization; without real-time streaming Kafka connectors. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
 | **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
 | **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters motivate testing a 2nd-stage Cross-Encoder re-ranker to improve discrimination beyond bi-encoder retrieval. |
@@ -194,14 +195,15 @@ cd portfolio-interview
 
 ---
 
-## All Seven Works Summary
+## All Eight Works Summary
 
 | # | Project | Focus | Key Tech | Verification |
 |---|---|---|---|---|
+| **08** | Demand Forecasting | Multi-series forecasting, rolling backtesting, inventory risk | LightGBM, FastAPI, Pydantic, Pandas | `.\make.ps1 all` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
+| **07** | Distributed AI Platform | Enterprise microservices, N+1 fix, observability | Java 21, Python, Kafka, Elasticsearch, Jaeger | `.\make.ps1 smoke; py scripts/benchmark_latency.py` |
+| **05** | DocGuard Gateway | Multi-tenant security, pre-LLM ACL, degraded mode | Java 21, FastAPI, Docker Compose | `.\scripts\reliability_demo.ps1` |
 | **01** | Bank Marketing | ML classification, leakage guard, cost optimization | LightGBM, scikit-learn, Python 3.13 | `.\scripts\demo_offline.py` |
+| **04** | ML Serving | Production serving, schema validation, drift guard | FastAPI, scikit-learn, joblib | `python -m work04 all` |
 | **02** | RAG Citations | Hybrid RRF, citation accuracy, unanswerable gate | SentenceTransformers, BM25, NumPy | `.\make.ps1 all` |
 | **03** | Agent Workflow | Idempotent workflow, Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL, Docker | `.\scripts\reliability_demo.ps1` |
-| **04** | ML Serving | Production serving, schema validation, drift guard | FastAPI, scikit-learn, joblib | `python -m work04 all` |
-| **05** | DocGuard Gateway | Multi-tenant security, pre-LLM ACL, degraded mode | Java 21, FastAPI, Docker Compose | `.\scripts\reliability_demo.ps1` |
 | **06** | Verse RAG | Semantic vector retrieval, SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` |
-| **07** | Distributed AI Platform | Enterprise microservices, N+1 fix, observability | Java 21, Python, Kafka, Elasticsearch, Jaeger | `.\make.ps1 smoke; py scripts/benchmark_latency.py` |

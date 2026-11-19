@@ -14,10 +14,11 @@
 
 ## 1. Executive Summary (The 2-Minute Recruiter Overview)
 
-This portfolio documents **7 reproducible engineering projects and benchmarks** solving concrete challenges at the intersection of AI infrastructure, classical machine learning, and distributed reliability:
+This portfolio documents **8 reproducible engineering projects and benchmarks** solving concrete challenges at the intersection of AI infrastructure, classical machine learning, and distributed reliability:
 
 | Core Competency | Demonstrated In | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
+| **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Multi-series demand forecasting across 20 series (21,920 samples). **Strict 4-fold expanding-window backtesting ($H=14$) with zero lookahead**. LightGBM achieves **38.7% WAPE reduction vs Seasonal Naive** (7.23% vs 11.79%). Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts inventory stockout/holding costs by **49.70%**. FastAPI serving with ~64 ms latency. | Multi-series tabular data with daily discretization; without real-time streaming Kafka connectors. |
 | **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security & Governance** | **Work 05 (DocGuard)** | Zero-Trust Pre-LLM Security Gateway. Enforces multi-tenant principal ACL filtering **before** documents reach LLM or vector search. **100% tenant isolation across 8 security scenarios**, verbatim prompt injection audit logging, automated degraded mode. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
@@ -148,6 +149,24 @@ In distributed workflow systems, non-deterministic external tool calls (API effe
 * **Transactional Outbox:** Intent to call external services is written to PostgreSQL inside the same atomic database transaction as the workflow state checkpoint.
 * **Crash Recovery Loop:** If the node crashes after an external side-effect is recorded, `WorkflowRecovery` verifies existing effects on startup, completes the pending checkpoint, and marks the workflow `COMPLETED` without re-issuing duplicate external calls.
 * **Scope & Matrix Tests:** 30 automated fault injection scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
+
+---
+
+### Case Study 4: Work 08 — End-to-End Demand Forecasting & Inventory Risk Optimization
+
+#### Business Formulation & Asymmetric Risk
+In supply chain networks, forecasting errors carry highly asymmetric costs: stockouts during seasonal application windows penalize the business heavily ($C_{under} = 5.0$), while inventory holding and spoilage penalties are lower ($C_{over} = 1.0$). Optimal service level demands the **Newsvendor critical fractile** $\tau^* = \frac{C_{under}}{C_{under} + C_{over}} = 83.33\%$. Point forecasting at the median ($P_{50}$) leads to structural inventory deficits.
+
+#### Strict 4-Fold Chronological Expanding Backtesting
+* **Data Scale:** 21,920 daily records across 20 distinct time series (5 regional distribution hubs $\times$ 4 agricultural product lines) spanning 3 full years.
+* **Target Leakage Elimination:** For forecast horizon $H = 14$ days, all lag steps are shifted to $t - 14$ or earlier ($lag_{14}, lag_{21}, lag_{28}, lag_{35}$). All rolling means and rolling standard deviations (windows 7, 14, 28) are computed strictly on data prior to $t - 14$.
+* **Validation Rigor:** 4 sequential expanding-window folds (56 days total test horizon) with zero future data leakage.
+
+#### Empirical Results & Business Cost Impact
+* **WAPE Reduction:** LightGBM achieves **7.23% WAPE** compared to **11.79% for Seasonal Naive** ($y_{t-7}$) and **24.31% for 4-Week DOW MA** (a **38.68% relative error reduction**).
+* **Inventory Cost Optimization:** Operating at the Newsvendor critical ratio $\tau^* = 83.33\%$ cuts aggregate stockout and holding costs from **5,445.8 to 2,739.4 units (a 49.70% cost reduction)**.
+* **Uncertainty Calibration:** Empirical coverage of the $[P_{10}, P_{90}]$ prediction interval is **80.7%** (against theoretical 80.0%).
+* **Production Serving:** Low-latency FastAPI serving (`POST /v1/forecast`, `GET /v1/health`) delivers 14-day forecasts with calibrated quantiles in **~64 ms**. Full technical case study: [`REPORT.md`](work08-demand-forecasting/REPORT.md).
 
 ---
 
