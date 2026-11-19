@@ -1,0 +1,11 @@
+{
+  "source": "REPORT.md final run 2026-11-18",
+  "config_hash": "87dbd806dbe8a914",
+  "retrieval_test_n": 50,
+  "recall_at_5": { "bm25": 1.0, "hybrid": 1.0 },
+  "mrr_at_5": { "bm25": 1.0, "hybrid": 1.0 },
+  "recommendations_test_n": 20,
+  "hit_at_3": 0.65,
+  "latency_speedup_p50": 5.1,
+  "smoke": "OK"
+}

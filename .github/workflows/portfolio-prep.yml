@@ -1,0 +1,32 @@
+name: portfolio-prep
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - "work0*/scripts/demo_offline.py"
+      - "work07-ai-platform/manifests/eval_snapshot.json"
+      - ".github/workflows/portfolio-prep.yml"
+  workflow_dispatch:
+
+jobs:
+  offline-demos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: work01 demo
+        working-directory: work01-bank-marketing
+        run: python scripts/demo_offline.py
+      - name: work02 verify sources
+        working-directory: work02-rag-citations
+        run: pip install -q pyyaml && python scripts/verify_sources.py
+      - name: work03 demo
+        working-directory: work03-agent-workflow
+        run: python scripts/demo_offline.py
+      - name: work07 demo
+        working-directory: work07-ai-platform
+        run: python scripts/demo_offline.py

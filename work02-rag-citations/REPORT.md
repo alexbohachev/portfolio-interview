@@ -24,6 +24,6 @@ Retrieval (BM25 vs hybrid RRF) + retrieval gate + відповідь з цита
 - Промпт не замінює retrieval gate (відмова лише в коді за порогом).
 
 ## Наступний крок
-- Відкритий агро-корпус 200–500 + ручний golden; LLM-judge на 30 прикладах.
+- `.\make.ps1 plan-corpus` → відкритий корпус 200–500 + ручний golden; `.\make.ps1 eval-llm` (30 dev).
 
 _Час: 6.93 с._
