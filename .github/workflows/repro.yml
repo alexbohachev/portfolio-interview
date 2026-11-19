@@ -29,12 +29,13 @@ jobs:
           python scripts/seed_data.py
           $env:PYTHONPATH="src"
           python -m work04 all
-      - name: work08 train & test
+      - name: work08 train, benchmark & test
         working-directory: work08-demand-forecasting
         run: |
           pip install -q -r requirements.txt
           $env:PYTHONPATH="src"
           python scripts/run_pipeline.py
+          python scripts/eval_real_benchmark.py
           python -m pytest -v tests
       - name: repro_check offline
         shell: pwsh

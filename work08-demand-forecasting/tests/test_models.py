@@ -46,3 +46,18 @@ def test_conformal_calibration_achieves_target_coverage_on_synthetic_folds():
         cal_cov = f["calibrated_quantile_coverage_80"]
         season = f["season"]
         assert cal_cov >= 0.80, f"Сезон '{season}' має каліброване покриття {cal_cov * 100:.2f}%, менше за 80%"
+
+
+def test_real_benchmark_baseline_victory_and_conformal_lift():
+    real_path = ROOT / "manifests" / "real_benchmark_results.json"
+    assert real_path.is_file(), "real_benchmark_results.json відсутній"
+    res = json.loads(real_path.read_text(encoding="utf-8"))
+    summary = res["summary"]
+
+    # На реальних даних Bikeshare сезонний бейзлайн виграє у LightGBM за WAPE та вартістю
+    assert summary["seasonal_naive_wape"] < summary["lightgbm_wape"], "Бейзлайн мав виграти за WAPE на Bikeshare"
+    assert summary["seasonal_naive_cost"] < summary["lightgbm_safety_cost"], "Бейзлайн мав мати менші витрати на Bikeshare"
+
+    # CQR калібрування суттєво піднімає покриття (з 26.79% до 75.89%)
+    assert summary["mean_calibrated_coverage_80"] > summary["mean_raw_coverage_80"] + 0.30, "CQR мало підняти покриття більш ніж на 30 п.п."
+

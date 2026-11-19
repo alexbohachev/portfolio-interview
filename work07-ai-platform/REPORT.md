@@ -84,4 +84,6 @@ cd c:\Portfolio\work07-ai-platform
 
 ## Демо
 
-`DEMO.md`, `scripts/demo.ps1` — запис відео 5–7 хв для співбесіди.
+* 🎬 **Відеозапис демо (MP4 Walkthrough):** [`assets/work07_demo_walkthrough.mp4`](../assets/work07_demo_walkthrough.mp4) — відеопрезентація архітектури, трейсів у Jaeger та виміряних таймінгів p50/p95.
+* **Покроковий сценарій:** [`DEMO_SCRIPT_5MIN.md`](DEMO_SCRIPT_5MIN.md), `DEMO.md`, `scripts/demo.ps1`.
+* **Живий запуск наживо в терміналі:** `.\scripts\live_interview.ps1 work07`.
