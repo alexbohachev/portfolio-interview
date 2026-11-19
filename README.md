@@ -1,8 +1,9 @@
 # Портфоліо — Senior AI/ML Engineer (7 робіт)
 
-[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
+[![CI: Clean-Clone Reproducibility (Run #44540010760 Passed)](https://img.shields.io/badge/CI_Run_44540010760-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44540010760)
 [![Live CI Runs](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Walkthrough](https://img.shields.io/badge/Demo_Script-5--7_min-orange)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+[![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
+[![Demo Walkthrough Script](https://img.shields.io/badge/Demo_Script-5--7_min-yellow)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 
 Monorepo для позиції **Senior AI/ML Engineer**: поєднання розподілених AI-платформ (Java 21, Python 3.13, RAG, OpenTelemetry) та класичного машинного навчання на реальних даних (часовий backtesting, MLOps, serving, drift).
 
@@ -19,7 +20,8 @@ Monorepo для позиції **Senior AI/ML Engineer**: поєднання р�
 * **Work 07 (Флагман):** Усунення N+1 патерну викликів Java → Python RAG API. Підтверджено двома незалежними прогонами на локальному стенді Docker Compose (Windows 11, n=25):
   * **Базовий прогін (2026-11-18, `6efad68`):** p95 знизився з **197.0 мс до 53.3 мс** (p50: 172.6 → 34.0 мс, прискорення 5.08×).
   * **Прогін із чистого клону (2026-11-19, `45d550c`):** p95 знизився з **195.7 мс до 46.7 мс** (p50: 171.6 → 33.9 мс, прискорення 5.06× на p50, 4.19× на p95).
-  * **Порівняння BM25 vs Hybrid на складних запитах (`eval-hard`):** на парафразах `hard_007` гібридний RRF виграв (+1 hit) завдяки семантичному узагальненню; на `hard_006` (дози NPK) BM25 виграв (+1 hit) завдяки точним формулам; на щільних кластерах обґрунтовано необхідність 2-го етапу — Cross-Encoder re-ranker.
+  * **Комічені сирі артефакти:** сирі масиви замірів латентності по 25 викликів [`manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) та зведення [`manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json).
+  * **Порівняння BM25 vs Hybrid на складних запитах (`eval-hard`):** на парафразах `hard_007` гібридний RRF виграв (+1 hit) завдяки семантичному узагальненню; на `hard_006` (дози NPK) BM25 виграв (+1 hit) завдяки точним формулам; на щільних кластерах обґрунтовано необхідність 2-го етапу — Cross-Encoder re-ranker. Повний JSON результатів по кожному запиту: [`manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json).
   * Трейси перевірені в Jaeger (`http://localhost:16687`). Деталі: [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) та сценарій демо: [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md).
 * **Work 05 (DocGuard):** Pre-LLM Zero-Trust ACL шлюз. 100% ізоляція двох тенантів на 8 безпекових векторах, фіксація prompt injection у незмінному аудиторському лозі, автоматичний degraded mode (`degraded: true`) при зупинці retrieval-сервісу (`scripts/reliability_demo.ps1`).
 * **Work 02 (RAG із цитатами):** Гібридний пошук (BM25 + Dense RRF), поріг відсікання галюцинацій (retrieval gate `0.0313`) та екстрактивна верифікація цитат (35/35).

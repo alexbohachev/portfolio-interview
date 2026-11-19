@@ -1,0 +1,24 @@
+{
+  "endpoint": "/api/v1/equipment-requests",
+  "recorded_at_utc": "2026-11-19T12:26:08.050916+00:00",
+  "git_sha": "45d550c",
+  "bench_n": 25,
+  "slow": {
+    "profile": "slow",
+    "n": 25,
+    "p50_ms": 171.6,
+    "p95_ms": 195.7,
+    "mean_ms": 179.2
+  },
+  "fast": {
+    "profile": "fast",
+    "n": 25,
+    "p50_ms": 33.9,
+    "p95_ms": 46.7,
+    "mean_ms": 37.9
+  },
+  "speedup_p50": 5.06,
+  "speedup_p95": 4.19,
+  "jaeger_ui": "http://localhost:16687",
+  "observability_note": "Trace logistics→rag-api: slow profile issues N+1 token calls; fast=single hybrid."
+}

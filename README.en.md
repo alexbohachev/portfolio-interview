@@ -1,10 +1,11 @@
 # Senior AI/ML Engineer — Portfolio Teardown
 
-[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
-[![Live CI Runs](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Walkthrough](https://img.shields.io/badge/Demo_Script-5--7_min-orange)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+[![CI: Clean-Clone Reproducibility (Run #44540010760 Passed)](https://img.shields.io/badge/CI_Run_44540010760-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44540010760)
+[![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
+[![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
+[![Demo Walkthrough Script](https://img.shields.io/badge/Demo_Script-5--7_min-yellow)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 
-Production-grade monorepo of **7 end-to-end engineering projects** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
+Hardened engineering monorepo of **7 reproducible reference projects and benchmarks** demonstrating dual-track mastery: **Distributed AI/RAG Infrastructure** (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry) and **Applied Machine Learning / MLOps** (temporal backtesting, target leakage prevention, probability calibration, production serving, drift detection).
 
 > **Ukrainian documentation:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
@@ -12,15 +13,15 @@ Production-grade monorepo of **7 end-to-end engineering projects** demonstrating
 
 ## 2-Minute Recruiter Summary: Capabilities & Honest Boundaries
 
-Every claim below is backed by committed test suites, raw latency arrays, and automated fault matrix tests in CI:
+Every claim below is backed by committed test suites, committed raw latency arrays, and automated fault matrix tests in CI:
 
 | Dimension | Proof in Monorepo | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
-| **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
+| **AI Systems & Performance** | **Work 07 (AI Platform)** | Eliminated N+1 microservice calls Java → Python RAG API. **p95 latency reduced from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**; confirmed via OpenTelemetry/Jaeger traces and committed raw samples. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **100% tenant isolation across 8 security vectors**, verbatim prompt injection logging, degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
-| **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Production-grade tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
+| **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal backtesting under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
-| **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; not a distributed multi-node consensus (Raft/Paxos). |
+| **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
 | **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Evaluated on hard paraphrases and multi-hop queries**; calibrated pre-retrieval refusal gate preventing hallucinations on unanswerable prompts. | 200 domain documents; fine-grained topical clusters require a 2nd-stage Cross-Encoder re-ranker for >0.85 Recall@5. |
 | **Full Stack Competence** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker, Kafka, Elasticsearch, Jaeger. | Multi-platform CI runs Windows offline suite (<30s) + Ubuntu Docker integration suite. |
 
@@ -57,6 +58,9 @@ Every claim below is backed by committed test suites, raw latency arrays, and au
   * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
   * Artifact: `work07-ai-platform/artifacts/latency_before_after.json` & `latency_raw_samples.json`
 * **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in latency).
+* **Committed Raw Evidence:**
+  * Raw timing arrays (all 25 samples per profile): [`manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) / [`artifacts/latency_raw_samples.json`](work07-ai-platform/artifacts/latency_raw_samples.json)
+  * Summary metrics: [`manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json) / [`artifacts/latency_before_after.json`](work07-ai-platform/artifacts/latency_before_after.json)
 
 #### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Trade-offs
 
@@ -69,7 +73,7 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
 | **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, demonstrating the architectural need for a **2nd-stage Cross-Encoder re-ranker** in production. |
 | **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
 
-*Artifacts: `manifests/hard_eval_snapshot.json` and `artifacts/eval_per_query.json`.*
+*Committed Raw Artifacts: [`manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) / [`artifacts/eval_per_query.json`](work07-ai-platform/artifacts/eval_per_query.json) and [`manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
 
 * **Verification Command:**
   ```powershell
@@ -153,12 +157,12 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
 
 ### 4. Work 03 — Agent Workflow: Crash Recovery & Transactional Outbox
 
-* **The Problem:** Non-deterministic external tool calls (API effects, machinery commands, logistics dispatch) can execute twice if network fails after the side effect but before the workflow commits state.
+* **The Problem:** Non-deterministic external tool calls (API effects, machinery commands, logistics dispatch) can execute twice if the application crashes or restarts immediately after an external side-effect is emitted but before the database transaction commits the updated workflow state.
 * **The Architecture:**
   * **Idempotency Guard:** `idempotency_key` + SHA-256 payload hash uniquely identifies intents. A duplicate request with matching payload returns the cached result; an altered payload triggers `409 Conflict`.
   * **Transactional Outbox:** External intents are stored in PostgreSQL within the same ACID transaction as the workflow state checkpoint.
-  * **Recovery Loop:** On restart after a sudden power loss or process kill, `WorkflowRecovery` inspects pending outbox entries, verifies external stub effects, and resumes from the exact checkpoint without re-running external side effects.
-  * **Matrix Tests:** 30 automated fault scenarios (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`).
+  * **Recovery Loop:** On restart after an abrupt process kill, `WorkflowRecovery` inspects pending outbox entries, verifies external stub effects, and resumes from the exact checkpoint without re-running external side effects.
+  * **Scope & Matrix Tests:** 30 automated fault scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
 * **Verification Command:**
   ```powershell
   cd work03-agent-workflow

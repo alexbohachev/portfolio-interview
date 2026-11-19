@@ -1,8 +1,9 @@
 # Senior AI/ML Engineer — Portfolio Teardown & Engineering Evidence
 
-[![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
-[![Live CI Runs](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
-[![Demo Walkthrough](https://img.shields.io/badge/Demo_Script-5--7_min-orange)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
+[![CI: Clean-Clone Reproducibility (Run #44540010760 Passed)](https://img.shields.io/badge/CI_Run_44540010760-Passed-brightgreen)](https://github.com/alexbohachev/portfolio-interview/actions/runs/44540010760)
+[![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
+[![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
+[![Demo Walkthrough Script](https://img.shields.io/badge/Demo_Script-5--7_min-yellow)](work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 
 > **Author:** Alex Bohachev  
 > **Target Role:** Senior AI/ML Engineer / Senior AI Platform Engineer  
@@ -13,16 +14,16 @@
 
 ## 1. Executive Summary (The 2-Minute Recruiter Overview)
 
-This portfolio documents **7 production-grade engineering projects** solving concrete challenges at the intersection of AI infrastructure, classical machine learning, and distributed reliability:
+This portfolio documents **7 reproducible engineering projects and benchmarks** solving concrete challenges at the intersection of AI infrastructure, classical machine learning, and distributed reliability:
 
 | Core Competency | Demonstrated In | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
-| **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
+| **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security & Governance** | **Work 05 (DocGuard)** | Zero-Trust Pre-LLM Security Gateway. Enforces multi-tenant principal ACL filtering **before** documents reach LLM or vector search. **100% tenant isolation across 8 security scenarios**, verbatim prompt injection audit logging, automated degraded mode. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
-| **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Production-grade tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
+| **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
 | **Production ML Serving & MLOps** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit data contracts separating `event_time` from `available_at`, **business cost matrix optimization** (FP/FN/review cost), calibrated LightGBM, and live feature drift detection via z-score monitoring. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
 | **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid search combining **dense kNN embeddings and BM25 via Reciprocal Rank Fusion (RRF)**. Evaluated on hard paraphrases; calibrated refusal threshold gate preventing hallucinations on unanswerable queries. | 200 domain documents; fine-grained topical clusters require a 2nd-stage Cross-Encoder re-ranker for >0.85 Recall@5. |
-| **Distributed Systems Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survives random process crashes and network partitions without duplicate external side effects (**30/30 fault scenarios passing**); detects payload tampering with HTTP 409 Conflict. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; not a distributed multi-node consensus (Raft/Paxos). |
+| **Distributed Systems Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survives abrupt process crashes between external side effects and transaction commits without duplicate external effects (**30/30 fault scenarios passing**); detects payload tampering with HTTP 409 Conflict. | Scoped to single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus like Raft/Paxos. |
 
 ---
 
@@ -68,6 +69,9 @@ Replaced the iterative token-loop with a single batch hybrid call (`EquipmentSea
   * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
   * Artifact: `work07-ai-platform/artifacts/latency_before_after.json` & `latency_raw_samples.json`
 * **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in overall latency).
+* **Committed Raw Evidence:**
+  * Raw timing arrays (all 25 samples per profile): [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) / [`artifacts/latency_raw_samples.json`](work07-ai-platform/artifacts/latency_raw_samples.json)
+  * Summary metrics: [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json) / [`artifacts/latency_before_after.json`](work07-ai-platform/artifacts/latency_before_after.json)
 
 #### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Breakdown (`eval-hard`)
 Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval limits, we evaluated on **hard paraphrases, multi-hop queries, and unanswerable prompts** (`data/golden/hard_retrieval.json`, scoped via `--doc-id-prefix agri_` to the 200 documents shared with Work 02):
@@ -78,6 +82,8 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To test real retrieval
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 Wins (+1):** Exact keyword specificity. BM25 directly matched the specific NPK formula ratio. |
 | **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Cluster tie) | ❌ (Cluster tie) | **Tie:** Both systems pulled topically relevant clusters, demonstrating the architectural need for a **2nd-stage Cross-Encoder re-ranker** in production. |
 | **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
+
+*Committed Raw Artifacts: [`work07-ai-platform/manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) / [`artifacts/eval_per_query.json`](work07-ai-platform/artifacts/eval_per_query.json) and [`manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
 
 ---
 
@@ -135,13 +141,13 @@ Standard academic pipelines use random train/test splits, which introduce tempor
 ### Case Study 4: Work 03 — Fault-Tolerant Distributed Workflow Orchestration
 
 #### The Problem
-In distributed workflow systems, network partitions or process crashes occurring immediately after invoking an external third-party API (payment gateway, equipment dispatch) can cause repeated duplicate execution upon retry.
+In distributed workflow systems, non-deterministic external tool calls (API effects, machinery commands, logistics dispatch) can execute twice if the application crashes or restarts immediately after an external side-effect is emitted but before the database transaction commits the updated workflow state.
 
 #### The Architecture
 * **Idempotency Guard:** Every workflow execution requires an `idempotency_key` and SHA-256 command hash. Retrying with identical parameters safely returns the cached result; retrying with altered parameters returns `409 Conflict`.
 * **Transactional Outbox:** Intent to call external services is written to PostgreSQL inside the same atomic database transaction as the workflow state checkpoint.
 * **Crash Recovery Loop:** If the node crashes after an external side-effect is recorded, `WorkflowRecovery` verifies existing effects on startup, completes the pending checkpoint, and marks the workflow `COMPLETED` without re-issuing duplicate external calls.
-* **Fault Injection Matrix:** 30 automated fault injection scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`).
+* **Scope & Matrix Tests:** 30 automated fault injection scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
 
 ---
 

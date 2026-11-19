@@ -1,0 +1,201 @@
+[
+  {
+    "id": "hard_001",
+    "question": "Які хвороби пшениці згадують буру іржа та фузаріоз?",
+    "expected": [
+      "agri_016_wheat_disease_15"
+    ],
+    "bm25_top5": [
+      "agri_003_wheat_disease_2",
+      "agri_006_wheat_disease_5",
+      "agri_009_wheat_disease_8",
+      "agri_012_wheat_disease_11",
+      "agri_015_wheat_disease_14"
+    ],
+    "hybrid_top5": [
+      "agri_003_wheat_disease_2",
+      "agri_010_wheat_disease_9",
+      "agri_004_wheat_disease_3",
+      "agri_001_wheat_disease_0",
+      "agri_012_wheat_disease_11"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_002",
+    "question": "Як поливати кукурудзу краплинною системою?",
+    "expected": [
+      "agri_033_corn_irrigation_12"
+    ],
+    "bm25_top5": [],
+    "hybrid_top5": [
+      "agri_040_corn_irrigation_19",
+      "agri_031_corn_irrigation_10",
+      "agri_025_corn_irrigation_4",
+      "agri_021_corn_irrigation_0",
+      "agri_058_soil_ph_17"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_003",
+    "question": "Рекомендації щодо економічного порогу IPM для шкідників",
+    "expected": [
+      "agri_112_pest_ipm_11"
+    ],
+    "bm25_top5": [
+      "agri_161_crop_rotation_0",
+      "agri_162_crop_rotation_1",
+      "agri_163_crop_rotation_2",
+      "agri_164_crop_rotation_3",
+      "agri_165_crop_rotation_4"
+    ],
+    "hybrid_top5": [
+      "agri_161_crop_rotation_0",
+      "agri_103_pest_ipm_2",
+      "agri_162_crop_rotation_1",
+      "agri_106_pest_ipm_5",
+      "agri_163_crop_rotation_2"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_004",
+    "question": "Яка щільність посіву насіння для соняшнику?",
+    "expected": [
+      "agri_159_seed_rate_18"
+    ],
+    "bm25_top5": [
+      "agri_141_seed_rate_0",
+      "agri_144_seed_rate_3",
+      "agri_147_seed_rate_6",
+      "agri_150_seed_rate_9",
+      "agri_153_seed_rate_12"
+    ],
+    "hybrid_top5": [
+      "agri_141_seed_rate_0",
+      "agri_112_pest_ipm_11",
+      "agri_144_seed_rate_3",
+      "agri_114_pest_ipm_13",
+      "agri_147_seed_rate_6"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_005",
+    "question": "Вапнування грунту при кислому pH",
+    "expected": [
+      "agri_043_soil_ph_2"
+    ],
+    "bm25_top5": [
+      "agri_041_soil_ph_0",
+      "agri_044_soil_ph_3",
+      "agri_047_soil_ph_6",
+      "agri_050_soil_ph_9",
+      "agri_053_soil_ph_12"
+    ],
+    "hybrid_top5": [
+      "agri_041_soil_ph_0",
+      "agri_050_soil_ph_9",
+      "agri_059_soil_ph_18",
+      "agri_058_soil_ph_17",
+      "agri_044_soil_ph_3"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_006",
+    "question": "Дози азоту фосфору в NPK для поля",
+    "expected": [
+      "agri_062_npk_fertilizer_1"
+    ],
+    "bm25_top5": [
+      "agri_061_npk_fertilizer_0",
+      "agri_062_npk_fertilizer_1",
+      "agri_063_npk_fertilizer_2",
+      "agri_064_npk_fertilizer_3",
+      "agri_065_npk_fertilizer_4"
+    ],
+    "hybrid_top5": [
+      "agri_061_npk_fertilizer_0",
+      "agri_066_npk_fertilizer_5",
+      "agri_063_npk_fertilizer_2",
+      "agri_067_npk_fertilizer_6",
+      "agri_076_npk_fertilizer_15"
+    ],
+    "bm25_hit": true,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": [
+      "agri_062_npk_fertilizer_1"
+    ]
+  },
+  {
+    "id": "hard_007",
+    "question": "Порівняти ризики хвороб пшениці в різних сезонах",
+    "expected": [
+      "agri_015_wheat_disease_14",
+      "agri_016_wheat_disease_15"
+    ],
+    "bm25_top5": [
+      "agri_002_wheat_disease_1",
+      "agri_003_wheat_disease_2",
+      "agri_005_wheat_disease_4",
+      "agri_006_wheat_disease_5",
+      "agri_008_wheat_disease_7"
+    ],
+    "hybrid_top5": [
+      "agri_003_wheat_disease_2",
+      "agri_002_wheat_disease_1",
+      "agri_012_wheat_disease_11",
+      "agri_015_wheat_disease_14",
+      "agri_019_wheat_disease_18"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": true,
+    "hybrid_wins": [
+      "agri_015_wheat_disease_14"
+    ],
+    "bm25_only": []
+  },
+  {
+    "id": "hard_010",
+    "question": "Органіка та сидерати для підвищення гумусу",
+    "expected": [
+      "agri_099_organic_matter_18"
+    ],
+    "bm25_top5": [
+      "agri_083_organic_matter_2",
+      "agri_086_organic_matter_5",
+      "agri_089_organic_matter_8",
+      "agri_092_organic_matter_11",
+      "agri_095_organic_matter_14"
+    ],
+    "hybrid_top5": [
+      "agri_098_organic_matter_17",
+      "agri_083_organic_matter_2",
+      "agri_058_soil_ph_17",
+      "agri_086_organic_matter_5",
+      "agri_096_organic_matter_15"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "hybrid_wins": [],
+    "bm25_only": []
+  }
+]
