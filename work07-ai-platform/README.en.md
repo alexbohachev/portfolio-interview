@@ -10,7 +10,7 @@
 # optional: $env:OPENAI_API_KEY="..."
 cd c:\Portfolio\work07-ai-platform
 .\make.ps1 all
-.\scripts\demo.ps1    # video scenario — DEMO.md
+.\scripts\demo.ps1    # video scenario — DEMO.en.md
 ```
 
 | Service | Port |

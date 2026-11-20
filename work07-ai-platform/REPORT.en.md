@@ -87,5 +87,5 @@ After the commit: `git tag -a work07-v1.0 -m "Робота 7: Compose AI platfor
 ## Demo
 
 * 🎬 **Demo video (MP4 walkthrough):** [`assets/work07_demo_walkthrough.mp4`](../assets/work07_demo_walkthrough.mp4) — a video presentation of the architecture, Jaeger traces and measured p50/p95 timings.
-* **Step-by-step script:** [`DEMO_SCRIPT_5MIN.en.md`](DEMO_SCRIPT_5MIN.en.md), `DEMO.md`, `scripts/demo.ps1`.
+* **Step-by-step script:** [`DEMO_SCRIPT_5MIN.en.md`](DEMO_SCRIPT_5MIN.en.md), [`DEMO.en.md`](DEMO.en.md), `scripts/demo.ps1`.
 * **Live run in the terminal:** `.\scripts\live_interview.ps1 work07`.
