@@ -47,3 +47,5 @@ temp_portfolio.zip
 Thumbs.db
 .idea/
 .vscode/
+# Private interview notes (kept local)
+INTERVIEW_PREP.md

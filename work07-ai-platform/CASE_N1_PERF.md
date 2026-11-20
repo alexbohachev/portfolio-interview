@@ -78,4 +78,4 @@ To demonstrate true retrieval trade-offs under real-world conditions, we stress-
 ### Engineering Takeaway & Architectural Validation
 1. **Hybrid RRF** outperforms single-modality search on **abstract semantic paraphrases** (`hard_010`), pulling a richer candidate pool.
 2. **Fine-Grained Cluster Discrimination:** In dense technical corpora sharing identical vocabularies, bi-encoders cluster documents effectively but struggle with within-cluster ranking.
-3. **Closing the Loop:** Adding a **2nd-stage Cross-Encoder re-ranker** (`cross-encoder/ms-marco-MiniLM-L-6-v2`) over the top-25 hybrid candidates doubles Recall@5 (from 0.25 to 0.50) and nearly doubles MRR@5 (0.0938 to 0.1771), turning an architectural recommendation into a verified quantitative experiment.
+3. **Closing the Loop:** Adding a **2nd-stage Cross-Encoder re-ranker** (`cross-encoder/ms-marco-MiniLM-L-6-v2`) over the top-25 hybrid candidates raised Recall@5 from 0.25 to 0.50 and MRR@5 from 0.0938 to 0.1771 on 8 queries. The 95% CI of the recall lift (`[0.00, 0.625]`) includes zero, so this is a directional result that needs a larger golden set to confirm.
