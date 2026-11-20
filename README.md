@@ -1,4 +1,4 @@
-[**Українська**](README.md) | [English](README.en.md)
+[**Українська**](README.md) | [English](README.en.md) | [Español](README.es.md)
 
 # Інженерне портфоліо — AI Systems & Applied Machine Learning
 

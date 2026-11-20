@@ -1,4 +1,4 @@
-[Українська](README.md) | **English**
+[Українська](README.md) | **English** | [Español](README.es.md)
 
 # AI Systems & Applied Machine Learning Monorepo
 
@@ -12,7 +12,7 @@ Reproducible engineering portfolio of **7 reference projects (+ 1 offline retrie
 * **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** N+1 latency case: reproduced and benchmarked locally (p95 231.5 ms → 46.9 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
 * **Applied Machine Learning & MLOps (PyTorch, LightGBM, FastAPI):** Leakage-free temporal backtesting on UCI data, multi-series demand forecasting with conformal prediction (LightGBM on synthetic series; Seasonal Naive baseline selected on real Capital Bikeshare via Occam's razor), and production model serving with feature drift monitoring.
 
-> **Ukrainian version:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
+> **Ukrainian version:** [`README.md`](README.md) · **Spanish version:** [`README.es.md`](README.es.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
 ---
 
