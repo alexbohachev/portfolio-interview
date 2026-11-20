@@ -16,7 +16,7 @@ def main() -> int:
     print("=== work03 agent workflow ===")
     print(f"fault scenarios: {m.get('n_scenarios')}/{m.get('target_tz')}")
     print("groups:", json.dumps(m.get("groups"), ensure_ascii=False))
-    print("\nЗапустіть boot + demo.ps1 для live HTTP.")
+    print("\nДля живого тестування: docker compose up -d -> ./gradlew bootRun -> bash scripts/reliability_demo.sh (або demo.ps1)")
     return 0
 
 

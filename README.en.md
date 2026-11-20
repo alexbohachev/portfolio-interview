@@ -6,8 +6,8 @@
 [![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
-Reproducible engineering portfolio of **7 primary enterprise systems (+ 1 offline retrieval utility)** demonstrating:
-* **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** Production N+1 query elimination (local Docker Compose p95 latency reduced from 195.7 ms → 46.7 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
+Reproducible engineering portfolio of **7 reference projects (+ 1 offline retrieval utility)** demonstrating:
+* **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** N+1 latency case: reproduced and benchmarked locally (p95 195.7 ms → 46.7 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
 * **Applied Machine Learning & MLOps (PyTorch, LightGBM, FastAPI):** Leakage-free temporal backtesting on UCI data, multi-series demand forecasting with conformal prediction (LightGBM on synthetic series; Seasonal Naive baseline selected on real Capital Bikeshare via Occam's razor), and production model serving with feature drift monitoring.
 
 > **Ukrainian overview:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
@@ -49,7 +49,7 @@ Every metric below is backed by committed test suites, committed raw measurement
                                           [Elasticsearch 8.17 (BM25 + kNN / RRF)]
 ```
 
-* **Origin & Real-World Context:** Encountered during an enterprise RAG migration where an upstream Java orchestration service decomposed incoming user queries into token-level HTTP calls against an internal Python search microservice. To quantify this latency penalty and prove the fix, we isolated and reproduced the pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP round-trips) and benchmarked it against a single-shot batch hybrid retrieval call (`searchFast`: server-side Reciprocal Rank Fusion in Elasticsearch 8.17).
+* **Architecture & Benchmark Context:** Engineered to benchmark and quantify a common distributed RAG anti-pattern where upstream services decompose user queries into iterative token-level HTTP calls to downstream search services. We implemented this baseline in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP round-trips) and benchmarked it against single-shot server-side hybrid retrieval (`searchFast`: server-side Reciprocal Rank Fusion in Elasticsearch 8.17) in local Docker Compose.
 * **Architectural Fix:** Replaced iterative search with a single batch hybrid call (`searchFast()`) requesting top-K items via server-side Reciprocal Rank Fusion (RRF) in Elasticsearch.
 
 #### Quantitative Benchmarking Across Independent Runs (25 samples per profile, local Docker Compose):
@@ -181,9 +181,12 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retri
   ```bash
   cd work03-agent-workflow
   python scripts/demo_offline.py
-  # Live with Postgres (Docker):
-  docker compose up -d
-  bash scripts/reliability_demo.sh  # or PowerShell: .\scripts\reliability_demo.ps1
+
+  # Live with PostgreSQL (Docker):
+  docker compose up -d             # 1. Start PostgreSQL container (port 5433)
+  ./gradlew bootRun                # 2. Boot Spring Boot service (port 8083; or .\gradlew.bat bootRun)
+  # In 2nd terminal:
+  bash scripts/reliability_demo.sh # 3. Test idempotent retry & 409 conflict (or .\scripts\reliability_demo.ps1)
   ```
 
 ---
@@ -247,7 +250,7 @@ cd ../work05-docguard && docker compose up -d --build
 
 ## Project Directory & Architecture Summary
 
-### Primary Enterprise Systems (7 Works)
+### Primary Reference Projects (7 Works)
 
 | # | Project Directory | Domain Focus & Architecture | Key Technologies | Fast Verification |
 |---|---|---|---|---|

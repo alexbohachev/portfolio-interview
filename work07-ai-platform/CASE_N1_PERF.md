@@ -8,7 +8,7 @@
 - For **each token**, it calls Python **rag-api** with hybrid search.
 - It also runs BM25 + hybrid on the full string → deliberate **N+1 HTTP** anti-pattern reproduction to quantify microservice latency tax.
 
-**Real-World Production Context:** This pattern was directly observed during an enterprise RAG migration where a legacy Java orchestration service initially decomposed user queries into token-level HTTP calls against an internal Python search microservice. We isolated and reproduced this exact architecture in local Docker Compose to profile the sequential network waterfall in Jaeger and benchmark the single-shot server-side hybrid RRF replacement.
+**Benchmark Context:** Engineered to isolate and quantify a common distributed RAG anti-pattern where an upstream service splits user queries on the client side, triggering sequential HTTP round-trips to downstream search services. We implemented this baseline (`searchSlow`) and profiled the network waterfall in Jaeger (`http://localhost:16687`), then benchmarked the single-shot server-side hybrid RRF replacement (`searchFast`).
 
 **Profiling in Jaeger:** Jaeger UI (`http://localhost:16687`) exposed a cascading waterfall of sequential spans `logistics → rag-api` for one user request.
 

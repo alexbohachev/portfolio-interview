@@ -6,8 +6,8 @@
 [![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
-Відтворюване інженерне портфоліо з **7 основних enterprise-систем (+ 1 автономна утиліта векторного пошуку)**:
-* **Розподілені AI-платформи (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** усунення N+1 боттлнеку викликів (зниження p95 латентності у Docker Compose зі 195.7 мс до 46.7 мс), Pre-LLM Zero-Trust шлюз безпеки та Transactional Outbox відновлення (30/30 пройдених тестів зі збоями).
+Відтворюване інженерне портфоліо з **7 еталонних проєктів (+ 1 допоміжна офлайн-утиліта)**:
+* **Розподілені AI-платформи (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** кейс N+1 латентності: відтворено та заміряно локально (p95 знизився зі 195.7 мс до 46.7 мс), Pre-LLM Zero-Trust шлюз безпеки та Transactional Outbox відновлення (30/30 пройдених тестів зі збоями).
 * **Прикладне машинне навчання та MLOps (PyTorch, LightGBM, FastAPI):** часовий бектестинг на даних UCI без leakage, прогнозування попиту на багатьох рядах з конформним калібруванням (LightGBM на синтетиці; сезонний бейзлайн на реальних даних Bikeshare за принципом бритви Оккама) та сервінг на FastAPI з контролем дрейфу ознак.
 
 > **Англомовний огляд:** [`README.en.md`](README.en.md) · **Інструкція відтворення:** [`REPRO.md`](REPRO.md) · **Підготовка до співбесіди:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **Розбір N+1 кейсу:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Сценарій живого демо:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Автономний лонгрід:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
@@ -25,7 +25,7 @@ python -m pytest work01-bank-marketing/tests work04-ml-serving/tests work08-dema
 
 ### 1. Трек AI Platform & Distributed RAG
 * **Work 07 (Флагман платформи):** Відтворення та усунення антипатерну N+1 викликів Java → Python RAG API.
-  * **Реальний контекст:** Кейс виник під час міграції корпоративного RAG, де сервіс оркестрації на Java розбивав запит на токени й надсилав послідовні HTTP-запити до Python search API. Ми відтворили цю архітектуру в локальному Docker Compose для точного профілювання в Jaeger і доведення вигоди пакетного гібридного RRF-запиту.
+  * **Контекст бенчмарку:** Створено для ізоляції та вимірювання частого антипатерну розподіленого RAG, де клієнтський сервіс розбиває запит на токени й надсилає послідовні HTTP-запити до Python search API. Реалізовано цей варіант у `EquipmentSearchService.java` (`searchSlow`: послідовні виклики) та порівняно з пакетним гібридним RRF-запитом (`searchFast`) у локальному Docker Compose.
   * **Виміряний ефект (Docker Compose, n=25):** p95 знизився зі **195.7 мс до 46.7 мс** (4.19× speedup; p50: 171.6 → 33.9 мс, 5.06× speedup).
   * **Сирі артефакти:** масиви вимірювань [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json) та зведення [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json).
   * **Стрес-тест пошуку на 10 складних запитах (`eval-hard`):** 8 оцінюваних запитів (обидва методи, BM25 та Hybrid RRF, показали Recall@5 = 0.125 і провалили 6 з 8 запитів, MRR@5 0.063 vs 0.031; висновок — необхідність 2-го етапу Cross-Encoder re-ranker) + 2 unanswerable запити (успішно перехоплені refusal gate без галюцинацій). Комічені дані: [`work07-ai-platform/manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json).
@@ -43,9 +43,9 @@ python -m pytest work01-bank-marketing/tests work04-ml-serving/tests work08-dema
 
 ---
 
-## Каталог робіт: 7 основних систем та допоміжний проєкт
+## Каталог робіт: 7 еталонних проєктів та допоміжна утиліта
 
-### Основні системи (7 робіт)
+### Основні еталонні проєкти (7 робіт)
 
 | № | Каталог | Що перевірено й доведено | Чесні операційні межі (Scope) | Статус |
 |---|---|---|---|---|

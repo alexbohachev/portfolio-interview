@@ -34,7 +34,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 ### Case Study 1: Work 07 — Distributed RAG Platform & N+1 Latency Fix
 
 #### The Problem & Anti-Pattern Reproduction
-In high-throughput microservice ecosystems, naive integration between backend application services and AI retrieval services often introduces sequential query amplification. This pattern was directly observed during an enterprise RAG migration where a legacy Java orchestration service initially decomposed user queries into token-level HTTP calls against an internal Python search microservice. To quantify this latency penalty and prove the fix, we isolated and reproduced the pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and compared it against single-shot server-side hybrid retrieval (`searchFast`).
+In high-throughput microservice ecosystems, naive integration between backend application services and AI retrieval services often introduces sequential query amplification. To benchmark and quantify this latency penalty, we engineered a reproduction of this distributed RAG anti-pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and compared it against single-shot server-side hybrid retrieval (`searchFast`).
 
 #### Architectural Diagnosis in Jaeger
 Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading waterfall of 6 sequential spans to `/v1/knowledge/search` per single user request, causing local Docker Compose p95 to spike to **~196 ms**.
