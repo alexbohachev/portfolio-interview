@@ -43,7 +43,7 @@ Content-Type: application/json
 | `WorkflowFaultScenariosIT` | checkpoint resume, crash recovery, validation |
 | `WorkflowFaultPostgresIT` | PostgreSQL (`-Dwork03.docker=true`) |
 
-Details: [`REPORT.md`](REPORT.md), [`manifests/fault_manifest.json`](manifests/fault_manifest.json).
+Details: [`REPORT.en.md`](REPORT.en.md), [`manifests/fault_manifest.json`](manifests/fault_manifest.json).
 
 ## Git tag
 

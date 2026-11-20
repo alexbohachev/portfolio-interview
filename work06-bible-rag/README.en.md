@@ -26,4 +26,4 @@ Optional LLM: `pip install -r requirements-llm.txt`, `$env:WORK06_USE_LLM="1"` (
 
 Docker (after `make.ps1 all`): `docker compose up --build` → port **8098**.
 
-[`REPORT.md`](REPORT.md) · [`DATA.md`](DATA.md)
+[`REPORT.en.md`](REPORT.en.md) · [`DATA.en.md`](DATA.en.md)

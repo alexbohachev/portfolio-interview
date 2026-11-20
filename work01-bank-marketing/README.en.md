@@ -47,7 +47,7 @@ py -3.13 -m work01 lock    # after changing config, before the final test run
 | `.\make.ps1 data` | Download + SHA-256 |
 | `.\make.ps1 test` | pytest (offline) |
 
-Full report: [`REPORT.md`](REPORT.md). Data: [`DATA.md`](DATA.md). Test manifest: [`manifests/test_manifest.json`](manifests/test_manifest.json).
+Full report: [`REPORT.en.md`](REPORT.en.md). Data: [`DATA.en.md`](DATA.en.md). Test manifest: [`manifests/test_manifest.json`](manifests/test_manifest.json).
 
 ## Completion criteria (assignment)
 

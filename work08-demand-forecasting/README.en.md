@@ -44,4 +44,4 @@ py -3.13 scripts/demo_offline.py
 py -3.13 scripts/demo_forecast.py
 ```
 
-Detailed technical description and result tables: [`REPORT.md`](REPORT.md).
+Detailed technical description and result tables: [`REPORT.en.md`](REPORT.en.md).

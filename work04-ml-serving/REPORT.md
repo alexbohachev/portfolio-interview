@@ -1,3 +1,5 @@
+[**Українська**](REPORT.md) | [English](REPORT.en.md)
+
 # Звіт — робота 4 (ML serving)
 
 ## Data contract

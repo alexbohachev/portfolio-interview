@@ -2,7 +2,7 @@
 
 # Work 7 — AI Platform (Compose MVP+)
 
-**Status:** final run on 2026-11-18, see [`REPORT.md`](REPORT.md). Ready for tag **`work07-v1.0`** after `.\make.ps1 finalize`.
+**Status:** final run on 2026-11-18, see [`REPORT.en.md`](REPORT.en.md). Ready for tag **`work07-v1.0`** after `.\make.ps1 finalize`.
 
 **In one sentence:** a local stand of **3×Java → FastAPI RAG** with **hybrid search** (work02 corpus, 200 docs) and **Q&A + citations** (extractive or OpenAI).
 
@@ -31,7 +31,7 @@ cd c:\Portfolio\work07-ai-platform
 |-------------|--------|
 | Kafka `document.uploaded` / `scout.report.created` | farm + scout → worker → rag-api |
 | `recommendation.ready` | worker + `config/actions_catalog.json` |
-| Golden **150** (dev 100 + test 50) | `.\make.ps1 seed` → [`DATA.md`](DATA.md) |
+| Golden **150** (dev 100 + test 50) | `.\make.ps1 seed` → [`DATA.en.md`](DATA.en.md) |
 | Recall@5 / MRR | `.\make.ps1 eval` |
 | OpenAI (1 provider) | `.\make.ps1 eval-llm` when a key is present |
 | Resilience4j | logistics → rag-api |
@@ -45,4 +45,4 @@ cd c:\Portfolio\work07-ai-platform
 
 **Next:** a generated Java client from OpenAPI, k6, tag `work07-v1.0`, a demo video.
 
-[`REPORT.md`](REPORT.md)
+[`REPORT.en.md`](REPORT.en.md)

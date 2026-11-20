@@ -59,7 +59,7 @@ query → hybrid retrieval → gate (max RRF, dev) → extractive/LLM → citati
 | `work02 lock` | config_hash in the manifest |
 | `make.ps1 all` | retrieval + QA report |
 
-Data details: [`DATA.md`](DATA.md). Report: [`REPORT.md`](REPORT.md).
+Data details: [`DATA.en.md`](DATA.en.md). Report: [`REPORT.en.md`](REPORT.en.md).
 
 ## Next, per the assignment
 

@@ -1,3 +1,5 @@
+[**Українська**](REPORT.md) | [English](REPORT.en.md)
+
 # Звіт — робота 6 (Bible RAG)
 
 ## Обсяг

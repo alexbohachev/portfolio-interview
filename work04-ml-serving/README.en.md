@@ -31,4 +31,4 @@ py -3.13 -m uvicorn work04.app_main:app --port 8095
 
 Shared logic: temporal split, PR-AUC/Brier, threshold by objective/cost.
 
-[`REPORT.md`](REPORT.md) · `data/DATA_CONTRACT.json`
+[`REPORT.en.md`](REPORT.en.md) · `data/DATA_CONTRACT.json`
