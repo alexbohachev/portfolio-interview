@@ -24,6 +24,8 @@ X-Principal-Id: alice
 {"question":"бура іржа"}
 ```
 
+> Ідентичність береться із заголовків `X-Tenant-Id` / `X-Principal-Id` і **сервісом не автентифікується**: у реальній системі їх має виставляти довірений проксі/IdP.
+
 Матриця: `manifests/security_matrix.json` · ACL: `config/acl.yaml`
 
 [`REPORT.md`](REPORT.md) · [`docs/ADR.md`](docs/ADR.md)

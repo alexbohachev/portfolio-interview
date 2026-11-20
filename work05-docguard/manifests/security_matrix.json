@@ -12,5 +12,6 @@
   ],
   "n_automated": 8,
   "openapi_shape_it": 2,
+  "prompt_injection_it": 24,
   "target_tz": 8
 }

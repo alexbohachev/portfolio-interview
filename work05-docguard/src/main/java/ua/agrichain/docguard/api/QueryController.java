@@ -1,6 +1,8 @@
 package ua.agrichain.docguard.api;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -32,13 +34,13 @@ public class QueryController {
         this.auditRepository = auditRepository;
     }
 
-    public record QueryBody(@NotBlank String question) {}
+    public record QueryBody(@NotBlank @Size(max = 2000) String question) {}
 
     @PostMapping("/api/v1/query")
     public Map<String, Object> query(
             @RequestHeader("X-Tenant-Id") String tenantId,
             @RequestHeader("X-Principal-Id") String principalId,
-            @RequestBody QueryBody body) {
+            @Valid @RequestBody QueryBody body) {
         List<String> allowed = acl.allowedDocs(tenantId, principalId);
         if (allowed.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "no document access");
