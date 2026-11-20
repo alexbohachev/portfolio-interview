@@ -1,0 +1,116 @@
+{
+  "corpus": {
+    "source": "uk.wikipedia.org (CC BY-SA 4.0)",
+    "n_documents": 123
+  },
+  "n_answerable_questions": 55,
+  "n_unanswerable_questions": 10,
+  "models": {
+    "dense_en": "sentence-transformers/all-MiniLM-L6-v2",
+    "dense_ml": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "cross_encoder": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+  },
+  "mean_question_token_overlap_with_target_article": 0.796,
+  "systems": {
+    "bm25": {
+      "recall_at_5": 1.0,
+      "recall_at_5_ci95": [
+        1.0,
+        1.0
+      ],
+      "recall_at_1": 0.9636,
+      "mrr_at_5": 0.9788
+    },
+    "dense_en": {
+      "recall_at_5": 0.2727,
+      "recall_at_5_ci95": [
+        0.1636,
+        0.4
+      ],
+      "recall_at_1": 0.1455,
+      "mrr_at_5": 0.1885
+    },
+    "dense_ml": {
+      "recall_at_5": 0.6545,
+      "recall_at_5_ci95": [
+        0.5273,
+        0.7818
+      ],
+      "recall_at_1": 0.5273,
+      "mrr_at_5": 0.5724
+    },
+    "hybrid_en": {
+      "recall_at_5": 0.6364,
+      "recall_at_5_ci95": [
+        0.5091,
+        0.7636
+      ],
+      "recall_at_1": 0.4909,
+      "mrr_at_5": 0.5427
+    },
+    "hybrid_ml": {
+      "recall_at_5": 0.8,
+      "recall_at_5_ci95": [
+        0.6909,
+        0.8909
+      ],
+      "recall_at_1": 0.6545,
+      "mrr_at_5": 0.7058
+    },
+    "hybrid_ml_rerank": {
+      "recall_at_5": 0.9455,
+      "recall_at_5_ci95": [
+        0.8727,
+        1.0
+      ],
+      "recall_at_1": 0.9455,
+      "mrr_at_5": 0.9455
+    }
+  },
+  "paired_lifts_recall_at_5": {
+    "hybrid_en_vs_bm25": {
+      "mean": -0.3636,
+      "ci95": [
+        -0.4909,
+        -0.2364
+      ]
+    },
+    "hybrid_ml_vs_hybrid_en": {
+      "mean": 0.1636,
+      "ci95": [
+        0.0364,
+        0.2909
+      ]
+    },
+    "rerank_vs_hybrid_ml": {
+      "mean": 0.1455,
+      "ci95": [
+        0.0545,
+        0.2364
+      ]
+    },
+    "rerank_vs_hybrid_en": {
+      "mean": 0.3091,
+      "ci95": [
+        0.1818,
+        0.4364
+      ]
+    }
+  },
+  "refusal_gate": {
+    "signal": "max cosine similarity (dense_ml)",
+    "threshold_tuned_on_dev": 0.416,
+    "dev_accuracy": 0.9375,
+    "test_accuracy": 0.9091,
+    "test_n_answerable": 28,
+    "test_n_unanswerable": 5,
+    "test_correct_refusals": "2 / 5",
+    "test_false_refusals": "0 / 28"
+  },
+  "caveats": [
+    "single-label gold under-counts other relevant articles",
+    "whole articles embedded; models truncate long inputs",
+    "small n: read confidence intervals, not point estimates",
+    "gate test half is small"
+  ]
+}
