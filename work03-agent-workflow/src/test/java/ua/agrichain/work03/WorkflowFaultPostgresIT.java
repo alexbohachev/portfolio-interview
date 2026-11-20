@@ -30,5 +30,8 @@ class WorkflowFaultPostgresIT extends WorkflowFaultIT {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
+        // application-test.yml pins the H2 driver/dialect; override both so the real Postgres is used.
+        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+        registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQLDialect");
     }
 }

@@ -221,7 +221,7 @@ To eliminate bi-encoder topic clustering errors, we added a **2nd-stage Cross-En
   * **Idempotency Guard:** `idempotency_key` + SHA-256 payload hash uniquely identifies intents. A duplicate request with matching payload returns the cached result; an altered payload triggers `409 Conflict`.
   * **Transactional Outbox:** External intents are stored in PostgreSQL within the same ACID transaction as the workflow state checkpoint.
   * **Recovery Loop:** On restart after an abrupt process kill, `WorkflowRecovery` inspects pending outbox entries, verifies external stub effects, and resumes from the exact checkpoint without re-running external side effects.
-  * **Scope & Matrix Tests:** 30 automated fault scenarios verified in CI (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
+  * **Scope & Matrix Tests:** 30 automated fault scenarios on H2 in CI plus the same suite re-run on a real PostgreSQL 16 Testcontainer (`./gradlew test -Dwork03.docker=true`; this IT was skipped by default and failed on a driver mismatch until fixed in this audit) (`idempotency: 8`, `checkpoint_recovery: 4`, `validation_400: 7`, `outbox: 3`, `conflict_409: 4`, `domain: 4`). Tested within a single-node Spring Boot + PostgreSQL transactional boundary (does not claim distributed consensus like Raft/Paxos).
 * **Reproduction Commands:**
   ```bash
   cd work03-agent-workflow

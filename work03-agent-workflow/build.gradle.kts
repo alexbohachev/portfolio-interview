@@ -33,6 +33,8 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    // Forward the opt-in flag so `./gradlew test -Dwork03.docker=true` actually enables the Postgres Testcontainers IT.
+    System.getProperty("work03.docker")?.let { systemProperty("work03.docker", it) }
 }
 
 tasks.register("allPortfolio") {

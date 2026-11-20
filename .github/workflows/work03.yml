@@ -22,4 +22,4 @@ jobs:
           distribution: temurin
           java-version: "21"
       - run: chmod +x gradlew 2>/dev/null || true
-      - run: ./gradlew test
+      - run: ./gradlew test -Dwork03.docker=true
