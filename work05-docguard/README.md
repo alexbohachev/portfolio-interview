@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 5 — DocGuard (Java + Python)
 
 **MVP:** Spring Boot **gateway** (ACL, audit, cache) + Python **retrieval** з фільтром `allowed_doc_ids` до відповіді.

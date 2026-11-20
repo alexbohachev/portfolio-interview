@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 6 — Локальний RAG (Біблія)
 
 **MVP:** SQLite (3 переклади-stub) → FAISS + **multilingual-e5** → FastAPI + Streamlit.

@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 3 — надійний workflow агента (Java 21, Spring Boot)
 
 **Одне речення:** детермінований 3-кроковий workflow з **checkpoint**, **outbox** і **idempotent stub** — **30/30** fault-сценаріїв у `gradlew test`.

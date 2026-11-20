@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 4 — ML-система зі serving
 
 **Одне речення:** табличний **breakdown risk** (синтетика, data contract `event_time` / `available_at`): baseline LR vs **LightGBM + isotonic**, поріг за **FP/FN/review cost**, **FastAPI** `/v1/predict` з версіями моделі.

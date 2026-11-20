@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Work 08: Demand Forecasting & Inventory Optimization
 
 Виробничий проєкт прогнозування попиту на часових рядах для ролі **Senior ML Engineer**.

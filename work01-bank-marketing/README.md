@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 1 — навчання й оцінювання моделей
 
 **Одне речення:** на UCI Bank Marketing (без `duration`) логістична регресія та MLP з калібруванням дають **macro-F1 ≈ 0.538** на test; різниця всередині bootstrap CI **[−0.0085; 0.0089]** (candidate не кращий за baseline).

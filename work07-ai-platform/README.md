@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 7 — AI-платформа (Compose MVP+)
 
 **Статус:** фінальний прогон 2026-11-18 — див. [`REPORT.md`](REPORT.md). Готово до tag **`work07-v1.0`** після `.\make.ps1 finalize`.

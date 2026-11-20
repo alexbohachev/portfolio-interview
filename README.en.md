@@ -1,3 +1,5 @@
+[Українська](README.md) | **English**
+
 # AI Systems & Applied Machine Learning Monorepo
 
 [![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
@@ -10,7 +12,7 @@ Reproducible engineering portfolio of **7 reference projects (+ 1 offline retrie
 * **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** N+1 latency case: reproduced and benchmarked locally (p95 231.5 ms → 46.9 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
 * **Applied Machine Learning & MLOps (PyTorch, LightGBM, FastAPI):** Leakage-free temporal backtesting on UCI data, multi-series demand forecasting with conformal prediction (LightGBM on synthetic series; Seasonal Naive baseline selected on real Capital Bikeshare via Occam's razor), and production model serving with feature drift monitoring.
 
-> **Ukrainian overview:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
+> **Ukrainian version:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
 ---
 
@@ -300,16 +302,16 @@ cd ../work05-docguard && docker compose up -d --build
 
 | # | Project Directory | Domain Focus & Architecture | Key Technologies | Fast Verification |
 |---|---|---|---|---|
-| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/) | Multi-series demand forecasting, 4-season backtesting, Newsvendor inventory risk | LightGBM, FastAPI, Conformal Prediction | `python scripts/demo_offline.py` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
-| **07** | [`work07-ai-platform/`](work07-ai-platform/) | Microservice N+1 benchmark, hybrid RRF search, OpenTelemetry/Jaeger tracing | Java 21, Python, Kafka, Elasticsearch, Jaeger | `python scripts/demo_offline.py` · [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) |
-| **05** | [`work05-docguard/`](work05-docguard/) | Multi-tenant security, pre-LLM ACL gateway, degraded circuit breaker | Java 21, FastAPI, Docker Compose | `python scripts/demo_offline.py` · [`REPORT.md`](work05-docguard/REPORT.md) |
-| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Tabular ML classification, target leakage elimination, cost optimization | LightGBM, scikit-learn, Python 3.13 | `python scripts/demo_offline.py` · [`REPORT.md`](work01-bank-marketing/REPORT.md) |
-| **04** | [`work04-ml-serving/`](work04-ml-serving/) | Low-latency ML serving, schema data contracts, feature drift guard | FastAPI, scikit-learn, Pydantic | `python scripts/demo_offline.py` · [`REPORT.md`](work04-ml-serving/REPORT.md) |
-| **02** | [`work02-rag-citations/`](work02-rag-citations/) | Hybrid RRF retrieval, extractive citation verification, refusal gate | SentenceTransformers, BM25, NumPy | `python scripts/demo_offline.py` · [`REPORT.md`](work02-rag-citations/REPORT.md) |
-| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | Idempotent orchestrator, Transactional Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL | `python scripts/demo_offline.py` · [`REPORT.md`](work03-agent-workflow/REPORT.md) |
+| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/README.en.md) | Multi-series demand forecasting, 4-season backtesting, Newsvendor inventory risk | LightGBM, FastAPI, Conformal Prediction | `python scripts/demo_offline.py` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
+| **07** | [`work07-ai-platform/`](work07-ai-platform/README.en.md) | Microservice N+1 benchmark, hybrid RRF search, OpenTelemetry/Jaeger tracing | Java 21, Python, Kafka, Elasticsearch, Jaeger | `python scripts/demo_offline.py` · [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) |
+| **05** | [`work05-docguard/`](work05-docguard/README.en.md) | Multi-tenant security, pre-LLM ACL gateway, degraded circuit breaker | Java 21, FastAPI, Docker Compose | `python scripts/demo_offline.py` · [`REPORT.md`](work05-docguard/REPORT.md) |
+| **01** | [`work01-bank-marketing/`](work01-bank-marketing/README.en.md) | Tabular ML classification, target leakage elimination, cost optimization | LightGBM, scikit-learn, Python 3.13 | `python scripts/demo_offline.py` · [`REPORT.md`](work01-bank-marketing/REPORT.md) |
+| **04** | [`work04-ml-serving/`](work04-ml-serving/README.en.md) | Low-latency ML serving, schema data contracts, feature drift guard | FastAPI, scikit-learn, Pydantic | `python scripts/demo_offline.py` · [`REPORT.md`](work04-ml-serving/REPORT.md) |
+| **02** | [`work02-rag-citations/`](work02-rag-citations/README.en.md) | Hybrid RRF retrieval, extractive citation verification, refusal gate | SentenceTransformers, BM25, NumPy | `python scripts/demo_offline.py` · [`REPORT.md`](work02-rag-citations/REPORT.md) |
+| **03** | [`work03-agent-workflow/`](work03-agent-workflow/README.en.md) | Idempotent orchestrator, Transactional Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL | `python scripts/demo_offline.py` · [`REPORT.md`](work03-agent-workflow/REPORT.md) |
 
 ### Auxiliary Reference Utility
 
 | # | Project Directory | Focus & Architecture | Key Technologies | Verification |
 |---|---|---|---|---|
-| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Standalone offline verse retrieval with SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` · [`REPORT.md`](work06-bible-rag/REPORT.md) |
+| **06** | [`work06-bible-rag/`](work06-bible-rag/README.en.md) | Standalone offline verse retrieval with SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` · [`REPORT.md`](work06-bible-rag/REPORT.md) |

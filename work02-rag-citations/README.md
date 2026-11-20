@@ -1,3 +1,5 @@
+[**Українська**](README.md) | [English](README.en.md)
+
 # Робота 2 — RAG із цитатами
 
 **Одне речення:** на 200-doc agri корпусі hybrid RRF дає **Recall@5 = 1.00** на test (50 пит.) проти **BM25 = 1.00**; з **retrieval gate** — **10/10** коректних відмов, **35/35** цитат, **28/28** extractive відповідей (offline).
