@@ -126,10 +126,43 @@ To eliminate bi-encoder topic clustering errors, we added a **2nd-stage Cross-En
   3. Validates returned documents at gateway egress to prevent side-channel leaks.
   4. Automatic **Circuit Breaker / Degraded Mode**: if Python retrieval crashes or times out, Java gateway returns structured degraded fallback (`degraded: true`) without taking the microservice down.
   5. **Automated Verification:** Verified tenant isolation across 8 automated adversarial test scenarios in CI.
-* **Adversarial Prompt Injection Benchmark:**
-  Stress-tested across **12 attack vectors in 12 distinct attack families** (`manifests/prompt_injection_eval.json`): system prompt override, jailbreak/DAN simulation, delimiter boundary escape, cross-tenant data probes, role escalation, markdown image exfiltration, indirect injection, and schema tampering.
-  * **Attacks Mitigated:** **12 / 12 (100.0% protection rate, 0.0% attack success rate)**.
-  * **Verbatim Audit Logging:** **12 / 12 (100.0%)** captured in `AuditRepository`.
+* **Scope of the security evidence:** the gateway enforces ACLs outside the LLM context, so a prompt cannot widen which documents are returned; this is covered by the 8 integration scenarios in `SecurityMatrixIT` (including one that checks an injection-style query is stored verbatim in the audit log). It is an access-control layer, not a prompt-injection detector, and no adversarial prompt-injection benchmark has been run. An earlier "12/12 mitigated" figure came from a script with hard-coded results and has been withdrawn.
+* **Reproduction Commands:**
+  ```bash
+  cd work07-ai-platform
+  # Offline validation with Cross-Encoder (no Docker needed, ~25s):
+  python scripts/eval_retrieval_offline.py
+  # Live Docker cluster validation:
+  docker compose up -d --build
+  python scripts/benchmark_latency.py
+  python scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --doc-id-prefix agri_
+  ```
+  *(Windows PowerShell: `.\make.ps1 build; .\make.ps1 up; py -3.13 scripts/benchmark_latency.py; .\make.ps1 eval-hard`)*
+
+---
+
+### 2. Work 05 — DocGuard: Zero-Trust Security Gateway Before the LLM
+
+```
+[User Request (tenant_a, alice)] 
+       │
+       ▼
+[DocGuard Gateway (Java 21 / Spring)] ──► [ACL Engine (Principal & Tenant RBAC)]
+       │ (Enforces allowed doc_ids)
+       ▼
+[Retrieval Service (Python / FastAPI)] ──► [Filtered Knowledge Base]
+       │
+       ▼ (Returns only authorized snippets)
+[Audit Logger (Verbatim query + prompt injection capture)]
+```
+
+* **The Problem:** RAG architectures frequently leak private enterprise data when multi-tenant documents share vector databases, or when attackers use prompt injection to override LLM system prompts.
+* **The Architecture:** DocGuard intercepts queries **before** they reach any model or vector store.
+  1. Resolves tenant & principal ACL mapping to a whitelist of authorized `doc_id`s.
+  2. Injects security filter directly into retrieval payload (`allowedDocIds`).
+  3. Validates returned documents at gateway egress to prevent side-channel leaks.
+  4. Automatic **Circuit Breaker / Degraded Mode**: if Python retrieval crashes or times out, Java gateway returns structured degraded fallback (`degraded: true`) without taking the microservice down.
+  5. **Automated Verification:** Verified tenant isolation across 8 automated adversarial test scenarios in CI.
 * **Reproduction Commands:**
   ```bash
   cd work05-docguard

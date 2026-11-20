@@ -123,7 +123,7 @@ DocGuard introduces an independent Java 21 security reverse gateway positioned i
 2. **Dynamic ACL Invalidation:** Admin endpoint `/api/v1/admin/invalidate-cache` immediately forces cache eviction and re-evaluates ACLs.
 3. **Resilience & Degraded Mode:** If the Python retrieval container crashes or fails to respond within 10 seconds, the Java gateway gracefully degrades to returning `{ "degraded": true, "hits": [] }`, preventing microservice cascading failures.
 4. **Automated Verification:** Verified tenant isolation across 8 automated adversarial test scenarios in CI.
-5. **Adversarial Prompt Injection Benchmark:** Stress-tested against 12 attack vectors across 12 families (`manifests/prompt_injection_eval.json`) — 100% mitigated, 0% attack success rate, 100% audited verbatim.
+5. **Scope:** ACL enforcement happens outside the LLM context (covered by the 8 integration scenarios in `SecurityMatrixIT`, including verbatim audit of an injection-style query). It is an access-control layer, not a prompt-injection detector; no adversarial injection benchmark has been run, and an earlier "12/12" figure from a hard-coded script has been withdrawn.
 
 ---
 
