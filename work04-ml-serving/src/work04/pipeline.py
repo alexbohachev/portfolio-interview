@@ -19,6 +19,7 @@ def run_all() -> dict:
         "- `data/DATA_CONTRACT.json`, synthetic `events.parquet`",
         "",
         "## Test metrics",
+        "> Синтетичні дані з детермінованою міткою: PR-AUC 1.0 / Brier 0.0 означає тривіальну задачу, а не якість моделі.",
         f"- Baseline PR-AUC: **{metrics['baseline_test']['pr_auc']:.4f}**, Brier **{metrics['baseline_test']['brier']:.4f}**",
         f"- Candidate PR-AUC: **{metrics['candidate_test']['pr_auc']:.4f}**, Brier **{metrics['candidate_test']['brier']:.4f}**",
         f"- Поріг candidate (val cost): **{metrics['threshold_candidate']:.3f}**",

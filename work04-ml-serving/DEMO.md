@@ -17,6 +17,6 @@ py -3.13 -m uvicorn work04.app_main:app --port 8095
 ## Сценарій
 
 1. `scripts/demo_offline.py` — health + predict (TestClient).
-2. Пояснити **data contract** `event_time` / `available_at`.
+2. Пояснити data contract `event_time` / `available_at` (задекларований у даних; кодом поки не застосовується).
 3. **LR vs LightGBM+isotonic**, поріг за cost, `GET /v1/drift`.
 4. Rollback тест у `make.ps1 test`.
