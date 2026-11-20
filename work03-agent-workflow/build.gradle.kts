@@ -7,6 +7,9 @@ plugins {
 group = "ua.agrichain"
 version = "0.1.0"
 
+// Spring Boot 3.3.6 manages Testcontainers 1.19.8, which cannot talk to the newer Docker engine on GitHub runners.
+extra["testcontainers.version"] = "1.21.4"
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
