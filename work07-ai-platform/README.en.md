@@ -23,7 +23,7 @@ cd c:\Portfolio\work07-ai-platform
 
 1. **Hybrid + corpus** — mounts `work02-rag-citations/corpus/bundled`, dense kNN + BM25, RRF.
 2. **Q&A** — `POST /v1/knowledge/qa` (gate, citations); Java `POST /api/v1/knowledge/qa`.
-3. **Demo** — [`DEMO.md`](DEMO.md), [`scripts/demo.ps1`](scripts/demo.ps1).
+3. **Demo** — [`DEMO.en.md`](DEMO.en.md), [`scripts/demo.ps1`](scripts/demo.ps1).
 
 ## Assignment (current slice)
 

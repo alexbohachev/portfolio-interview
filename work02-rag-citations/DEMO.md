@@ -1,3 +1,5 @@
+[**Українська**](DEMO.md) | [English](DEMO.en.md)
+
 # Демо work02 (3–5 хв, offline)
 
 ## Підготовка

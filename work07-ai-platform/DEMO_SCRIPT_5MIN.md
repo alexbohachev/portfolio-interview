@@ -1,3 +1,5 @@
+[**Українська**](DEMO_SCRIPT_5MIN.md) | [English](DEMO_SCRIPT_5MIN.en.md)
+
 # 5–7 Minute Live Demo Script: Work 07 & N+1 Latency Elimination
 
 Цей сценарій створено для live-демонстрації екрана під час технічної співбесіди на посаду **Senior AI Backend Engineer** або асинхронного ознайомлення з ходом усунення N+1 антипатерну.

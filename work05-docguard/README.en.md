@@ -30,4 +30,4 @@ X-Principal-Id: alice
 
 Matrix: `manifests/security_matrix.json` · ACL: `config/acl.yaml`
 
-[`REPORT.en.md`](REPORT.en.md) · [`docs/ADR.md`](docs/ADR.md)
+[`REPORT.en.md`](REPORT.en.md) · [`docs/ADR.en.md`](docs/ADR.en.md)

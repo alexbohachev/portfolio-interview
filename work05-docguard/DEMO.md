@@ -1,3 +1,5 @@
+[**Українська**](DEMO.md) | [English](DEMO.en.md)
+
 # Демо work05 (4–6 хв)
 
 ```powershell
