@@ -97,6 +97,41 @@ def search_hybrid(
     return hits
 
 
+def search_rerank(
+    es: Elasticsearch,
+    query: str,
+    query_vector: list[float],
+    top_k: int,
+    cross_encoder: object | None = None,
+    candidate_k: int = 25,
+    doc_id_prefix: str | None = None,
+) -> list[Hit]:
+    # Stage 1: hybrid retrieval candidate pool
+    candidates = search_hybrid(
+        es, query, query_vector, max(top_k * 4, candidate_k), doc_id_prefix
+    )
+    if not candidates or cross_encoder is None:
+        return candidates[:top_k]
+
+    # Stage 2: Cross-Encoder pair scoring
+    pairs = [(query, h.snippet) for h in candidates]
+    scores = cross_encoder.predict(pairs)  # type: ignore[attr-defined]
+    ranked_indices = sorted(range(len(candidates)), key=lambda i: float(scores[i]), reverse=True)
+
+    reranked: list[Hit] = []
+    for idx in ranked_indices[:top_k]:
+        orig = candidates[idx]
+        reranked.append(
+            Hit(
+                doc_id=orig.doc_id,
+                title=orig.title,
+                snippet=orig.snippet,
+                score=float(scores[idx]),
+            )
+        )
+    return reranked
+
+
 def _to_hit(h: dict) -> Hit:
     src = h.get("_source", {})
     return Hit(

@@ -1,8 +1,38 @@
 {
-  "source": "eval_retrieval.py --golden-file data/golden/hard_retrieval.json --doc-id-prefix agri_",
-  "recorded_at_utc": "2026-11-19T12:00:00Z",
+  "source": "scripts/eval_retrieval_offline.py",
+  "golden_file": "hard_retrieval.json",
   "n_evaluated": 8,
-  "recall_at_5": { "bm25": 0.125, "hybrid": 0.125 },
-  "mrr_at_5": { "bm25": 0.0625, "hybrid": 0.03125 },
-  "note": "Hard paraphrases vs work02 corpus; per-query breakdown committed in manifests/eval_per_query.json."
+  "recall_at_5": {
+    "bm25": 0.125,
+    "hybrid": 0.25,
+    "rerank": 0.5
+  },
+  "mrr_at_5": {
+    "bm25": 0.0625,
+    "hybrid": 0.09375,
+    "rerank": 0.17708333333333331
+  },
+  "recall_ci_95": {
+    "bm25": [
+      0.0,
+      0.375
+    ],
+    "hybrid": [
+      0.0,
+      0.625
+    ],
+    "rerank": [
+      0.125,
+      0.875
+    ]
+  },
+  "lift_rerank_vs_hybrid": {
+    "delta_recall_mean": 0.25,
+    "delta_recall_ci_95": [
+      0.0,
+      0.625
+    ],
+    "relative_recall_gain": "+100.0%"
+  },
+  "refusal_gate_unanswerable": "2 / 2"
 }

@@ -6,23 +6,33 @@
       "agri_016_wheat_disease_15"
     ],
     "bm25_top5": [
-      "agri_003_wheat_disease_2",
-      "agri_006_wheat_disease_5",
       "agri_009_wheat_disease_8",
+      "agri_018_wheat_disease_17",
+      "agri_003_wheat_disease_2",
       "agri_012_wheat_disease_11",
       "agri_015_wheat_disease_14"
     ],
     "hybrid_top5": [
       "agri_003_wheat_disease_2",
+      "agri_019_wheat_disease_18",
+      "agri_018_wheat_disease_17",
       "agri_010_wheat_disease_9",
-      "agri_004_wheat_disease_3",
-      "agri_001_wheat_disease_0",
-      "agri_012_wheat_disease_11"
+      "agri_009_wheat_disease_8"
+    ],
+    "rerank_top5": [
+      "agri_019_wheat_disease_18",
+      "agri_018_wheat_disease_17",
+      "agri_016_wheat_disease_15",
+      "agri_017_wheat_disease_16",
+      "agri_020_wheat_disease_19"
     ],
     "bm25_hit": false,
     "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_016_wheat_disease_15"
+    ],
+    "hybrid_wins": []
   },
   {
     "id": "hard_002",
@@ -30,18 +40,32 @@
     "expected": [
       "agri_033_corn_irrigation_12"
     ],
-    "bm25_top5": [],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
     "hybrid_top5": [
-      "agri_040_corn_irrigation_19",
-      "agri_031_corn_irrigation_10",
-      "agri_025_corn_irrigation_4",
-      "agri_021_corn_irrigation_0",
-      "agri_058_soil_ph_17"
+      "agri_198_sunflower_17",
+      "agri_196_sunflower_15",
+      "agri_195_sunflower_14",
+      "agri_199_sunflower_18",
+      "agri_186_sunflower_5"
+    ],
+    "rerank_top5": [
+      "agri_197_sunflower_16",
+      "agri_181_sunflower_0",
+      "agri_183_sunflower_2",
+      "agri_194_sunflower_13",
+      "agri_191_sunflower_10"
     ],
     "bm25_hit": false,
     "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
   },
   {
     "id": "hard_003",
@@ -50,23 +74,31 @@
       "agri_112_pest_ipm_11"
     ],
     "bm25_top5": [
-      "agri_161_crop_rotation_0",
-      "agri_162_crop_rotation_1",
-      "agri_163_crop_rotation_2",
-      "agri_164_crop_rotation_3",
-      "agri_165_crop_rotation_4"
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
     ],
     "hybrid_top5": [
-      "agri_161_crop_rotation_0",
+      "agri_165_crop_rotation_4",
+      "agri_168_crop_rotation_7",
+      "agri_180_crop_rotation_19",
+      "agri_178_crop_rotation_17",
+      "agri_162_crop_rotation_1"
+    ],
+    "rerank_top5": [
+      "agri_109_pest_ipm_8",
       "agri_103_pest_ipm_2",
-      "agri_162_crop_rotation_1",
-      "agri_106_pest_ipm_5",
-      "agri_163_crop_rotation_2"
+      "agri_102_pest_ipm_1",
+      "agri_120_pest_ipm_19",
+      "agri_101_pest_ipm_0"
     ],
     "bm25_hit": false,
     "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
   },
   {
     "id": "hard_004",
@@ -75,23 +107,31 @@
       "agri_159_seed_rate_18"
     ],
     "bm25_top5": [
-      "agri_141_seed_rate_0",
-      "agri_144_seed_rate_3",
       "agri_147_seed_rate_6",
-      "agri_150_seed_rate_9",
-      "agri_153_seed_rate_12"
+      "agri_159_seed_rate_18",
+      "agri_153_seed_rate_12",
+      "agri_156_seed_rate_15",
+      "agri_141_seed_rate_0"
     ],
     "hybrid_top5": [
       "agri_141_seed_rate_0",
-      "agri_112_pest_ipm_11",
-      "agri_144_seed_rate_3",
-      "agri_114_pest_ipm_13",
+      "agri_159_seed_rate_18",
+      "agri_156_seed_rate_15",
+      "agri_174_crop_rotation_13",
       "agri_147_seed_rate_6"
     ],
-    "bm25_hit": false,
-    "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "rerank_top5": [
+      "agri_156_seed_rate_15",
+      "agri_153_seed_rate_12",
+      "agri_159_seed_rate_18",
+      "agri_141_seed_rate_0",
+      "agri_147_seed_rate_6"
+    ],
+    "bm25_hit": true,
+    "hybrid_hit": true,
+    "rerank_hit": true,
+    "rerank_wins": [],
+    "hybrid_wins": []
   },
   {
     "id": "hard_005",
@@ -100,23 +140,31 @@
       "agri_043_soil_ph_2"
     ],
     "bm25_top5": [
-      "agri_041_soil_ph_0",
       "agri_044_soil_ph_3",
-      "agri_047_soil_ph_6",
+      "agri_059_soil_ph_18",
+      "agri_053_soil_ph_12",
       "agri_050_soil_ph_9",
-      "agri_053_soil_ph_12"
+      "agri_047_soil_ph_6"
     ],
     "hybrid_top5": [
-      "agri_041_soil_ph_0",
-      "agri_050_soil_ph_9",
       "agri_059_soil_ph_18",
-      "agri_058_soil_ph_17",
-      "agri_044_soil_ph_3"
+      "agri_053_soil_ph_12",
+      "agri_056_soil_ph_15",
+      "agri_044_soil_ph_3",
+      "agri_047_soil_ph_6"
+    ],
+    "rerank_top5": [
+      "agri_041_soil_ph_0",
+      "agri_059_soil_ph_18",
+      "agri_060_soil_ph_19",
+      "agri_053_soil_ph_12",
+      "agri_058_soil_ph_17"
     ],
     "bm25_hit": false,
     "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
   },
   {
     "id": "hard_006",
@@ -125,25 +173,31 @@
       "agri_062_npk_fertilizer_1"
     ],
     "bm25_top5": [
-      "agri_061_npk_fertilizer_0",
-      "agri_062_npk_fertilizer_1",
-      "agri_063_npk_fertilizer_2",
-      "agri_064_npk_fertilizer_3",
-      "agri_065_npk_fertilizer_4"
+      "agri_073_npk_fertilizer_12",
+      "agri_074_npk_fertilizer_13",
+      "agri_075_npk_fertilizer_14",
+      "agri_076_npk_fertilizer_15",
+      "agri_077_npk_fertilizer_16"
     ],
     "hybrid_top5": [
-      "agri_061_npk_fertilizer_0",
-      "agri_066_npk_fertilizer_5",
-      "agri_063_npk_fertilizer_2",
-      "agri_067_npk_fertilizer_6",
-      "agri_076_npk_fertilizer_15"
+      "agri_073_npk_fertilizer_12",
+      "agri_076_npk_fertilizer_15",
+      "agri_079_npk_fertilizer_18",
+      "agri_075_npk_fertilizer_14",
+      "agri_074_npk_fertilizer_13"
     ],
-    "bm25_hit": true,
+    "rerank_top5": [
+      "agri_079_npk_fertilizer_18",
+      "agri_078_npk_fertilizer_17",
+      "agri_076_npk_fertilizer_15",
+      "agri_061_npk_fertilizer_0",
+      "agri_072_npk_fertilizer_11"
+    ],
+    "bm25_hit": false,
     "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": [
-      "agri_062_npk_fertilizer_1"
-    ]
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
   },
   {
     "id": "hard_007",
@@ -153,25 +207,33 @@
       "agri_016_wheat_disease_15"
     ],
     "bm25_top5": [
-      "agri_002_wheat_disease_1",
-      "agri_003_wheat_disease_2",
-      "agri_005_wheat_disease_4",
-      "agri_006_wheat_disease_5",
-      "agri_008_wheat_disease_7"
+      "agri_009_wheat_disease_8",
+      "agri_018_wheat_disease_17",
+      "agri_020_wheat_disease_19",
+      "agri_012_wheat_disease_11",
+      "agri_017_wheat_disease_16"
     ],
     "hybrid_top5": [
-      "agri_003_wheat_disease_2",
-      "agri_002_wheat_disease_1",
+      "agri_009_wheat_disease_8",
+      "agri_018_wheat_disease_17",
       "agri_012_wheat_disease_11",
-      "agri_015_wheat_disease_14",
-      "agri_019_wheat_disease_18"
+      "agri_020_wheat_disease_19",
+      "agri_003_wheat_disease_2"
+    ],
+    "rerank_top5": [
+      "agri_018_wheat_disease_17",
+      "agri_020_wheat_disease_19",
+      "agri_014_wheat_disease_13",
+      "agri_016_wheat_disease_15",
+      "agri_011_wheat_disease_10"
     ],
     "bm25_hit": false,
-    "hybrid_hit": true,
-    "hybrid_wins": [
-      "agri_015_wheat_disease_14"
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_016_wheat_disease_15"
     ],
-    "bm25_only": []
+    "hybrid_wins": []
   },
   {
     "id": "hard_010",
@@ -181,21 +243,31 @@
     ],
     "bm25_top5": [
       "agri_083_organic_matter_2",
-      "agri_086_organic_matter_5",
-      "agri_089_organic_matter_8",
       "agri_092_organic_matter_11",
-      "agri_095_organic_matter_14"
+      "agri_095_organic_matter_14",
+      "agri_086_organic_matter_5",
+      "agri_089_organic_matter_8"
     ],
     "hybrid_top5": [
+      "agri_092_organic_matter_11",
       "agri_098_organic_matter_17",
-      "agri_083_organic_matter_2",
-      "agri_058_soil_ph_17",
-      "agri_086_organic_matter_5",
+      "agri_095_organic_matter_14",
+      "agri_099_organic_matter_18",
+      "agri_083_organic_matter_2"
+    ],
+    "rerank_top5": [
+      "agri_098_organic_matter_17",
+      "agri_099_organic_matter_18",
+      "agri_094_organic_matter_13",
+      "agri_097_organic_matter_16",
       "agri_096_organic_matter_15"
     ],
     "bm25_hit": false,
-    "hybrid_hit": false,
-    "hybrid_wins": [],
-    "bm25_only": []
+    "hybrid_hit": true,
+    "rerank_hit": true,
+    "rerank_wins": [],
+    "hybrid_wins": [
+      "agri_099_organic_matter_18"
+    ]
   }
 ]

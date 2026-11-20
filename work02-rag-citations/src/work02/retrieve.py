@@ -106,3 +106,35 @@ class HybridRetriever:
                 )
             )
         return hits
+
+    def search_rerank(
+        self,
+        query: str,
+        top_k: int,
+        reranker: object | None = None,
+        candidate_k: int = 25,
+    ) -> list[RankedHit]:
+        candidates = self.search_hybrid(query, max(top_k * 4, candidate_k))
+        if not candidates:
+            return []
+        if reranker is None:
+            if not hasattr(self, "_cross_encoder"):
+                from sentence_transformers import CrossEncoder
+
+                self._cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+            reranker = getattr(self, "_cross_encoder")
+
+        pairs = [(query, c.text) for c in candidates]
+        scores = reranker.predict(pairs)  # type: ignore[attr-defined]
+        ranked_indices = sorted(range(len(candidates)), key=lambda i: float(scores[i]), reverse=True)
+        return [
+            RankedHit(
+                chunk_id=candidates[i].chunk_id,
+                doc_id=candidates[i].doc_id,
+                score=float(scores[i]),
+                text=candidates[i].text,
+                char_start=candidates[i].char_start,
+                char_end=candidates[i].char_end,
+            )
+            for i in ranked_indices[:top_k]
+        ]

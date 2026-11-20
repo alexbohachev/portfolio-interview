@@ -44,6 +44,19 @@ def main() -> int:
         _print_snapshot(json.loads(SNAPSHOT.read_text(encoding="utf-8")))
     else:
         print("Немає eval_results.json — див. manifests/eval_snapshot.json або REPORT.md")
+
+    hard_snap = ROOT / "manifests" / "hard_eval_snapshot.json"
+    if hard_snap.is_file():
+        h = json.loads(hard_snap.read_text(encoding="utf-8"))
+        print("\n--- Hard Retrieval Benchmark & Cross-Encoder Re-ranker ---")
+        r = h.get("recall_at_5", {})
+        m = h.get("mrr_at_5", {})
+        print(f"Recall@5:  BM25 = {r.get('bm25', 0):.4f} | Hybrid = {r.get('hybrid', 0):.4f} | Cross-Encoder = {r.get('rerank', 0):.4f}")
+        print(f"MRR@5:     BM25 = {m.get('bm25', 0):.4f} | Hybrid = {m.get('hybrid', 0):.4f} | Cross-Encoder = {m.get('rerank', 0):.4f}")
+        lift = h.get("lift_rerank_vs_hybrid", {})
+        print(f"Reranker Lift over Hybrid: delta = +{lift.get('delta_recall_mean')} ({lift.get('relative_recall_gain')}) | 95% CI: {lift.get('delta_recall_ci_95')}")
+        print(f"Refusal Gate (unanswerable): {h.get('refusal_gate_unanswerable')} rejected")
+
     print("\nLive: docker compose up + .\\make.ps1 smoke")
     print("Демо: scripts\\demo.ps1 · DEMO.md")
     return 0

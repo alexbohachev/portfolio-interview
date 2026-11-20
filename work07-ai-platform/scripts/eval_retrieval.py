@@ -87,6 +87,7 @@ def main() -> int:
     items = json.loads(golden.read_text(encoding="utf-8"))
     bm25_r, bm25_m, n = metrics_at_k(items, "bm25", doc_prefix)
     hyb_r, hyb_m, _ = metrics_at_k(items, "hybrid", doc_prefix)
+    rerank_r, rerank_m, _ = metrics_at_k(items, "rerank", doc_prefix)
     per_query = []
     if args.per_query:
         for item in items:
@@ -95,6 +96,7 @@ def main() -> int:
                 continue
             bm25_hits = post_search(item["question"], "bm25", doc_prefix)[:TOP_K]
             hyb_hits = post_search(item["question"], "hybrid", doc_prefix)[:TOP_K]
+            rerank_hits = post_search(item["question"], "rerank", doc_prefix)[:TOP_K]
             per_query.append(
                 {
                     "id": item.get("id"),
@@ -102,8 +104,11 @@ def main() -> int:
                     "expected": sorted(expected),
                     "bm25_top5": bm25_hits,
                     "hybrid_top5": hyb_hits,
+                    "rerank_top5": rerank_hits,
                     "bm25_hit": bool(set(bm25_hits) & expected),
                     "hybrid_hit": bool(set(hyb_hits) & expected),
+                    "rerank_hit": bool(set(rerank_hits) & expected),
+                    "rerank_wins": sorted((set(rerank_hits) & expected) - (set(hyb_hits) & expected)),
                     "hybrid_wins": sorted((set(hyb_hits) & expected) - (set(bm25_hits) & expected)),
                     "bm25_only": sorted((set(bm25_hits) & expected) - (set(hyb_hits) & expected)),
                 }
@@ -117,8 +122,9 @@ def main() -> int:
         "n_questions": len(items),
         "n_evaluated": n,
         "top_k": TOP_K,
-        "recall_at_5": {"bm25": bm25_r, "hybrid": hyb_r},
-        "mrr_at_5": {"bm25": bm25_m, "hybrid": hyb_m},
+        "recall_at_5": {"bm25": bm25_r, "hybrid": hyb_r, "rerank": rerank_r},
+        "mrr_at_5": {"bm25": bm25_m, "hybrid": hyb_m, "rerank": rerank_m},
+        "delta_rerank_minus_hybrid_recall": rerank_r - hyb_r,
         "delta_hybrid_minus_bm25_recall": hyb_r - bm25_r,
         "doc_id_prefix": doc_prefix,
     }

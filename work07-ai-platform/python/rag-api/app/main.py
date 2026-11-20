@@ -11,7 +11,7 @@ from app.config import EMBED_MODEL, ES_URL, REFUSAL
 from app.telemetry import setup_telemetry
 from app.indexing import ensure_index, index_single_doc
 from app.qa import answer_query
-from app.retrieve import search_bm25, search_hybrid
+from app.retrieve import search_bm25, search_hybrid, search_rerank
 
 
 class SearchRequest(BaseModel):
@@ -42,12 +42,20 @@ class IndexDocRequest(BaseModel):
 async def lifespan(app: FastAPI):
     es = Elasticsearch(ES_URL)
     model = SentenceTransformer(EMBED_MODEL)
+    cross_encoder = None
+    try:
+        from sentence_transformers import CrossEncoder
+
+        cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    except Exception as ex:
+        print(f"Notice: cross-encoder not loaded on startup: {ex}")
 
     def embed(text: str) -> list[float]:
         return model.encode(text, normalize_embeddings=True).tolist()
 
     app.state.es = es
     app.state.embed = embed
+    app.state.cross_encoder = cross_encoder
     app.state.indexed_docs = ensure_index(es, embed)
     yield
     es.close()
@@ -71,6 +79,15 @@ def search(req: SearchRequest):
     prefix = req.doc_id_prefix or None
     if req.mode == "bm25":
         hits = search_bm25(es, req.query, req.top_k, prefix)
+    elif req.mode in ("rerank", "hybrid_rerank"):
+        hits = search_rerank(
+            es,
+            req.query,
+            embed(req.query),
+            req.top_k,
+            getattr(app.state, "cross_encoder", None),
+            doc_id_prefix=prefix,
+        )
     else:
         hits = search_hybrid(es, req.query, embed(req.query), req.top_k, prefix)
     return {
