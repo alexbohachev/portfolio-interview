@@ -64,6 +64,11 @@ Step "work08 demo offline" {
     py -3.13 scripts/demo_offline.py
 }
 
+Step "work05 demo offline" {
+    Set-Location "$Root\work05-docguard"
+    py -3.13 scripts/demo_offline.py
+}
+
 Step "work05 docker smoke" -Optional {
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw "no docker" }
     Set-Location "$Root\work05-docguard"

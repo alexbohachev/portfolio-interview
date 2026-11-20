@@ -34,7 +34,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 ### Case Study 1: Work 07 — Distributed RAG Platform & N+1 Latency Fix
 
 #### The Problem & Anti-Pattern Reproduction
-In high-throughput microservice ecosystems, naive integration between backend application services and AI retrieval services often introduces sequential query amplification. To benchmark and quantify this latency tax, we reproduced this microservice anti-pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and compared it against single-shot server-side hybrid retrieval (`searchFast`).
+In high-throughput microservice ecosystems, naive integration between backend application services and AI retrieval services often introduces sequential query amplification. This pattern was directly observed during an enterprise RAG migration where a legacy Java orchestration service initially decomposed user queries into token-level HTTP calls against an internal Python search microservice. To quantify this latency penalty and prove the fix, we isolated and reproduced the pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and compared it against single-shot server-side hybrid retrieval (`searchFast`).
 
 #### Architectural Diagnosis in Jaeger
 Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading waterfall of 6 sequential spans to `/v1/knowledge/search` per single user request, causing local Docker Compose p95 to spike to **~196 ms**.
@@ -75,12 +75,13 @@ Replaced the iterative token-loop with a single batch hybrid call (`EquipmentSea
   * Summary metrics: [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json)
 
 #### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Breakdown (`eval-hard`)
-Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retrieval boundaries, we tested on **8 hard domain queries** (paraphrases, multi-hop questions, and unanswerable prompts in `data/golden/hard_retrieval.json` scoped to the 200 documents shared with Work 02):
+Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retrieval boundaries, we stress-tested across **10 hard domain prompts** (`data/golden/hard_retrieval.json` scoped to the 200 documents shared with Work 02): **8 answerable queries** (evaluating Recall@5 and MRR@5 on paraphrases and multi-hop questions) plus **2 out-of-domain unanswerable queries** (evaluating the pre-retrieval refusal gate):
 
-* **Aggregated Metrics (8 evaluated queries):**
+* **Aggregated Metrics (8 answerable queries evaluated):**
   * **Recall@5:** BM25 = **0.125** (1/8) | Hybrid = **0.125** (1/8)
   * **MRR@5:** BM25 = **0.063** | Hybrid = **0.031**
   * **Failure Rate:** Both systems missed 6 out of 8 queries.
+* **Refusal Gate Metrics (2 out-of-domain queries):** 2/2 successfully intercepted and rejected before LLM invocation.
 
 | Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Retrieval Outcome & Diagnosis |
 |---|---|:---:|:---:|---|

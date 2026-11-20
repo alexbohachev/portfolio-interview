@@ -8,6 +8,8 @@
 - For **each token**, it calls Python **rag-api** with hybrid search.
 - It also runs BM25 + hybrid on the full string → deliberate **N+1 HTTP** anti-pattern reproduction to quantify microservice latency tax.
 
+**Real-World Production Context:** This pattern was directly observed during an enterprise RAG migration where a legacy Java orchestration service initially decomposed user queries into token-level HTTP calls against an internal Python search microservice. We isolated and reproduced this exact architecture in local Docker Compose to profile the sequential network waterfall in Jaeger and benchmark the single-shot server-side hybrid RRF replacement.
+
 **Profiling in Jaeger:** Jaeger UI (`http://localhost:16687`) exposed a cascading waterfall of sequential spans `logistics → rag-api` for one user request.
 
 ## Fix (after)
@@ -47,7 +49,7 @@ Two independent runs on local Docker Compose (Windows 11, Intel/AMD CPU, 25 requ
 
 On the standard synthetic agricultural corpus (`data/golden/test.json`, n=50), both BM25 and Hybrid achieve a trivial `Recall@5 = 1.0` and `MRR@5 = 1.0` because questions share vocabulary with the clean documents.
 
-To demonstrate true retrieval trade-offs under real-world conditions, we evaluated on **hard paraphrases, multi-hop queries, and unanswerable prompts** (`data/golden/hard_retrieval.json`, scoped via `--doc-id-prefix agri_` to the 200 documents shared with Work 02):
+To demonstrate true retrieval trade-offs under real-world conditions, we stress-tested across **10 hard domain prompts** (`data/golden/hard_retrieval.json`, scoped via `--doc-id-prefix agri_` to the 200 documents shared with Work 02): **8 answerable queries** (evaluating Recall@5 and MRR@5 on paraphrases and multi-hop questions) plus **2 out-of-domain unanswerable queries** (evaluating the pre-retrieval refusal gate):
 
 ```powershell
 .\make.ps1 eval-hard

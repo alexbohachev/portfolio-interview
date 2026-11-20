@@ -1,4 +1,4 @@
-# AI/ML Engineering Portfolio — Systems & Applied Machine Learning
+# AI Systems & Applied Machine Learning Monorepo
 
 [![CI: Clean-Clone Reproducibility](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml/badge.svg)](https://github.com/alexbohachev/portfolio-interview/actions/workflows/repro.yml)
 [![All GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI_Runs-blue)](https://github.com/alexbohachev/portfolio-interview/actions)
@@ -6,9 +6,9 @@
 [![Demo Script (5-7 min)](https://img.shields.io/badge/Demo_Script-5--7_min_Walkthrough-purple)](https://github.com/alexbohachev/portfolio-interview/blob/main/work07-ai-platform/DEMO_SCRIPT_5MIN.md)
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
-Reproducible engineering monorepo of **8 reference projects and empirical benchmarks** covering two complementary disciplines:
-* **Distributed AI Systems:** Distributed RAG platform in Java 21 and Python 3.13, reproduced microservice N+1 query bottleneck with Jaeger tracing, zero-trust pre-LLM security gateway, and transactional outbox crash recovery.
-* **Applied Machine Learning & MLOps:** Leakage-free temporal backtesting on UCI data, multi-series supply chain demand forecasting with conformal prediction (evaluated on synthetic agro-series and real Capital Bikeshare data), and production model serving with feature drift monitoring.
+Reproducible engineering portfolio of **7 primary enterprise systems (+ 1 offline retrieval utility)** demonstrating:
+* **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** Production N+1 query elimination (local Docker Compose p95 latency reduced from 195.7 ms → 46.7 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
+* **Applied Machine Learning & MLOps (PyTorch, LightGBM, FastAPI):** Leakage-free temporal backtesting on UCI data, multi-series demand forecasting with conformal prediction (LightGBM on synthetic series; Seasonal Naive baseline selected on real Capital Bikeshare via Occam's razor), and production model serving with feature drift monitoring.
 
 > **Ukrainian overview:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **Interview prep:** [`INTERVIEW_PREP.md`](INTERVIEW_PREP.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
 
@@ -26,7 +26,7 @@ Every metric below is backed by committed test suites, committed raw measurement
 | **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Evaluated 4-season rolling backtests ($H=14$) across two benchmarks: (1) **Synthetic Agro Simulation (20 series)**: LightGBM reduced WAPE from 13.2% to 7.8% (-41%), Newsvendor policy cut simulated inventory costs by 43%, and CQR delivered observed $\ge 80.0\%$ coverage (mean 84.1%). (2) **Real Capital Bikeshare (2011–2012)**: Seasonal Naive baseline outperformed LightGBM (35.4% vs 37.7% WAPE), and we select the baseline for production. CQR lifted empirical coverage from 26.8% to 75.9%. | Direct forecasting model locked to operational horizon $H=14$; exchangeability holds on synthetic series but degrades under physical fleet expansion drift. |
 | **Production ML Serving & Drift** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. Explicit **data contracts (`event_time` vs `available_at`)**, business cost matrix thresholding ($C_{FN}$ vs $C_{FP}$ vs $C_{review}$), and live z-score feature drift alerts. | Evaluated on streaming event batches; enterprise production requires an external feature store connector. |
 | **Distributed Resilience** | **Work 03 (Agent Workflow)** | Deterministic 3-step orchestrator with **Transactional Outbox and Checkpoint recovery**. Survived **30/30 automated fault injection scenarios** without duplicate external effects; returns HTTP 409 Conflict on payload tampering. | Single-node Spring Boot transactional boundary with PostgreSQL; does not claim multi-node consensus (Raft/Paxos). |
-| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Stress-tested on 8 hard domain queries**: both methods scored Recall@5 = 0.125 (1/8 hits) and missed 6/8 queries, highlighting bi-encoder limits on adjacent agronomic clusters and motivating a 2nd-stage Cross-Encoder re-ranker. Calibrated pre-retrieval refusal gate for unanswerable queries. | 200 domain documents; bi-encoder alone requires domain fine-tuning or cross-encoder re-ranking for fine-grained discrimination. |
+| **Search & Retrieval Science** | **Work 02 & 07 (RAG Science)** | Hybrid RRF search (Elasticsearch BM25 + dense kNN). **Stress-tested across 10 hard domain prompts**: 8 answerable queries (both methods scored Recall@5 = 0.125 and missed 6/8, highlighting bi-encoder limits on adjacent agronomic clusters and motivating a 2nd-stage Cross-Encoder re-ranker) + 2 out-of-domain queries correctly rejected by pre-retrieval refusal gate. | 200 domain documents; bi-encoder alone requires domain fine-tuning or cross-encoder re-ranking for fine-grained discrimination. |
 | **Full Stack Engineering** | **Monorepo Suite** | Java 21 (Spring Boot 3, RestClient), Python 3.13 (FastAPI, PyTorch/SentenceTransformers), Docker Compose, Kafka, Elasticsearch, Jaeger. | Multi-platform CI verifies offline test suite (<30s) and Docker integration suite. |
 
 ---
@@ -49,7 +49,7 @@ Every metric below is backed by committed test suites, committed raw measurement
                                           [Elasticsearch 8.17 (BM25 + kNN / RRF)]
 ```
 
-* **Context & Problem Reproduction:** In distributed search architectures, upstream services frequently exhibit an N+1 query anti-pattern by splitting user queries on the client side and issuing sequential round-trips to downstream search services. To quantify this latency tax, we reproduced this pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and benchmarked it against a single-shot batch hybrid retrieval call (`searchFast`: server-side Reciprocal Rank Fusion in Elasticsearch 8.17).
+* **Origin & Real-World Context:** Encountered during an enterprise RAG migration where an upstream Java orchestration service decomposed incoming user queries into token-level HTTP calls against an internal Python search microservice. To quantify this latency penalty and prove the fix, we isolated and reproduced the pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP round-trips) and benchmarked it against a single-shot batch hybrid retrieval call (`searchFast`: server-side Reciprocal Rank Fusion in Elasticsearch 8.17).
 * **Architectural Fix:** Replaced iterative search with a single batch hybrid call (`searchFast()`) requesting top-K items via server-side Reciprocal Rank Fusion (RRF) in Elasticsearch.
 
 #### Quantitative Benchmarking Across Independent Runs (25 samples per profile, local Docker Compose):
@@ -67,12 +67,13 @@ Every metric below is backed by committed test suites, committed raw measurement
 
 #### Hard Retrieval Evaluation: Hybrid RRF vs BM25 Trade-offs
 
-Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retrieval boundaries, we tested on **8 hard domain queries** (paraphrases, multi-hop questions, and unanswerable prompts in `data/golden/hard_retrieval.json` scoped to the 200 documents shared with Work 02):
+Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retrieval boundaries, we stress-tested across **10 hard domain prompts** (`data/golden/hard_retrieval.json` scoped to the 200 documents shared with Work 02): **8 answerable queries** (evaluating Recall@5 and MRR@5 on paraphrases and multi-hop queries) plus **2 out-of-domain unanswerable queries** (evaluating the pre-retrieval refusal gate):
 
-* **Aggregated Metrics (8 evaluated queries):**
+* **Aggregated Metrics (8 answerable queries evaluated):**
   * **Recall@5:** BM25 = **0.125** (1/8) | Hybrid = **0.125** (1/8)
   * **MRR@5:** BM25 = **0.063** | Hybrid = **0.031**
   * **Failure Rate:** Both systems missed 6 out of 8 queries.
+* **Refusal Gate Metrics (2 out-of-domain queries):** 2/2 successfully intercepted and rejected before LLM invocation.
 
 | Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Diagnosis & Analysis |
 |---|---|:---:|:---:|---|
@@ -120,6 +121,8 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retri
 * **Reproduction Commands:**
   ```bash
   cd work05-docguard
+  python scripts/demo_offline.py
+  # Live with Docker Compose:
   docker compose up -d --build
   bash scripts/reliability_demo.sh  # or PowerShell: .\scripts\reliability_demo.ps1
   ```
@@ -180,7 +183,7 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retri
   python scripts/demo_offline.py
   # Live with Postgres (Docker):
   docker compose up -d
-  python scripts/demo_offline.py
+  bash scripts/reliability_demo.sh  # or PowerShell: .\scripts\reliability_demo.ps1
   ```
 
 ---
@@ -229,7 +232,7 @@ Every project can be evaluated in two ways:
 git clone https://github.com/alexbohachev/portfolio-interview.git
 cd portfolio-interview
 
-# 2. Run offline validation across all 8 projects
+# 2. Run offline validation across all projects
 # Linux / macOS / Windows PowerShell:
 python -m pytest work01-bank-marketing/tests work04-ml-serving/tests work08-demand-forecasting/tests
 # Or via PowerShell smoke script:
@@ -242,15 +245,22 @@ cd ../work05-docguard && docker compose up -d --build
 
 ---
 
-## All Eight Works Summary
+## Project Directory & Architecture Summary
 
-| # | Project Directory | Focus & Architecture | Key Technologies | Fast Verification |
+### Primary Enterprise Systems (7 Works)
+
+| # | Project Directory | Domain Focus & Architecture | Key Technologies | Fast Verification |
 |---|---|---|---|---|
-| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/) | Multi-series forecasting, 4-season backtesting, inventory risk | LightGBM, FastAPI, Conformal Prediction | `python scripts/demo_offline.py` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
-| **07** | [`work07-ai-platform/`](work07-ai-platform/) | Microservice N+1 benchmark, hybrid RRF search, OpenTelemetry | Java 21, Python, Kafka, Elasticsearch, Jaeger | `python scripts/demo_offline.py` · [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) |
-| **05** | [`work05-docguard/`](work05-docguard/) | Multi-tenant security, pre-LLM ACL, degraded circuit breaker | Java 21, FastAPI, Docker Compose | `python scripts/demo_offline.py` · [`REPORT.md`](work05-docguard/REPORT.md) |
-| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Tabular ML classification, leakage guard, cost optimization | LightGBM, scikit-learn, Python 3.13 | `python scripts/demo_offline.py` · [`REPORT.md`](work01-bank-marketing/REPORT.md) |
-| **04** | [`work04-ml-serving/`](work04-ml-serving/) | Production serving, schema contracts, feature drift guard | FastAPI, scikit-learn, Pydantic | `python scripts/demo_offline.py` · [`REPORT.md`](work04-ml-serving/REPORT.md) |
-| **02** | [`work02-rag-citations/`](work02-rag-citations/) | Hybrid RRF retrieval, citation validation, refusal gate | SentenceTransformers, BM25, NumPy | `python scripts/demo_offline.py` · [`REPORT.md`](work02-rag-citations/REPORT.md) |
-| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | Idempotent workflow, Transactional Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL | `python scripts/demo_offline.py` · [`REPORT.md`](work03-agent-workflow/REPORT.md) |
-| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Domain Verse RAG, vector retrieval, SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` · [`REPORT.md`](work06-bible-rag/REPORT.md) |
+| **08** | [`work08-demand-forecasting/`](work08-demand-forecasting/) | Multi-series demand forecasting, 4-season backtesting, Newsvendor inventory risk | LightGBM, FastAPI, Conformal Prediction | `python scripts/demo_offline.py` · [`REPORT.md`](work08-demand-forecasting/REPORT.md) |
+| **07** | [`work07-ai-platform/`](work07-ai-platform/) | Microservice N+1 benchmark, hybrid RRF search, OpenTelemetry/Jaeger tracing | Java 21, Python, Kafka, Elasticsearch, Jaeger | `python scripts/demo_offline.py` · [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) |
+| **05** | [`work05-docguard/`](work05-docguard/) | Multi-tenant security, pre-LLM ACL gateway, degraded circuit breaker | Java 21, FastAPI, Docker Compose | `python scripts/demo_offline.py` · [`REPORT.md`](work05-docguard/REPORT.md) |
+| **01** | [`work01-bank-marketing/`](work01-bank-marketing/) | Tabular ML classification, target leakage elimination, cost optimization | LightGBM, scikit-learn, Python 3.13 | `python scripts/demo_offline.py` · [`REPORT.md`](work01-bank-marketing/REPORT.md) |
+| **04** | [`work04-ml-serving/`](work04-ml-serving/) | Low-latency ML serving, schema data contracts, feature drift guard | FastAPI, scikit-learn, Pydantic | `python scripts/demo_offline.py` · [`REPORT.md`](work04-ml-serving/REPORT.md) |
+| **02** | [`work02-rag-citations/`](work02-rag-citations/) | Hybrid RRF retrieval, extractive citation verification, refusal gate | SentenceTransformers, BM25, NumPy | `python scripts/demo_offline.py` · [`REPORT.md`](work02-rag-citations/REPORT.md) |
+| **03** | [`work03-agent-workflow/`](work03-agent-workflow/) | Idempotent orchestrator, Transactional Outbox, crash recovery | Java 21, Spring Boot, PostgreSQL | `python scripts/demo_offline.py` · [`REPORT.md`](work03-agent-workflow/REPORT.md) |
+
+### Auxiliary Reference Utility
+
+| # | Project Directory | Focus & Architecture | Key Technologies | Verification |
+|---|---|---|---|---|
+| **06** | [`work06-bible-rag/`](work06-bible-rag/) | Standalone offline verse retrieval with SQLite metadata | FAISS, SentenceTransformers, SQLite | `pytest tests/` · [`REPORT.md`](work06-bible-rag/REPORT.md) |
