@@ -21,6 +21,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+      - name: Logistics unit tests (N+1 call-count guard)
+        run: chmod +x gradlew && ./gradlew :services:logistics:test --no-daemon
       - name: Gradle bootJar
         run: chmod +x gradlew && ./gradlew :services:farm:bootJar :services:scout:bootJar :services:logistics:bootJar --no-daemon
       - uses: actions/setup-python@v5
