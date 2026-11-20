@@ -1,0 +1,38 @@
+{
+  "source": "scripts/eval_retrieval_offline.py",
+  "golden_file": "hard_retrieval_extended.json",
+  "n_evaluated": 40,
+  "recall_at_5": {
+    "bm25": 0.05,
+    "hybrid": 0.05,
+    "rerank": 0.05
+  },
+  "mrr_at_5": {
+    "bm25": 0.01125,
+    "hybrid": 0.013333333333333332,
+    "rerank": 0.01125
+  },
+  "recall_ci_95": {
+    "bm25": [
+      0.0,
+      0.125
+    ],
+    "hybrid": [
+      0.0,
+      0.125
+    ],
+    "rerank": [
+      0.0,
+      0.125
+    ]
+  },
+  "lift_rerank_vs_hybrid": {
+    "delta_recall_mean": 0.0,
+    "delta_recall_ci_95": [
+      -0.075,
+      0.075
+    ],
+    "relative_recall_gain": "+0.0%"
+  },
+  "refusal_gate_unanswerable": "10 / 10"
+}

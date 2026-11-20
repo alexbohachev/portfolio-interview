@@ -19,11 +19,7 @@ work03-agent-workflow/bin/
 work07-ai-platform/.gradle/
 work07-ai-platform/**/build/
 work07-ai-platform/**/bin/
-work07-ai-platform/artifacts/*
-!work07-ai-platform/artifacts/latency_raw_samples.json
-!work07-ai-platform/artifacts/latency_before_after.json
-!work07-ai-platform/artifacts/eval_per_query.json
-!work07-ai-platform/artifacts/eval_results.json
+work07-ai-platform/artifacts/
 work04-ml-serving/artifacts/
 work04-ml-serving/data/raw/
 work05-docguard/.gradle/

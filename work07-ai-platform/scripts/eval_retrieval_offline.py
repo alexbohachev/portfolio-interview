@@ -237,13 +237,15 @@ def main() -> int:
             "lift_rerank_vs_hybrid": m["lift_rerank_vs_hybrid"],
             "refusal_gate_unanswerable": results["refusal_gate_intercepted"],
         }
-        (MANIFESTS_DIR / "hard_eval_snapshot.json").write_text(
+        out_name = "hard_extended_eval_snapshot.json" if "extended" in golden_file.name else "hard_eval_snapshot.json"
+        out_per_query = "eval_per_query_extended.json" if "extended" in golden_file.name else "eval_per_query.json"
+        (MANIFESTS_DIR / out_name).write_text(
             json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        (MANIFESTS_DIR / "eval_per_query.json").write_text(
+        (MANIFESTS_DIR / out_per_query).write_text(
             json.dumps(results["per_query"], ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        print("Updated manifests/hard_eval_snapshot.json and manifests/eval_per_query.json")
+        print(f"Updated manifests/{out_name} and manifests/{out_per_query}")
 
     return 0
 

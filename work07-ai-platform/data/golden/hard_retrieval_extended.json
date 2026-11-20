@@ -2,10 +2,9 @@
   {
     "id": "ext_001",
     "topic": "wheat_disease",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо хвороби пшениці та фактора «бура іржа» описані для сезону 2016?",
-    "expected_contains": "бура іржа",
+    "question": "Симптоми та захист зернових від іржі листя та плямистостей колоса",
     "evidence": [
       {
         "doc_id": "agri_001_wheat_disease_0"
@@ -15,49 +14,45 @@
   {
     "id": "ext_002",
     "topic": "wheat_disease",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає септоріоз на урожайність у сезоні 2020 в контексті хвороби пшениці?",
-    "expected_contains": "септоріоз",
+    "question": "Фузаріозне ураження озимих та методи фунгіцидної профілактики",
     "evidence": [
       {
-        "doc_id": "agri_005_wheat_disease_4"
+        "doc_id": "agri_006_wheat_disease_5"
       }
     ]
   },
   {
     "id": "ext_003",
     "topic": "wheat_disease",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «фузаріоз» у польових роботах 2024 року",
-    "expected_contains": "фузаріоз",
+    "question": "Септоріоз листя на ранніх фазах кущення пшениці",
     "evidence": [
       {
-        "doc_id": "agri_009_wheat_disease_8"
+        "doc_id": "agri_011_wheat_disease_10"
       }
     ]
   },
   {
     "id": "ext_004",
     "topic": "wheat_disease",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: хвороби пшениці та динаміка «бура іржа» за 2018 рік",
-    "expected_contains": "бура іржа",
+    "question": "Комплексний моніторинг грибкових патогенів колоса перед збиранням",
     "evidence": [
       {
-        "doc_id": "agri_013_wheat_disease_12"
+        "doc_id": "agri_016_wheat_disease_15"
       }
     ]
   },
   {
     "id": "ext_005",
     "topic": "corn_irrigation",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо зрошення кукурудзи та фактора «краплинне» описані для сезону 2016?",
-    "expected_contains": "краплинне",
+    "question": "Налаштування систем локального краплинного зволоження на кукурудзяних полях",
     "evidence": [
       {
         "doc_id": "agri_021_corn_irrigation_0"
@@ -67,49 +62,45 @@
   {
     "id": "ext_006",
     "topic": "corn_irrigation",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає вологоємність грунту на урожайність у сезоні 2020 в контексті зрошення кукурудзи?",
-    "expected_contains": "вологоємність грунту",
+    "question": "Розрахунок вологоємності ґрунту при борозневому поливі зернової кукурудзи",
     "evidence": [
       {
-        "doc_id": "agri_025_corn_irrigation_4"
+        "doc_id": "agri_026_corn_irrigation_5"
       }
     ]
   },
   {
     "id": "ext_007",
     "topic": "corn_irrigation",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «борознева» у польових роботах 2024 року",
-    "expected_contains": "борознева",
+    "question": "Водний стрес кукурудзи в період викидання волоті та формування качана",
     "evidence": [
       {
-        "doc_id": "agri_029_corn_irrigation_8"
+        "doc_id": "agri_031_corn_irrigation_10"
       }
     ]
   },
   {
     "id": "ext_008",
     "topic": "corn_irrigation",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: зрошення кукурудзи та динаміка «краплинне» за 2018 рік",
-    "expected_contains": "краплинне",
+    "question": "Автоматизоване керування поливними нормами при вирощуванні зерна на зрошенні",
     "evidence": [
       {
-        "doc_id": "agri_033_corn_irrigation_12"
+        "doc_id": "agri_036_corn_irrigation_15"
       }
     ]
   },
   {
     "id": "ext_009",
     "topic": "soil_ph",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо кислотність грунту та фактора «вапнування» описані для сезону 2016?",
-    "expected_contains": "вапнування",
+    "question": "Меліоративні заходи та розкислення кислих ґрунтів вапняком",
     "evidence": [
       {
         "doc_id": "agri_041_soil_ph_0"
@@ -119,49 +110,45 @@
   {
     "id": "ext_010",
     "topic": "soil_ph",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає pH 6.0 на урожайність у сезоні 2020 в контексті кислотність грунту?",
-    "expected_contains": "pH 6.0",
+    "question": "Оптимізація показника pH до нейтрального рівня 6.0 для польових культур",
     "evidence": [
       {
-        "doc_id": "agri_045_soil_ph_4"
+        "doc_id": "agri_046_soil_ph_5"
       }
     ]
   },
   {
     "id": "ext_011",
     "topic": "soil_ph",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «лімаш» у польових роботах 2024 року",
-    "expected_contains": "лімаш",
+    "question": "Внесення дефекату та лімашу на полях з дефіцитом кальцію",
     "evidence": [
       {
-        "doc_id": "agri_049_soil_ph_8"
+        "doc_id": "agri_051_soil_ph_10"
       }
     ]
   },
   {
     "id": "ext_012",
     "topic": "soil_ph",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: кислотність грунту та динаміка «вапнування» за 2018 рік",
-    "expected_contains": "вапнування",
+    "question": "Буферна здатність ґрунтового комплексу при регулярному вапнуванні",
     "evidence": [
       {
-        "doc_id": "agri_053_soil_ph_12"
+        "doc_id": "agri_056_soil_ph_15"
       }
     ]
   },
   {
     "id": "ext_013",
     "topic": "npk_fertilizer",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо мінеральні добрива npk та фактора «азот» описані для сезону 2016?",
-    "expected_contains": "азот",
+    "question": "Баланс азотного та фосфорного живлення для стартового розвитку сходів",
     "evidence": [
       {
         "doc_id": "agri_061_npk_fertilizer_0"
@@ -171,49 +158,45 @@
   {
     "id": "ext_014",
     "topic": "npk_fertilizer",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає фосфор на урожайність у сезоні 2020 в контексті мінеральні добрива npk?",
-    "expected_contains": "фосфор",
+    "question": "Калійне підживлення рослин для підвищення посухостійкості та міцності стебла",
     "evidence": [
       {
-        "doc_id": "agri_065_npk_fertilizer_4"
+        "doc_id": "agri_066_npk_fertilizer_5"
       }
     ]
   },
   {
     "id": "ext_015",
     "topic": "npk_fertilizer",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «калій» у польових роботах 2024 року",
-    "expected_contains": "калій",
+    "question": "Формули мінеральних туків NPK для основного осіннього внесення під оранку",
     "evidence": [
       {
-        "doc_id": "agri_069_npk_fertilizer_8"
+        "doc_id": "agri_071_npk_fertilizer_10"
       }
     ]
   },
   {
     "id": "ext_016",
     "topic": "npk_fertilizer",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: мінеральні добрива npk та динаміка «азот» за 2018 рік",
-    "expected_contains": "азот",
+    "question": "Дробове внесення азотних добрив по мерзлоталому ґрунту",
     "evidence": [
       {
-        "doc_id": "agri_073_npk_fertilizer_12"
+        "doc_id": "agri_076_npk_fertilizer_15"
       }
     ]
   },
   {
     "id": "ext_017",
     "topic": "organic_matter",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо гумус та органіка та фактора «сігальні культури» описані для сезону 2016?",
-    "expected_contains": "сігальні культури",
+    "question": "Заорювання сидеральних культур для збагачення орного шару гумусом",
     "evidence": [
       {
         "doc_id": "agri_081_organic_matter_0"
@@ -223,49 +206,45 @@
   {
     "id": "ext_018",
     "topic": "organic_matter",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає компост на урожайність у сезоні 2020 в контексті гумус та органіка?",
-    "expected_contains": "компост",
+    "question": "Використання компосту та післяжнивних решток для збереження структури ґрунту",
     "evidence": [
       {
-        "doc_id": "agri_085_organic_matter_4"
+        "doc_id": "agri_086_organic_matter_5"
       }
     ]
   },
   {
     "id": "ext_019",
     "topic": "organic_matter",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «органіка» у польових роботах 2024 року",
-    "expected_contains": "органіка",
+    "question": "Відновлення вмісту органічної речовини в деградованих чорноземах",
     "evidence": [
       {
-        "doc_id": "agri_089_organic_matter_8"
+        "doc_id": "agri_091_organic_matter_10"
       }
     ]
   },
   {
     "id": "ext_020",
     "topic": "organic_matter",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: гумус та органіка та динаміка «сігальні культури» за 2018 рік",
-    "expected_contains": "сігальні культури",
+    "question": "Біопрепарати деструктори стерні для швидкої мінералізації органіки",
     "evidence": [
       {
-        "doc_id": "agri_093_organic_matter_12"
+        "doc_id": "agri_096_organic_matter_15"
       }
     ]
   },
   {
     "id": "ext_021",
     "topic": "pest_ipm",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо інтегрований захист від шкідників та фактора «трихограма» описані для сезону 2016?",
-    "expected_contains": "трихограма",
+    "question": "Біологічний метод захисту рослин за допомогою випуску ентомофага трихограми",
     "evidence": [
       {
         "doc_id": "agri_101_pest_ipm_0"
@@ -275,49 +254,45 @@
   {
     "id": "ext_022",
     "topic": "pest_ipm",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає феромони на урожайність у сезоні 2020 в контексті інтегрований захист від шкідників?",
-    "expected_contains": "феромони",
+    "question": "Використання феромонних пасток для щоденного моніторингу шкідників",
     "evidence": [
       {
-        "doc_id": "agri_105_pest_ipm_4"
+        "doc_id": "agri_106_pest_ipm_5"
       }
     ]
   },
   {
     "id": "ext_023",
     "topic": "pest_ipm",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «економічний поріг» у польових роботах 2024 року",
-    "expected_contains": "економічний поріг",
+    "question": "Визначення економічного порогу шкодочинності гусениць совки та лучного метелика",
     "evidence": [
       {
-        "doc_id": "agri_109_pest_ipm_8"
+        "doc_id": "agri_111_pest_ipm_10"
       }
     ]
   },
   {
     "id": "ext_024",
     "topic": "pest_ipm",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: інтегрований захист від шкідників та динаміка «трихограма» за 2018 рік",
-    "expected_contains": "трихограма",
+    "question": "Інтегровані схеми боротьби зі шкідниками поля без перевищення пестицидного навантаження",
     "evidence": [
       {
-        "doc_id": "agri_113_pest_ipm_12"
+        "doc_id": "agri_116_pest_ipm_15"
       }
     ]
   },
   {
     "id": "ext_025",
     "topic": "herbicide",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо гербіциди та бур'яни та фактора «гліфосат» описані для сезону 2016?",
-    "expected_contains": "гліфосат",
+    "question": "Застосування гліфосату суцільної дії для знищення коренепаросткових бур'янів",
     "evidence": [
       {
         "doc_id": "agri_121_herbicide_0"
@@ -327,49 +302,45 @@
   {
     "id": "ext_026",
     "topic": "herbicide",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає 2,4-D на урожайність у сезоні 2020 в контексті гербіциди та бур'яни?",
-    "expected_contains": "2,4-D",
+    "question": "Контроль дводольних бур'янів у посівах злаків препаратами групи 2,4-D",
     "evidence": [
       {
-        "doc_id": "agri_125_herbicide_4"
+        "doc_id": "agri_126_herbicide_5"
       }
     ]
   },
   {
     "id": "ext_027",
     "topic": "herbicide",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «добірка» у польових роботах 2024 року",
-    "expected_contains": "добірка",
+    "question": "Підбір гербіцидних бакових сумішей для запобігання виникненню резистентності",
     "evidence": [
       {
-        "doc_id": "agri_129_herbicide_8"
+        "doc_id": "agri_131_herbicide_10"
       }
     ]
   },
   {
     "id": "ext_028",
     "topic": "herbicide",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: гербіциди та бур'яни та динаміка «гліфосат» за 2018 рік",
-    "expected_contains": "гліфосат",
+    "question": "Терміни безпечного внесення післясходових страхових гербіцидів",
     "evidence": [
       {
-        "doc_id": "agri_133_herbicide_12"
+        "doc_id": "agri_136_herbicide_15"
       }
     ]
   },
   {
     "id": "ext_029",
     "topic": "seed_rate",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо норма висіву та фактора «щільність» описані для сезону 2016?",
-    "expected_contains": "щільність",
+    "question": "Норма висіву та розрахункова густота рослин на гектар для зернових культур",
     "evidence": [
       {
         "doc_id": "agri_141_seed_rate_0"
@@ -379,49 +350,45 @@
   {
     "id": "ext_030",
     "topic": "seed_rate",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає гібрид на урожайність у сезоні 2020 в контексті норма висіву?",
-    "expected_contains": "гібрид",
+    "question": "Врахування польової схожості насіння та маси 1000 зерен при посіві",
     "evidence": [
       {
-        "doc_id": "agri_145_seed_rate_4"
+        "doc_id": "agri_146_seed_rate_5"
       }
     ]
   },
   {
     "id": "ext_031",
     "topic": "seed_rate",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «проростки» у польових роботах 2024 року",
-    "expected_contains": "проростки",
+    "question": "Коригування густоти стояння гібридів кукурудзи залежно від вологозабезпечення",
     "evidence": [
       {
-        "doc_id": "agri_149_seed_rate_8"
+        "doc_id": "agri_151_seed_rate_10"
       }
     ]
   },
   {
     "id": "ext_032",
     "topic": "seed_rate",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: норма висіву та динаміка «щільність» за 2018 рік",
-    "expected_contains": "щільність",
+    "question": "Вплив рівномірності розподілу проростків на фінальний урожай поля",
     "evidence": [
       {
-        "doc_id": "agri_153_seed_rate_12"
+        "doc_id": "agri_156_seed_rate_15"
       }
     ]
   },
   {
     "id": "ext_033",
     "topic": "crop_rotation",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо сівозміна та фактора «пар» описані для сезону 2016?",
-    "expected_contains": "пар",
+    "question": "Чергування культур у польовій сівозміні та роль чистого пару",
     "evidence": [
       {
         "doc_id": "agri_161_crop_rotation_0"
@@ -431,49 +398,45 @@
   {
     "id": "ext_034",
     "topic": "crop_rotation",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає бобові на урожайність у сезоні 2020 в контексті сівозміна?",
-    "expected_contains": "бобові",
+    "question": "Бобові попередники як природне джерело біологічного азоту в ґрунті",
     "evidence": [
       {
-        "doc_id": "agri_165_crop_rotation_4"
+        "doc_id": "agri_166_crop_rotation_5"
       }
     ]
   },
   {
     "id": "ext_035",
     "topic": "crop_rotation",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «фітосанітарія» у польових роботах 2024 року",
-    "expected_contains": "фітосанітарія",
+    "question": "Фітосанітарний розрив для обмеження поширення ґрунтових інфекцій",
     "evidence": [
       {
-        "doc_id": "agri_169_crop_rotation_8"
+        "doc_id": "agri_171_crop_rotation_10"
       }
     ]
   },
   {
     "id": "ext_036",
     "topic": "crop_rotation",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: сівозміна та динаміка «пар» за 2018 рік",
-    "expected_contains": "пар",
+    "question": "Допустимі періоди повернення соняшнику на те саме поле в агроценозах",
     "evidence": [
       {
-        "doc_id": "agri_173_crop_rotation_12"
+        "doc_id": "agri_176_crop_rotation_15"
       }
     ]
   },
   {
     "id": "ext_037",
     "topic": "sunflower",
-    "type": "paraphrase",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Які заходи щодо агротехнологія соняшнику та фактора «олійність» описані для сезону 2016?",
-    "expected_contains": "олійність",
+    "question": "Фактори впливу на олійність насіння соняшнику в період наливу кошика",
     "evidence": [
       {
         "doc_id": "agri_181_sunflower_0"
@@ -483,39 +446,36 @@
   {
     "id": "ext_038",
     "topic": "sunflower",
-    "type": "specific_factor",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Як впливає байрачний на урожайність у сезоні 2020 в контексті агротехнологія соняшнику?",
-    "expected_contains": "байрачний",
+    "question": "Особливості вирощування високорослих гібридів соняшнику в байрачному рельєфі",
     "evidence": [
       {
-        "doc_id": "agri_185_sunflower_4"
+        "doc_id": "agri_186_sunflower_5"
       }
     ]
   },
   {
     "id": "ext_039",
     "topic": "sunflower",
-    "type": "technical_spec",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Вимоги до застосування «висота рослин» у польових роботах 2024 року",
-    "expected_contains": "висота рослин",
+    "question": "Стійкість сучасних гібридів соняшнику до посухи та високих літніх температур",
     "evidence": [
       {
-        "doc_id": "agri_189_sunflower_8"
+        "doc_id": "agri_191_sunflower_10"
       }
     ]
   },
   {
     "id": "ext_040",
     "topic": "sunflower",
-    "type": "multi_aspect",
+    "type": "domain_paraphrase",
     "answerable": true,
-    "question": "Аналіз польових результатів: агротехнологія соняшнику та динаміка «олійність» за 2018 рік",
-    "expected_contains": "олійність",
+    "question": "Десикація посівів соняшнику перед комбайновим збиранням",
     "evidence": [
       {
-        "doc_id": "agri_193_sunflower_12"
+        "doc_id": "agri_196_sunflower_15"
       }
     ]
   },
