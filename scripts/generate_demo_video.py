@@ -71,18 +71,18 @@ def scene_1_intro() -> Image.Image:
     # Метрики плашки
     draw.rounded_rectangle([(140, 330), (600, 450)], radius=8, fill=(18, 25, 38), outline=BORDER_COLOR, width=1)
     draw.text((160, 350), "BEFORE OPTIMIZATION (N+1 calls):", fill=ACCENT_RED, font=FONT_HEADING)
-    draw.text((160, 395), "Latency p95 = 195.7 ms  |  p50 = 171.6 ms", fill=TEXT_MAIN, font=FONT_CODE_BOLD)
+    draw.text((160, 395), "Latency p95 = 231.5 ms  |  p50 = 171.6 ms", fill=TEXT_MAIN, font=FONT_CODE_BOLD)
     
     draw.rounded_rectangle([(640, 330), (1100, 450)], radius=8, fill=(18, 25, 38), outline=ACCENT_GREEN, width=1)
     draw.text((660, 350), "AFTER ARCHITECTURAL FIX (Batch RRF):", fill=ACCENT_GREEN, font=FONT_HEADING)
-    draw.text((660, 395), "Latency p95 = 46.7 ms  |  p50 = 33.9 ms", fill=ACCENT_GREEN, font=FONT_CODE_BOLD)
-    draw.text((660, 420), "Speedup: 4.19x at p95  (5.06x at p50)", fill=TEXT_MAIN, font=FONT_SMALL)
+    draw.text((660, 395), "Latency p95 = 46.9 ms  |  p50 = 33.9 ms", fill=ACCENT_GREEN, font=FONT_CODE_BOLD)
+    draw.text((660, 420), "Speedup: 4.94x at p95  (5.06x at p50)", fill=TEXT_MAIN, font=FONT_SMALL)
     
     # Доказова база
     draw.text((140, 490), "Committed Verification Evidence:", fill=TEXT_MUTED, font=FONT_CODE_BOLD)
     draw.text((140, 520), "- Distributed traces in Jaeger (http://localhost:16687)", fill=TEXT_MAIN, font=FONT_CODE)
     draw.text((140, 545), "- Committed raw latency sample arrays (25 iterations per profile)", fill=TEXT_MAIN, font=FONT_CODE)
-    draw.text((140, 570), "- 100% clean-clone reproducibility via: .\\scripts\\live_interview.ps1 work07", fill=ACCENT_BLUE, font=FONT_CODE)
+    draw.text((140, 570), "- Clean-clone reproduction via: .\\scripts\\live_interview.ps1 work07", fill=ACCENT_BLUE, font=FONT_CODE)
     
     return img
 
@@ -105,7 +105,7 @@ def scene_2_architecture() -> Image.Image:
              │    ├── HTTP /v1/knowledge/search?q=бура        (~28 ms) ──┐
              │    ├── HTTP /v1/knowledge/search?q=іржа        (~26 ms)   │  Sequential Waterfall:
              │    ├── HTTP /v1/knowledge/search?q=озимої      (~31 ms)   ├──► 6 Network Hops
-             │    ├── HTTP /v1/knowledge/search?q=пшениці     (~29 ms)   │    Total p95: 195.7 ms
+             │    ├── HTTP /v1/knowledge/search?q=пшениці     (~29 ms)   │    Total p95: 231.5 ms
              │    └── HTTP /v1/knowledge/search?q=бура+іржа.. (~38 ms) ──┘
              │                                                           │
              │                                                           ▼
@@ -114,7 +114,7 @@ def scene_2_architecture() -> Image.Image:
     """
     y = 135
     for line in code_diagram.strip("\n").split("\n"):
-        color = ACCENT_RED if "BEFORE:" in line or "Sequential Waterfall" in line or "195.7 ms" in line else (
+        color = ACCENT_RED if "BEFORE:" in line or "Sequential Waterfall" in line or "231.5 ms" in line else (
             ACCENT_BLUE if "Java 21" in line or "Python" in line or "Elasticsearch" in line else TEXT_MAIN
         )
         draw.text((80, y), line, fill=color, font=FONT_CODE)
@@ -183,15 +183,15 @@ def scene_4_benchmark() -> Image.Image:
   │ Latency Percentile     │ Slow Profile (N+1)  │ Fast Profile (Batch)│ Relative Speedup │
   ├────────────────────────┼─────────────────────┼─────────────────────┼──────────────────┤
   │ p50 (Median)           │      171.6 ms       │       33.9 ms       │  5.06x Speedup   │
-  │ p90                    │      188.4 ms       │       42.1 ms       │  4.47x Speedup   │
-  │ p95                    │      195.7 ms       │       46.7 ms       │  4.19x Speedup   │
+  │ p90                    │      193.7 ms       │       46.6 ms       │  4.15x Speedup   │
+  │ p95                    │      231.5 ms       │       46.9 ms       │  4.94x Speedup   │
   │ Mean                   │      179.2 ms       │       37.9 ms       │  4.73x Speedup   │
-  │ Std Dev                │       12.8 ms       │        4.8 ms       │  2.67x Lower Var │
+  │ Std Dev                │       37.6 ms       │        7.0 ms       │  5.36x Lower Var │
   └────────────────────────┴─────────────────────┴─────────────────────┴──────────────────┘
     """
     y = 165
     for line in table_text.strip("\n").split("\n"):
-        color = ACCENT_GREEN if "5.06x" in line or "4.19x" in line else TEXT_MAIN
+        color = ACCENT_GREEN if "5.06x" in line or "4.94x" in line else TEXT_MAIN
         draw.text((80, y), line, fill=color, font=FONT_CODE)
         y += 24
         
@@ -200,7 +200,7 @@ def scene_4_benchmark() -> Image.Image:
     draw.text((100, 525), "* Summary metrics: work07-ai-platform/manifests/latency_before_after.json", fill=TEXT_MAIN, font=FONT_CODE)
     draw.text((100, 550), "* Raw sample arrays: work07-ai-platform/manifests/latency_raw_samples.json (25 samples)", fill=TEXT_MAIN, font=FONT_CODE)
     draw.text((100, 575), "* Clean-clone reproduction script: py -3.13 scripts/benchmark_latency.py", fill=TEXT_MAIN, font=FONT_CODE)
-    draw.text((100, 600), "* Passed 100% green in GitHub Actions Docker Compose CI suite (Job: docker-compose)", fill=ACCENT_GREEN, font=FONT_CODE)
+    draw.text((100, 600), "* Compose smoke test in GitHub Actions (repro workflow, job: docker-compose)", fill=ACCENT_GREEN, font=FONT_CODE)
     
     return img
 
@@ -208,29 +208,29 @@ def scene_4_benchmark() -> Image.Image:
 def scene_5_conclusion() -> Image.Image:
     img = Image.new("RGB", (WIDTH, HEIGHT), BG_COLOR)
     draw = ImageDraw.Draw(img)
-    draw_header(draw, "Step 4: Domain Retrieval Science & Senior Engineering Takeaway", "Hard evaluation on agricultural corpus + calibrated unanswerable refusal gate", "STEP 04 / 04")
+    draw_header(draw, "Step 4: What the Retrieval Data Supports", "Real Ukrainian corpus, bootstrap CIs, and what did not replicate", "STEP 04 / 04")
     
     draw.rounded_rectangle([(50, 115), (WIDTH - 50, HEIGHT - 65)], radius=10, fill=PANEL_BG, outline=BORDER_COLOR, width=1)
     
     retrieval_text = """
-  1. HARD RETRIEVAL EVALUATION (Agricultural Knowledge Base):
-     * hard_007 (Disease risks by season): Hybrid won (+1 hit) via dense semantic generalization.
-     * hard_006 (Exact NPK chemical formulas): BM25 won (+1 hit) via exact lexical token match.
-     -> Conclusion: Hybrid RRF is mathematically necessary to capture both lexical & semantic intent.
+  1. RETRIEVAL ON A REAL UKRAINIAN CORPUS (123 articles, 55 questions, 95% CI):
+     * English-only embedder: Recall@5 0.27  |  multilingual hybrid: 0.80
+     * + multilingual cross-encoder: 0.95  |  BM25 alone: 1.00 (questions are lexically close)
+     -> Conclusion: model language matters; a strong BM25 baseline can win. Measure, do not assume.
 
-  2. HALLUCINATION PREVENTION (Calibrated Pre-Retrieval Gate):
-     * Out-of-domain queries (e.g. 'Data about Mars'): Gateway intercepts with refused: true
-     * Threshold gate (0.0313) stops irrelevant prompts before LLM generation.
+  2. WHAT DID NOT REPLICATE:
+     * Re-ranker lift seen on 8 hard queries (0.25 to 0.50) vanished on 40 queries (CI includes 0).
+     * Refusal gate is not measured in the offline evaluation (it runs in rag-api).
 
-  3. SENIOR AI PLATFORM VALUE:
-     * Eliminated 75% of microservice latency (p95: 196 ms -> 47 ms).
-     * Jaeger OpenTelemetry tracing for 100% observability across Java & Python services.
-     * Fully automated clean-clone reproducibility via PowerShell & Docker Compose.
+  3. PLATFORM RESULT:
+     * p95 231.5 ms -> 46.9 ms (-80%), local Docker Compose, n=25 per profile.
+     * Jaeger OpenTelemetry traces across Java and Python services.
+     * Clean-clone reproduction via PowerShell and Docker Compose.
     """
     y = 135
     for line in retrieval_text.strip("\n").split("\n"):
-        color = ACCENT_PURPLE if "HARD RETRIEVAL" in line or "HALLUCINATION" in line or "SENIOR" in line else (
-            ACCENT_GREEN if "Hybrid won" in line or "BM25 won" in line or "refused: true" in line or "Eliminated 75%" in line else TEXT_MAIN
+        color = ACCENT_PURPLE if line.strip()[:2] in ("1.", "2.", "3.") else (
+            ACCENT_GREEN if "Conclusion" in line or "-80%" in line else TEXT_MAIN
         )
         draw.text((80, y), line, fill=color, font=FONT_CODE)
         y += 24

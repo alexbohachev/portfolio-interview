@@ -46,8 +46,10 @@ def pctl(samples: list[float], q: float) -> float:
     if not samples:
         return 0.0
     xs = sorted(samples)
-    idx = int(q * (len(xs) - 1))
-    return xs[idx]
+    pos = q * (len(xs) - 1)  # linear interpolation between ranks (same as numpy's default)
+    lo = int(pos)
+    hi = min(lo + 1, len(xs) - 1)
+    return xs[lo] + (xs[hi] - xs[lo]) * (pos - lo)
 
 
 def bench(profile: str) -> tuple[dict, list[float]]:

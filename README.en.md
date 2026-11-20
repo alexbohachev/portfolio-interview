@@ -7,7 +7,7 @@
 [![Live Demo Runner](https://img.shields.io/badge/Live_Demo-scripts%2Flive__interview.ps1-orange)](scripts/live_interview.ps1)
 
 Reproducible engineering portfolio of **7 reference projects (+ 1 offline retrieval utility)** demonstrating:
-* **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** N+1 latency case: reproduced and benchmarked locally (p95 195.7 ms → 46.7 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
+* **Distributed AI Platforms (Java 21, Python 3.13, Docker, Kafka, OpenTelemetry):** N+1 latency case: reproduced and benchmarked locally (p95 231.5 ms → 46.9 ms), Pre-LLM zero-trust security gateway, and Transactional Outbox recovery (30/30 fault scenarios passing).
 * **Applied Machine Learning & MLOps (PyTorch, LightGBM, FastAPI):** Leakage-free temporal backtesting on UCI data, multi-series demand forecasting with conformal prediction (LightGBM on synthetic series; Seasonal Naive baseline selected on real Capital Bikeshare via Occam's razor), and production model serving with feature drift monitoring.
 
 > **Ukrainian overview:** [`README.md`](README.md) · **Repro guide:** [`REPRO.md`](REPRO.md) · **N+1 case study:** [`CASE_N1_PERF.md`](work07-ai-platform/CASE_N1_PERF.md) · **Live demo script:** [`DEMO_SCRIPT_5MIN.md`](work07-ai-platform/DEMO_SCRIPT_5MIN.md) · **Standalone guide:** [`STANDALONE_PORTFOLIO.md`](STANDALONE_PORTFOLIO.md)
@@ -20,7 +20,7 @@ Every metric below is backed by committed test suites, committed raw measurement
 
 | Dimension | Proof in Monorepo | Capabilities & Measured Impact | Operational Boundaries (Scope) |
 |---|---|---|---|
-| **AI Systems & Performance** | **Work 07 (AI Platform)** | Benchmarked microservice N+1 anti-pattern (Java → Python RAG API). **p95 latency reduced from 195.7 ms → 46.7 ms (4.19× speedup; p50: 171.6 ms → 33.9 ms, 5.06× speedup)** via server-side hybrid RRF retrieval; verified with OpenTelemetry/Jaeger traces and committed raw timing arrays. | Local Docker Compose benchmark; not a geo-distributed Kubernetes cluster. |
+| **AI Systems & Performance** | **Work 07 (AI Platform)** | Benchmarked microservice N+1 anti-pattern (Java → Python RAG API). **p95 latency reduced from 231.5 ms → 46.9 ms (4.94× speedup; p50: 171.6 ms → 33.9 ms, 5.06× speedup)** via server-side hybrid RRF retrieval; verified with OpenTelemetry/Jaeger traces and committed raw timing arrays. | Local Docker Compose benchmark; not a geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security** | **Work 05 (DocGuard)** | Zero-trust Pre-LLM gateway (Java 21 + FastAPI). Intercepts queries before vector DB or LLM. **Verified tenant isolation across 8 automated adversarial test scenarios**, verbatim query audit logging, and degraded circuit-breaker fallback. | In-memory ACL cache with REST eviction; not an external enterprise IdP (Ory/Keycloak). |
 | **Applied ML & Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. **Strict target leakage elimination** (removed post-call `duration`), chronological temporal split under severe covariate shift (5.8% → 39.3%), bootstrap 95% CI showing neural nets fail to outperform calibrated linear baselines. | Tabular UCI dataset; temperature scaling alone does not eliminate shift without domain adaptation. |
 | **Demand Forecasting & Risk** | **Work 08 (Demand Forecasting)** | Evaluated 4-season rolling backtests ($H=14$) across two benchmarks: (1) **Synthetic Agro Simulation (20 series)**: LightGBM reduced WAPE from 13.2% to 7.8% (-41%), Newsvendor policy cut simulated inventory costs by 43%, and CQR delivered observed $\ge 80.0\%$ coverage (mean 84.1%). (2) **Real Capital Bikeshare (2011–2012)**: Seasonal Naive baseline outperformed LightGBM (35.4% vs 37.7% WAPE), and we select the baseline for production. CQR lifted empirical coverage from 26.8% to 75.9%. | Direct forecasting model locked to operational horizon $H=14$; exchangeability holds on synthetic series but degrades under physical fleet expansion drift. |
@@ -58,9 +58,10 @@ Every metric below is backed by committed test suites, committed raw measurement
   * `slow` profile (N+1): p50 = **172.6 ms** | **p95 = 197.0 ms**
   * `fast` profile (batch hybrid): p50 = **34.0 ms** | **p95 = 53.3 ms**
 * **Run 2 (Clean Clone Verification, 2026-11-19, Git SHA `45d550c`):**
-  * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 195.7 ms** | mean = 179.2 ms
-  * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
-* **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in latency).
+  * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 231.5 ms** | mean = 179.2 ms
+  * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.9 ms** | mean = 37.9 ms
+* **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70× (Run 1, old percentile method) and 4.94× (Run 2) speedup at p95** (~80% reduction at p50 and p95 in Run 2).
+  * *Method note:* Run 2 percentiles are recomputed with linear interpolation (numpy default) from the committed raw samples (`work07-ai-platform/manifests/latency_raw_samples.json`). The first published p95 figures (195.7 / 46.7 ms) came from a floor-index percentile that returned the 23rd of 25 samples (about p92) and are superseded. With n=25 the p95 rests on the two slowest samples, so it is indicative; Run 1 is kept as originally reported (old method, raw samples not retained).
 * **Committed Raw Evidence:**
   * Raw timing arrays (all 25 samples per profile): [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json)
   * Summary metrics: [`work07-ai-platform/manifests/latency_before_after.json`](work07-ai-platform/manifests/latency_before_after.json)

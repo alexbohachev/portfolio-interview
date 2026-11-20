@@ -34,9 +34,11 @@ Two independent runs on local Docker Compose (Windows 11, Intel/AMD CPU, 25 requ
 | Run ID & Date | Git SHA | Profile | p50 | p95 | Mean | Speedup (p50 / p95) | Artifact File |
 |---|---|---|---|---|---|---|---|
 | **Run 1** (Baseline, 2026-11-18) | `6efad68` | `slow` (N+1)<br>`fast` (1× Hybrid) | 172.6 ms<br>**34.0 ms** | 197.0 ms<br>**53.3 ms** | —<br>— | **5.08×** (p50)<br>**3.70×** (p95) | `manifests/latency_snapshot.json`<br>`REPORT.md` |
-| **Run 2** (Clean-clone, 2026-11-19) | `45d550c` | `slow` (N+1)<br>`fast` (1× Hybrid) | 171.6 ms<br>**33.9 ms** | 195.7 ms<br>**46.7 ms** | 179.2 ms<br>**37.9 ms** | **5.06×** (p50)<br>**4.19×** (p95) | `artifacts/latency_before_after.json`<br>`artifacts/latency_raw_samples.json` |
+| **Run 2** (Clean-clone, 2026-11-19) | `45d550c` | `slow` (N+1)<br>`fast` (1× Hybrid) | 171.6 ms<br>**33.9 ms** | 231.5 ms<br>**46.9 ms** | 179.2 ms<br>**37.9 ms** | **5.06×** (p50)<br>**4.94×** (p95) | `manifests/latency_before_after.json`<br>`manifests/latency_raw_samples.json` |
 
-**Conclusion:** Across both independent cold runs, eliminating the N+1 iterative token loop consistently delivers a **~5.1× speedup at p50** and **~4× speedup at p95** (~73–76% overall latency reduction) with zero change in business search quality.
+**Conclusion:** Across both independent cold runs, eliminating the N+1 iterative token loop consistently delivers a **~5.1× speedup at p50** and **~4–5× speedup at p95** (Run 1: 3.70× with the old percentile method; Run 2: 4.94×; ~80% latency reduction at p50 and p95 in Run 2) with zero change in business search quality.
+
+**Method note:** Run 2 percentiles are recomputed with linear interpolation (numpy default) from the committed raw samples (`manifests/latency_raw_samples.json`). The first published p95 figures (195.7 / 46.7 ms) came from a floor-index percentile that returned the 23rd of 25 samples (about p92) and are superseded. With n=25 the p95 rests on the two slowest samples, so it is indicative; Run 1 is kept as originally reported (old method, raw samples not retained).
 
 ## Interview narrative (2 min)
 

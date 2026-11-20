@@ -45,3 +45,6 @@ Thumbs.db
 .vscode/
 # Private interview notes (kept local)
 INTERVIEW_PREP.md
+
+# Personal resume files (never commit)
+Oleksandr_Bohachev_*.pdf

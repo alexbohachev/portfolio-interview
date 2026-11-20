@@ -20,7 +20,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 | Core Competency | Demonstrated In | Proven Capabilities & Engineering Impact | Honest Operational Boundaries (Scope) |
 |---|---|---|---|
 | **Demand Forecasting & Risk Modeling** | **Work 08 (Demand Forecasting)** | Supply chain demand forecasting benchmark (20 series, 21,920 daily samples). **Strict 4-season expanding-window backtesting ($H=14$, isolated series rolling, ex-ante feature alignment)**. On synthetic agro-demand, LightGBM achieves **40.68% WAPE reduction vs Seasonal Naive** (7.83% vs 13.20%) and Newsvendor critical ratio optimization ($\tau^* = 83.33\%$) cuts inventory costs by **43.06%**, with Split Conformal Quantile Regression (CQR) delivering **observed $\ge 80.0\%$ coverage across four synthetic test windows** (**mean 84.11%** vs 75.90% uncalibrated). On real empirical sensor series (Capital Bikeshare 2011–2012), CQR lifts coverage from 26.79% to 75.89%, while Seasonal Naive beats LightGBM (35.42% vs 37.74% WAPE) — and **we explicitly choose the Seasonal Baseline for production**. FastAPI serving with ~60 ms latency and calibrated intervals. | Calibrated simulation benchmark + real empirical sensor benchmark; direct forecasting model locked to operational horizon $H=14$. |
-| **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~196 ms → ~47 ms (4.19× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
+| **Distributed Performance & Latency** | **Work 07 (AI Platform)** | Eliminated **N+1 HTTP calls** from Java microservices to Python RAG API. Reduced **p95 latency from ~232 ms → ~47 ms (4.94× speedup, p50 5.06×)**, verified via OpenTelemetry/Jaeger distributed tracing and committed raw sample arrays. | Local Docker Compose microservice stand; not a multi-region geo-distributed Kubernetes cluster. |
 | **Enterprise AI Security & Governance** | **Work 05 (DocGuard)** | Zero-Trust Pre-LLM Security Gateway. Enforces multi-tenant principal ACL filtering **before** documents reach LLM or vector search. **100% tenant isolation across 8 security scenarios**, verbatim prompt injection audit logging, automated degraded mode. | In-memory ACL cache with REST eviction; not an external enterprise identity provider (Ory/Keycloak). |
 | **Applied ML & Temporal Backtesting** | **Work 01 (Bank Marketing)** | Empirically rigorous tabular ML on real UCI data. Strict **target leakage elimination** (removed post-call `duration`), chronological temporal backtesting, honest handling of severe covariate shift (5.8% → 39.3%), bootstrap confidence intervals. | Tabular UCI dataset; temperature scaling does not completely eliminate covariate shift without domain adaptation. |
 | **Production ML Serving & MLOps** | **Work 04 (Risk Serving)** | Low-latency FastAPI model serving. **Business cost matrix optimization** (FP/FN/review cost), calibrated LightGBM, versioned predictions, and a demonstrative z-score drift endpoint. | Synthetic data with a deterministic label (PR-AUC 1.0 means a trivial task); `available_at` columns are in the data contract but not applied in code; drift check is untested and not run on real streaming batches. |
@@ -37,7 +37,7 @@ This portfolio documents **8 reproducible engineering projects and benchmarks** 
 In high-throughput microservice ecosystems, naive integration between backend application services and AI retrieval services often introduces sequential query amplification. To benchmark and quantify this latency penalty, we engineered a reproduction of this distributed RAG anti-pattern in `EquipmentSearchService.java` (`searchSlow`: sequential per-token HTTP calls) and compared it against single-shot server-side hybrid retrieval (`searchFast`).
 
 #### Architectural Diagnosis in Jaeger
-Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading waterfall of 6 sequential spans to `/v1/knowledge/search` per single user request, causing local Docker Compose p95 to spike to **~196 ms**.
+Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading waterfall of 6 sequential spans to `/v1/knowledge/search` per single user request, causing local Docker Compose p95 to spike to **~232 ms**.
 
 ```
 [Client Request]
@@ -47,7 +47,7 @@ Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading wate
        │
        ├──► (searchSlow: N+1 calls) ──► HTTP /v1/knowledge/search (token 1)
        │                            ──► HTTP /v1/knowledge/search (token 2)
-       │                            ──► HTTP /v1/knowledge/search (token 3) [Latency p95 = 195.7 ms]
+       │                            ──► HTTP /v1/knowledge/search (token 3) [Latency p95 = 231.5 ms]
        │
        └──► (searchFast: Single Batch) ──► HTTP /v1/knowledge/search (TopK=3, Mode=hybrid)
                                               │
@@ -55,7 +55,7 @@ Distributed traces in Jaeger (`http://localhost:16687`) exposed a cascading wate
                                  [Python 3.13 / FastAPI RAG API]
                                               │
                                               ▼
-                             [Elasticsearch 8.17 (RRF: BM25 + kNN)] [Latency p95 = 46.7 ms]
+                             [Elasticsearch 8.17 (RRF: BM25 + kNN)] [Latency p95 = 46.9 ms]
 ```
 
 #### The Engineering Fix
@@ -66,9 +66,10 @@ Replaced the iterative token-loop with a single batch hybrid call (`EquipmentSea
   * `slow` profile (N+1): p50 = **172.6 ms** | **p95 = 197.0 ms**
   * `fast` profile (batch hybrid): p50 = **34.0 ms** | **p95 = 53.3 ms**
 * **Run 2 (Clean Clone Verification, 2026-11-19, Git SHA `45d550c`):**
-  * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 195.7 ms** | mean = 179.2 ms
-  * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.7 ms** | mean = 37.9 ms
-* **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70×–4.19× speedup at p95** (~75% reduction in overall latency).
+  * `slow` profile (N+1): p50 = **171.6 ms** | **p95 = 231.5 ms** | mean = 179.2 ms
+  * `fast` profile (batch hybrid): p50 = **33.9 ms** | **p95 = 46.9 ms** | mean = 37.9 ms
+* **Net Performance Gain:** **5.06×–5.08× speedup at p50, 3.70× (Run 1, old percentile method) and 4.94× (Run 2) speedup at p95** (~80% reduction at p50 and p95 in Run 2).
+  * *Method note:* Run 2 percentiles are recomputed with linear interpolation (numpy default) from the committed raw samples (`work07-ai-platform/manifests/latency_raw_samples.json`). The first published p95 figures (195.7 / 46.7 ms) came from a floor-index percentile that returned the 23rd of 25 samples (about p92) and are superseded. With n=25 the p95 rests on the two slowest samples, so it is indicative; Run 1 is kept as originally reported (old method, raw samples not retained).
 * **Committed Raw Evidence:**
   * Video walkthrough (MP4, 60s): [`assets/work07_demo_walkthrough.mp4`](https://github.com/alexbohachev/portfolio-interview/blob/main/assets/work07_demo_walkthrough.mp4) (watch online or download)
   * Raw timing arrays (all 25 samples per profile): [`work07-ai-platform/manifests/latency_raw_samples.json`](work07-ai-platform/manifests/latency_raw_samples.json)
