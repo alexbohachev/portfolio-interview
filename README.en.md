@@ -132,42 +132,6 @@ To eliminate bi-encoder topic clustering errors, we added a **2nd-stage Cross-En
 * **Injection-style query tests (`PromptInjectionIT`, 24 cases):** 11 injection-style queries (system-prompt override, cross-tenant probe, delimiter escape, DAN, role escalation, markdown exfiltration, indirect injection, SQL-style, instruction erasure, JSON tampering, base64) are each run through the real gateway and asserted on three access-control properties: (1) the document whitelist sent to retrieval equals the principal's ACL whatever the query says; (2) if a fooled retrieval returns another tenant's documents the gateway answers 403 and leaks no content; (3) the query is stored verbatim in the audit log. Extra JSON fields cannot widen the ACL, and blank/oversized (>2000 chars) queries get 400 (request validation was added during this audit; `@NotBlank` had not been enforced). **Limits:** DocGuard is an access-control layer, not an injection detector, and it does not stop an LLM being manipulated by text inside permitted documents; the retrieval service is mocked in these tests; identity headers (`X-Tenant-Id`, `X-Principal-Id`) are not authenticated by this service, so a client can claim any principal. An earlier "12/12 mitigated" figure from a hard-coded script was withdrawn.
 * **Reproduction Commands:**
   ```bash
-  cd work07-ai-platform
-  # Offline validation with Cross-Encoder (no Docker needed, ~25s):
-  python scripts/eval_retrieval_offline.py
-  # Live Docker cluster validation:
-  docker compose up -d --build
-  python scripts/benchmark_latency.py
-  python scripts/eval_retrieval.py --golden-file data/golden/hard_retrieval.json --doc-id-prefix agri_
-  ```
-  *(Windows PowerShell: `.\make.ps1 build; .\make.ps1 up; py -3.13 scripts/benchmark_latency.py; .\make.ps1 eval-hard`)*
-
----
-
-### 2. Work 05 — DocGuard: Zero-Trust Security Gateway Before the LLM
-
-```
-[User Request (tenant_a, alice)] 
-       │
-       ▼
-[DocGuard Gateway (Java 21 / Spring)] ──► [ACL Engine (Principal & Tenant RBAC)]
-       │ (Enforces allowed doc_ids)
-       ▼
-[Retrieval Service (Python / FastAPI)] ──► [Filtered Knowledge Base]
-       │
-       ▼ (Returns only authorized snippets)
-[Audit Logger (Verbatim query + prompt injection capture)]
-```
-
-* **The Problem:** RAG architectures frequently leak private enterprise data when multi-tenant documents share vector databases, or when attackers use prompt injection to override LLM system prompts.
-* **The Architecture:** DocGuard intercepts queries **before** they reach any model or vector store.
-  1. Resolves tenant & principal ACL mapping to a whitelist of authorized `doc_id`s.
-  2. Injects security filter directly into retrieval payload (`allowedDocIds`).
-  3. Validates returned documents at gateway egress to prevent side-channel leaks.
-  4. Automatic **Circuit Breaker / Degraded Mode**: if Python retrieval crashes or times out, Java gateway returns structured degraded fallback (`degraded: true`) without taking the microservice down.
-  5. **Automated Verification:** Verified tenant isolation across 8 automated adversarial test scenarios in CI.
-* **Reproduction Commands:**
-  ```bash
   cd work05-docguard
   python scripts/demo_offline.py
   # Live with Docker Compose:
