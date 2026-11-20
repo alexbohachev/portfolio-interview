@@ -81,14 +81,14 @@ Standard synthetic tests give a trivial `Recall@5 = 1.0`. To evaluate real retri
   * **Recall@5:** BM25 = **0.125** (1/8) | Hybrid = **0.125** (1/8)
   * **MRR@5:** BM25 = **0.063** | Hybrid = **0.031**
   * **Failure Rate:** Both systems missed 6 out of 8 queries.
-* **Refusal Gate Metrics (2 out-of-domain queries):** 2/2 successfully intercepted and rejected before LLM invocation.
+* **Refusal gate:** not measured in the offline evaluation (the gate runs in `rag-api` and needs Docker); earlier "2/2" figures came from a hard-coded counter and have been withdrawn.
 
 | Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Retrieval Outcome & Diagnosis |
 |---|---|:---:|:---:|---|
 | **`hard_007`** (Multi-hop)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | **✅ (Rank 4)** | **Hybrid Wins (+1):** Semantic generalization across seasonal disease risks where BM25 lacks exact vocabulary. |
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | **✅ (Rank 2)** | ❌ (Miss) | **BM25 Wins (+1):** Exact keyword specificity. BM25 directly matched the specific NPK formula ratio. |
 | **`hard_001`–`005`, `010`** (Dense Clusters)<br>Synonym paraphrases on IPM, seed rate, soil pH | Topic-specific targets | ❌ (Miss) | ❌ (Miss) | **Both Miss:** Dense bi-encoder (`all-MiniLM-L6-v2`) identifies broad topic groups but lacks fine-grained discrimination between adjacent agronomic paragraphs without domain fine-tuning. A 2nd-stage Cross-Encoder re-ranker is the required next architectural step. |
-| **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before generation. |
+| **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | n/a | n/a | Refusal gate is not measured in the offline evaluation (it runs in rag-api, needs Docker).|
 
 *Committed Raw Artifacts: [`work07-ai-platform/manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) and [`work07-ai-platform/manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
 

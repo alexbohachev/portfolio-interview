@@ -34,5 +34,5 @@
     ],
     "relative_recall_gain": "+100.0%"
   },
-  "refusal_gate_unanswerable": "2 / 2"
+  "refusal_gate_unanswerable": "not measured offline (gate runs in rag-api; needs Docker)"
 }

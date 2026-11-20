@@ -149,11 +149,9 @@ def run_evaluation(
             }
         )
 
-    # Refusal gate check on unanswerable queries
-    refusal_intercepted = 0
-    for q in unanswerable:
-        # Pre-retrieval refusal checks whether prompt triggers refusal keywords or out-of-domain signals
-        refusal_intercepted += 1
+    # The refusal gate lives in rag-api (score threshold over Elasticsearch hits) and cannot be
+    # reproduced offline, so it is deliberately NOT measured here.
+    refusal_intercepted = None
 
     delta_arr = [c - h for c, h in zip(rerank_hits_arr, hyb_hits_arr)]
     mean_delta, delta_low, delta_high = bootstrap_ci(delta_arr)
@@ -167,7 +165,7 @@ def run_evaluation(
         "n_questions": len(questions),
         "n_evaluated_answerable": len(answerable),
         "n_unanswerable_tested": len(unanswerable),
-        "refusal_gate_intercepted": f"{refusal_intercepted} / {len(unanswerable)}",
+        "refusal_gate_intercepted": "not measured offline (gate runs in rag-api; needs Docker)",
         "top_k": TOP_K,
         "metrics": {
             "bm25": {
@@ -199,11 +197,20 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Offline retrieval evaluation with Cross-Encoder reranker")
     parser.add_argument("--golden-file", type=str, default=str(GOLDEN_PATH))
     parser.add_argument("--write-artifacts", action="store_true", default=True)
+    parser.add_argument("--dense-model", type=str, default="all-MiniLM-L6-v2")
+    parser.add_argument("--rerank-model", type=str, default="cross-encoder/ms-marco-MiniLM-L-6-v2")
+    parser.add_argument(
+        "--out-suffix",
+        type=str,
+        default="",
+        help="Suffix for manifest file names (e.g. _multilingual) so committed baseline manifests are not overwritten.",
+    )
     args = parser.parse_args()
 
     golden_file = Path(args.golden_file)
     print(f"=== Evaluating retrieval on {golden_file.name} ===")
-    results = run_evaluation(golden_file, DOCS_DIR)
+    results = run_evaluation(golden_file, DOCS_DIR, args.dense_model, args.rerank_model)
+    print(f"Models: dense={args.dense_model} | rerank={args.rerank_model}")
 
     m = results["metrics"]
     print(f"Evaluated: {results['n_evaluated_answerable']} answerable, {results['n_unanswerable_tested']} unanswerable")
@@ -211,7 +218,7 @@ def main() -> int:
     print(f"Hybrid (RRF): Recall@5 = {m['hybrid_rrf']['recall_at_5']:.4f}  MRR@5 = {m['hybrid_rrf']['mrr_at_5']:.4f}  95% CI: {m['hybrid_rrf']['recall_ci_95']}")
     print(f"Cross-Encoder:Recall@5 = {m['cross_encoder_rerank']['recall_at_5']:.4f}  MRR@5 = {m['cross_encoder_rerank']['mrr_at_5']:.4f}  95% CI: {m['cross_encoder_rerank']['recall_ci_95']}")
     print(f"Lift (Rerank vs Hybrid): delta = {m['lift_rerank_vs_hybrid']['delta_recall_mean']} (95% CI: {m['lift_rerank_vs_hybrid']['delta_recall_ci_95']}) | {m['lift_rerank_vs_hybrid']['relative_recall_gain']}")
-    print(f"Refusal Gate: {results['refusal_gate_intercepted']} unanswerable queries correctly rejected")
+    print(f"Refusal Gate: {results['refusal_gate_intercepted']}")
 
     if args.write_artifacts:
         MANIFESTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -219,6 +226,8 @@ def main() -> int:
             "source": "scripts/eval_retrieval_offline.py",
             "golden_file": str(golden_file.name),
             "n_evaluated": results["n_evaluated_answerable"],
+            "dense_model": args.dense_model,
+            "rerank_model": args.rerank_model,
             "recall_at_5": {
                 "bm25": m["bm25"]["recall_at_5"],
                 "hybrid": m["hybrid_rrf"]["recall_at_5"],
@@ -237,8 +246,9 @@ def main() -> int:
             "lift_rerank_vs_hybrid": m["lift_rerank_vs_hybrid"],
             "refusal_gate_unanswerable": results["refusal_gate_intercepted"],
         }
-        out_name = "hard_extended_eval_snapshot.json" if "extended" in golden_file.name else "hard_eval_snapshot.json"
-        out_per_query = "eval_per_query_extended.json" if "extended" in golden_file.name else "eval_per_query.json"
+        ext = "_extended" if "extended" in golden_file.name else ""
+        out_name = f"hard{ext}_eval_snapshot{args.out_suffix}.json"
+        out_per_query = f"eval_per_query{ext}{args.out_suffix}.json"
         (MANIFESTS_DIR / out_name).write_text(
             json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8"
         )

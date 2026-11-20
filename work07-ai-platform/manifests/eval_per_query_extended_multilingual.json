@@ -1,0 +1,1340 @@
+[
+  {
+    "id": "ext_001",
+    "question": "Симптоми та захист зернових від іржі листя та плямистостей колоса",
+    "expected": [
+      "agri_001_wheat_disease_0"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_197_sunflower_16",
+      "agri_194_sunflower_13",
+      "agri_191_sunflower_10"
+    ],
+    "rerank_top5": [
+      "agri_172_crop_rotation_11",
+      "agri_182_sunflower_1",
+      "agri_181_sunflower_0",
+      "agri_197_sunflower_16",
+      "agri_191_sunflower_10"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_002",
+    "question": "Фузаріозне ураження озимих та методи фунгіцидної профілактики",
+    "expected": [
+      "agri_006_wheat_disease_5"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_197_sunflower_16",
+      "agri_191_sunflower_10",
+      "agri_200_sunflower_19",
+      "agri_194_sunflower_13",
+      "agri_199_sunflower_18"
+    ],
+    "rerank_top5": [
+      "agri_015_wheat_disease_14",
+      "agri_018_wheat_disease_17",
+      "agri_177_crop_rotation_16",
+      "agri_171_crop_rotation_10",
+      "agri_173_crop_rotation_12"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_003",
+    "question": "Септоріоз листя на ранніх фазах кущення пшениці",
+    "expected": [
+      "agri_011_wheat_disease_10"
+    ],
+    "bm25_top5": [
+      "agri_017_wheat_disease_16",
+      "agri_002_wheat_disease_1",
+      "agri_005_wheat_disease_4",
+      "agri_014_wheat_disease_13",
+      "agri_020_wheat_disease_19"
+    ],
+    "hybrid_top5": [
+      "agri_017_wheat_disease_16",
+      "agri_002_wheat_disease_1",
+      "agri_014_wheat_disease_13",
+      "agri_008_wheat_disease_7",
+      "agri_005_wheat_disease_4"
+    ],
+    "rerank_top5": [
+      "agri_008_wheat_disease_7",
+      "agri_020_wheat_disease_19",
+      "agri_002_wheat_disease_1",
+      "agri_017_wheat_disease_16",
+      "agri_011_wheat_disease_10"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_011_wheat_disease_10"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_004",
+    "question": "Комплексний моніторинг грибкових патогенів колоса перед збиранням",
+    "expected": [
+      "agri_016_wheat_disease_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_138_herbicide_17",
+      "agri_132_herbicide_11",
+      "agri_092_organic_matter_11",
+      "agri_098_organic_matter_17",
+      "agri_129_herbicide_8"
+    ],
+    "rerank_top5": [
+      "agri_119_pest_ipm_18",
+      "agri_101_pest_ipm_0",
+      "agri_116_pest_ipm_15",
+      "agri_110_pest_ipm_9",
+      "agri_107_pest_ipm_6"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_005",
+    "question": "Налаштування систем локального краплинного зволоження на кукурудзяних полях",
+    "expected": [
+      "agri_021_corn_irrigation_0"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_165_crop_rotation_4",
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_164_crop_rotation_3"
+    ],
+    "rerank_top5": [
+      "agri_029_corn_irrigation_8",
+      "agri_021_corn_irrigation_0",
+      "agri_024_corn_irrigation_3",
+      "agri_030_corn_irrigation_9",
+      "agri_033_corn_irrigation_12"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_021_corn_irrigation_0"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_006",
+    "question": "Розрахунок вологоємності ґрунту при борозневому поливі зернової кукурудзи",
+    "expected": [
+      "agri_026_corn_irrigation_5"
+    ],
+    "bm25_top5": [
+      "agri_024_corn_irrigation_3",
+      "agri_023_corn_irrigation_2",
+      "agri_021_corn_irrigation_0",
+      "agri_026_corn_irrigation_5",
+      "agri_027_corn_irrigation_6"
+    ],
+    "hybrid_top5": [
+      "agri_021_corn_irrigation_0",
+      "agri_030_corn_irrigation_9",
+      "agri_024_corn_irrigation_3",
+      "agri_023_corn_irrigation_2",
+      "agri_022_corn_irrigation_1"
+    ],
+    "rerank_top5": [
+      "agri_040_corn_irrigation_19",
+      "agri_037_corn_irrigation_16",
+      "agri_031_corn_irrigation_10",
+      "agri_028_corn_irrigation_7",
+      "agri_034_corn_irrigation_13"
+    ],
+    "bm25_hit": true,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_007",
+    "question": "Водний стрес кукурудзи в період викидання волоті та формування качана",
+    "expected": [
+      "agri_031_corn_irrigation_10"
+    ],
+    "bm25_top5": [
+      "agri_024_corn_irrigation_3",
+      "agri_023_corn_irrigation_2",
+      "agri_021_corn_irrigation_0",
+      "agri_026_corn_irrigation_5",
+      "agri_027_corn_irrigation_6"
+    ],
+    "hybrid_top5": [
+      "agri_021_corn_irrigation_0",
+      "agri_024_corn_irrigation_3",
+      "agri_030_corn_irrigation_9",
+      "agri_023_corn_irrigation_2",
+      "agri_032_corn_irrigation_11"
+    ],
+    "rerank_top5": [
+      "agri_039_corn_irrigation_18",
+      "agri_038_corn_irrigation_17",
+      "agri_021_corn_irrigation_0",
+      "agri_029_corn_irrigation_8",
+      "agri_032_corn_irrigation_11"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_008",
+    "question": "Автоматизоване керування поливними нормами при вирощуванні зерна на зрошенні",
+    "expected": [
+      "agri_036_corn_irrigation_15"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_165_crop_rotation_4",
+      "agri_166_crop_rotation_5",
+      "agri_167_crop_rotation_6",
+      "agri_179_crop_rotation_18"
+    ],
+    "rerank_top5": [
+      "agri_150_seed_rate_9",
+      "agri_156_seed_rate_15",
+      "agri_141_seed_rate_0",
+      "agri_147_seed_rate_6",
+      "agri_169_crop_rotation_8"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_009",
+    "question": "Меліоративні заходи та розкислення кислих ґрунтів вапняком",
+    "expected": [
+      "agri_041_soil_ph_0"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_047_soil_ph_6",
+      "agri_196_sunflower_15"
+    ],
+    "rerank_top5": [
+      "agri_055_soil_ph_14",
+      "agri_046_soil_ph_5",
+      "agri_056_soil_ph_15",
+      "agri_044_soil_ph_3",
+      "agri_050_soil_ph_9"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_010",
+    "question": "Оптимізація показника pH до нейтрального рівня 6.0 для польових культур",
+    "expected": [
+      "agri_046_soil_ph_5"
+    ],
+    "bm25_top5": [
+      "agri_045_soil_ph_4",
+      "agri_057_soil_ph_16",
+      "agri_051_soil_ph_10",
+      "agri_060_soil_ph_19",
+      "agri_048_soil_ph_7"
+    ],
+    "hybrid_top5": [
+      "agri_057_soil_ph_16",
+      "agri_045_soil_ph_4",
+      "agri_048_soil_ph_7",
+      "agri_051_soil_ph_10",
+      "agri_060_soil_ph_19"
+    ],
+    "rerank_top5": [
+      "agri_041_soil_ph_0",
+      "agri_057_soil_ph_16",
+      "agri_051_soil_ph_10",
+      "agri_048_soil_ph_7",
+      "agri_045_soil_ph_4"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_011",
+    "question": "Внесення дефекату та лімашу на полях з дефіцитом кальцію",
+    "expected": [
+      "agri_051_soil_ph_10"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_168_crop_rotation_7",
+      "agri_178_crop_rotation_17",
+      "agri_165_crop_rotation_4",
+      "agri_167_crop_rotation_6"
+    ],
+    "rerank_top5": [
+      "agri_054_soil_ph_13",
+      "agri_047_soil_ph_6",
+      "agri_060_soil_ph_19",
+      "agri_055_soil_ph_14",
+      "agri_046_soil_ph_5"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_012",
+    "question": "Буферна здатність ґрунтового комплексу при регулярному вапнуванні",
+    "expected": [
+      "agri_056_soil_ph_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_199_sunflower_18",
+      "agri_200_sunflower_19",
+      "agri_198_sunflower_17",
+      "agri_196_sunflower_15",
+      "agri_050_soil_ph_9"
+    ],
+    "rerank_top5": [
+      "agri_050_soil_ph_9",
+      "agri_056_soil_ph_15",
+      "agri_044_soil_ph_3",
+      "agri_041_soil_ph_0",
+      "agri_055_soil_ph_14"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_056_soil_ph_15"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_013",
+    "question": "Баланс азотного та фосфорного живлення для стартового розвитку сходів",
+    "expected": [
+      "agri_061_npk_fertilizer_0"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_178_crop_rotation_17",
+      "agri_177_crop_rotation_16"
+    ],
+    "rerank_top5": [
+      "agri_077_npk_fertilizer_16",
+      "agri_176_crop_rotation_15",
+      "agri_169_crop_rotation_8",
+      "agri_167_crop_rotation_6",
+      "agri_068_npk_fertilizer_7"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_014",
+    "question": "Калійне підживлення рослин для підвищення посухостійкості та міцності стебла",
+    "expected": [
+      "agri_066_npk_fertilizer_5"
+    ],
+    "bm25_top5": [
+      "agri_198_sunflower_17",
+      "agri_195_sunflower_14",
+      "agri_189_sunflower_8",
+      "agri_192_sunflower_11",
+      "agri_183_sunflower_2"
+    ],
+    "hybrid_top5": [
+      "agri_199_sunflower_18",
+      "agri_189_sunflower_8",
+      "agri_183_sunflower_2",
+      "agri_195_sunflower_14",
+      "agri_192_sunflower_11"
+    ],
+    "rerank_top5": [
+      "agri_165_crop_rotation_4",
+      "agri_167_crop_rotation_6",
+      "agri_176_crop_rotation_15",
+      "agri_174_crop_rotation_13",
+      "agri_170_crop_rotation_9"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_015",
+    "question": "Формули мінеральних туків NPK для основного осіннього внесення під оранку",
+    "expected": [
+      "agri_071_npk_fertilizer_10"
+    ],
+    "bm25_top5": [
+      "agri_073_npk_fertilizer_12",
+      "agri_074_npk_fertilizer_13",
+      "agri_075_npk_fertilizer_14",
+      "agri_076_npk_fertilizer_15",
+      "agri_077_npk_fertilizer_16"
+    ],
+    "hybrid_top5": [
+      "agri_078_npk_fertilizer_17",
+      "agri_073_npk_fertilizer_12",
+      "agri_076_npk_fertilizer_15",
+      "agri_075_npk_fertilizer_14",
+      "agri_070_npk_fertilizer_9"
+    ],
+    "rerank_top5": [
+      "agri_062_npk_fertilizer_1",
+      "agri_061_npk_fertilizer_0",
+      "agri_064_npk_fertilizer_3",
+      "agri_070_npk_fertilizer_9",
+      "agri_063_npk_fertilizer_2"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_016",
+    "question": "Дробове внесення азотних добрив по мерзлоталому ґрунту",
+    "expected": [
+      "agri_076_npk_fertilizer_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_200_sunflower_19",
+      "agri_050_soil_ph_9",
+      "agri_199_sunflower_18",
+      "agri_047_soil_ph_6",
+      "agri_178_crop_rotation_17"
+    ],
+    "rerank_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_175_crop_rotation_14",
+      "agri_163_crop_rotation_2",
+      "agri_178_crop_rotation_17",
+      "agri_172_crop_rotation_11"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_017",
+    "question": "Заорювання сидеральних культур для збагачення орного шару гумусом",
+    "expected": [
+      "agri_081_organic_matter_0"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_165_crop_rotation_4",
+      "agri_164_crop_rotation_3",
+      "agri_167_crop_rotation_6",
+      "agri_168_crop_rotation_7",
+      "agri_173_crop_rotation_12"
+    ],
+    "rerank_top5": [
+      "agri_096_organic_matter_15",
+      "agri_093_organic_matter_12",
+      "agri_097_organic_matter_16",
+      "agri_094_organic_matter_13",
+      "agri_085_organic_matter_4"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_018",
+    "question": "Використання компосту та післяжнивних решток для збереження структури ґрунту",
+    "expected": [
+      "agri_086_organic_matter_5"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_178_crop_rotation_17",
+      "agri_163_crop_rotation_2"
+    ],
+    "rerank_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_163_crop_rotation_2",
+      "agri_169_crop_rotation_8",
+      "agri_175_crop_rotation_14",
+      "agri_161_crop_rotation_0"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_019",
+    "question": "Відновлення вмісту органічної речовини в деградованих чорноземах",
+    "expected": [
+      "agri_091_organic_matter_10"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_055_soil_ph_14",
+      "agri_046_soil_ph_5",
+      "agri_056_soil_ph_15",
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18"
+    ],
+    "rerank_top5": [
+      "agri_057_soil_ph_16",
+      "agri_048_soil_ph_7",
+      "agri_054_soil_ph_13",
+      "agri_175_crop_rotation_14",
+      "agri_178_crop_rotation_17"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_020",
+    "question": "Біопрепарати деструктори стерні для швидкої мінералізації органіки",
+    "expected": [
+      "agri_096_organic_matter_15"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_089_organic_matter_8",
+      "agri_095_organic_matter_14",
+      "agri_086_organic_matter_5",
+      "agri_092_organic_matter_11",
+      "agri_098_organic_matter_17"
+    ],
+    "rerank_top5": [
+      "agri_085_organic_matter_4",
+      "agri_094_organic_matter_13",
+      "agri_086_organic_matter_5",
+      "agri_089_organic_matter_8",
+      "agri_166_crop_rotation_5"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_021",
+    "question": "Біологічний метод захисту рослин за допомогою випуску ентомофага трихограми",
+    "expected": [
+      "agri_101_pest_ipm_0"
+    ],
+    "bm25_top5": [
+      "agri_198_sunflower_17",
+      "agri_195_sunflower_14",
+      "agri_189_sunflower_8",
+      "agri_192_sunflower_11",
+      "agri_183_sunflower_2"
+    ],
+    "hybrid_top5": [
+      "agri_195_sunflower_14",
+      "agri_189_sunflower_8",
+      "agri_198_sunflower_17",
+      "agri_116_pest_ipm_15",
+      "agri_107_pest_ipm_6"
+    ],
+    "rerank_top5": [
+      "agri_108_pest_ipm_7",
+      "agri_117_pest_ipm_16",
+      "agri_114_pest_ipm_13",
+      "agri_101_pest_ipm_0",
+      "agri_120_pest_ipm_19"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_101_pest_ipm_0"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_022",
+    "question": "Використання феромонних пасток для щоденного моніторингу шкідників",
+    "expected": [
+      "agri_106_pest_ipm_5"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_165_crop_rotation_4",
+      "agri_166_crop_rotation_5",
+      "agri_105_pest_ipm_4",
+      "agri_108_pest_ipm_7",
+      "agri_114_pest_ipm_13"
+    ],
+    "rerank_top5": [
+      "agri_102_pest_ipm_1",
+      "agri_120_pest_ipm_19",
+      "agri_117_pest_ipm_16",
+      "agri_108_pest_ipm_7",
+      "agri_111_pest_ipm_10"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_023",
+    "question": "Визначення економічного порогу шкодочинності гусениць совки та лучного метелика",
+    "expected": [
+      "agri_111_pest_ipm_10"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_194_sunflower_13",
+      "agri_188_sunflower_7",
+      "agri_199_sunflower_18",
+      "agri_197_sunflower_16",
+      "agri_200_sunflower_19"
+    ],
+    "rerank_top5": [
+      "agri_113_pest_ipm_12",
+      "agri_117_pest_ipm_16",
+      "agri_107_pest_ipm_6",
+      "agri_114_pest_ipm_13",
+      "agri_108_pest_ipm_7"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_024",
+    "question": "Інтегровані схеми боротьби зі шкідниками поля без перевищення пестицидного навантаження",
+    "expected": [
+      "agri_116_pest_ipm_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_106_pest_ipm_5",
+      "agri_107_pest_ipm_6",
+      "agri_108_pest_ipm_7",
+      "agri_175_crop_rotation_14",
+      "agri_115_pest_ipm_14"
+    ],
+    "rerank_top5": [
+      "agri_105_pest_ipm_4",
+      "agri_108_pest_ipm_7",
+      "agri_114_pest_ipm_13",
+      "agri_117_pest_ipm_16",
+      "agri_116_pest_ipm_15"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_116_pest_ipm_15"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_025",
+    "question": "Застосування гліфосату суцільної дії для знищення коренепаросткових бур'янів",
+    "expected": [
+      "agri_121_herbicide_0"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_178_crop_rotation_17",
+      "agri_130_herbicide_9",
+      "agri_163_crop_rotation_2",
+      "agri_139_herbicide_18"
+    ],
+    "rerank_top5": [
+      "agri_129_herbicide_8",
+      "agri_138_herbicide_17",
+      "agri_127_herbicide_6",
+      "agri_136_herbicide_15",
+      "agri_121_herbicide_0"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_121_herbicide_0"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_026",
+    "question": "Контроль дводольних бур'янів у посівах злаків препаратами групи 2,4-D",
+    "expected": [
+      "agri_126_herbicide_5"
+    ],
+    "bm25_top5": [
+      "agri_122_herbicide_1",
+      "agri_134_herbicide_13",
+      "agri_140_herbicide_19",
+      "agri_131_herbicide_10",
+      "agri_128_herbicide_7"
+    ],
+    "hybrid_top5": [
+      "agri_122_herbicide_1",
+      "agri_134_herbicide_13",
+      "agri_137_herbicide_16",
+      "agri_125_herbicide_4",
+      "agri_128_herbicide_7"
+    ],
+    "rerank_top5": [
+      "agri_122_herbicide_1",
+      "agri_140_herbicide_19",
+      "agri_128_herbicide_7",
+      "agri_131_herbicide_10",
+      "agri_125_herbicide_4"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_027",
+    "question": "Підбір гербіцидних бакових сумішей для запобігання виникненню резистентності",
+    "expected": [
+      "agri_131_herbicide_10"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_168_crop_rotation_7",
+      "agri_135_herbicide_14"
+    ],
+    "rerank_top5": [
+      "agri_126_herbicide_5",
+      "agri_135_herbicide_14",
+      "agri_129_herbicide_8",
+      "agri_123_herbicide_2",
+      "agri_138_herbicide_17"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_028",
+    "question": "Терміни безпечного внесення післясходових страхових гербіцидів",
+    "expected": [
+      "agri_136_herbicide_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15",
+      "agri_200_sunflower_19",
+      "agri_188_sunflower_7",
+      "agri_195_sunflower_14"
+    ],
+    "rerank_top5": [
+      "agri_175_crop_rotation_14",
+      "agri_117_pest_ipm_16",
+      "agri_109_pest_ipm_8",
+      "agri_108_pest_ipm_7",
+      "agri_114_pest_ipm_13"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_029",
+    "question": "Норма висіву та розрахункова густота рослин на гектар для зернових культур",
+    "expected": [
+      "agri_141_seed_rate_0"
+    ],
+    "bm25_top5": [
+      "agri_152_seed_rate_11",
+      "agri_151_seed_rate_10",
+      "agri_150_seed_rate_9",
+      "agri_149_seed_rate_8",
+      "agri_148_seed_rate_7"
+    ],
+    "hybrid_top5": [
+      "agri_147_seed_rate_6",
+      "agri_150_seed_rate_9",
+      "agri_149_seed_rate_8",
+      "agri_159_seed_rate_18",
+      "agri_141_seed_rate_0"
+    ],
+    "rerank_top5": [
+      "agri_150_seed_rate_9",
+      "agri_156_seed_rate_15",
+      "agri_160_seed_rate_19",
+      "agri_145_seed_rate_4",
+      "agri_144_seed_rate_3"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": true,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": [
+      "agri_141_seed_rate_0"
+    ]
+  },
+  {
+    "id": "ext_030",
+    "question": "Врахування польової схожості насіння та маси 1000 зерен при посіві",
+    "expected": [
+      "agri_146_seed_rate_5"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_199_sunflower_18",
+      "agri_193_sunflower_12",
+      "agri_200_sunflower_19",
+      "agri_198_sunflower_17",
+      "agri_190_sunflower_9"
+    ],
+    "rerank_top5": [
+      "agri_200_sunflower_19",
+      "agri_150_seed_rate_9",
+      "agri_160_seed_rate_19",
+      "agri_141_seed_rate_0",
+      "agri_151_seed_rate_10"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_031",
+    "question": "Коригування густоти стояння гібридів кукурудзи залежно від вологозабезпечення",
+    "expected": [
+      "agri_151_seed_rate_10"
+    ],
+    "bm25_top5": [
+      "agri_024_corn_irrigation_3",
+      "agri_023_corn_irrigation_2",
+      "agri_021_corn_irrigation_0",
+      "agri_026_corn_irrigation_5",
+      "agri_027_corn_irrigation_6"
+    ],
+    "hybrid_top5": [
+      "agri_026_corn_irrigation_5",
+      "agri_030_corn_irrigation_9",
+      "agri_021_corn_irrigation_0",
+      "agri_024_corn_irrigation_3",
+      "agri_029_corn_irrigation_8"
+    ],
+    "rerank_top5": [
+      "agri_024_corn_irrigation_3",
+      "agri_033_corn_irrigation_12",
+      "agri_021_corn_irrigation_0",
+      "agri_027_corn_irrigation_6",
+      "agri_040_corn_irrigation_19"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_032",
+    "question": "Вплив рівномірності розподілу проростків на фінальний урожай поля",
+    "expected": [
+      "agri_156_seed_rate_15"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_177_crop_rotation_16",
+      "agri_179_crop_rotation_18",
+      "agri_166_crop_rotation_5"
+    ],
+    "rerank_top5": [
+      "agri_149_seed_rate_8",
+      "agri_158_seed_rate_17",
+      "agri_155_seed_rate_14",
+      "agri_146_seed_rate_5",
+      "agri_163_crop_rotation_2"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_033",
+    "question": "Чергування культур у польовій сівозміні та роль чистого пару",
+    "expected": [
+      "agri_161_crop_rotation_0"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_179_crop_rotation_18",
+      "agri_164_crop_rotation_3",
+      "agri_167_crop_rotation_6",
+      "agri_165_crop_rotation_4",
+      "agri_170_crop_rotation_9"
+    ],
+    "rerank_top5": [
+      "agri_176_crop_rotation_15",
+      "agri_167_crop_rotation_6",
+      "agri_161_crop_rotation_0",
+      "agri_173_crop_rotation_12",
+      "agri_164_crop_rotation_3"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": true,
+    "rerank_wins": [
+      "agri_161_crop_rotation_0"
+    ],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_034",
+    "question": "Бобові попередники як природне джерело біологічного азоту в ґрунті",
+    "expected": [
+      "agri_166_crop_rotation_5"
+    ],
+    "bm25_top5": [
+      "agri_162_crop_rotation_1",
+      "agri_174_crop_rotation_13",
+      "agri_165_crop_rotation_4",
+      "agri_168_crop_rotation_7",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_162_crop_rotation_1",
+      "agri_168_crop_rotation_7",
+      "agri_179_crop_rotation_18",
+      "agri_174_crop_rotation_13",
+      "agri_177_crop_rotation_16"
+    ],
+    "rerank_top5": [
+      "agri_161_crop_rotation_0",
+      "agri_167_crop_rotation_6",
+      "agri_176_crop_rotation_15",
+      "agri_170_crop_rotation_9",
+      "agri_164_crop_rotation_3"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_035",
+    "question": "Фітосанітарний розрив для обмеження поширення ґрунтових інфекцій",
+    "expected": [
+      "agri_171_crop_rotation_10"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_178_crop_rotation_17",
+      "agri_163_crop_rotation_2",
+      "agri_175_crop_rotation_14",
+      "agri_169_crop_rotation_8"
+    ],
+    "rerank_top5": [
+      "agri_174_crop_rotation_13",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_169_crop_rotation_8",
+      "agri_175_crop_rotation_14"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_036",
+    "question": "Допустимі періоди повернення соняшнику на те саме поле в агроценозах",
+    "expected": [
+      "agri_176_crop_rotation_15"
+    ],
+    "bm25_top5": [
+      "agri_168_crop_rotation_7",
+      "agri_167_crop_rotation_6",
+      "agri_166_crop_rotation_5",
+      "agri_165_crop_rotation_4",
+      "agri_177_crop_rotation_16"
+    ],
+    "hybrid_top5": [
+      "agri_166_crop_rotation_5",
+      "agri_179_crop_rotation_18",
+      "agri_164_crop_rotation_3",
+      "agri_165_crop_rotation_4",
+      "agri_167_crop_rotation_6"
+    ],
+    "rerank_top5": [
+      "agri_196_sunflower_15",
+      "agri_169_crop_rotation_8",
+      "agri_178_crop_rotation_17",
+      "agri_168_crop_rotation_7",
+      "agri_177_crop_rotation_16"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_037",
+    "question": "Фактори впливу на олійність насіння соняшнику в період наливу кошика",
+    "expected": [
+      "agri_181_sunflower_0"
+    ],
+    "bm25_top5": [
+      "agri_199_sunflower_18",
+      "agri_196_sunflower_15",
+      "agri_193_sunflower_12",
+      "agri_190_sunflower_9",
+      "agri_184_sunflower_3"
+    ],
+    "hybrid_top5": [
+      "agri_199_sunflower_18",
+      "agri_190_sunflower_9",
+      "agri_193_sunflower_12",
+      "agri_181_sunflower_0",
+      "agri_184_sunflower_3"
+    ],
+    "rerank_top5": [
+      "agri_196_sunflower_15",
+      "agri_187_sunflower_6",
+      "agri_181_sunflower_0",
+      "agri_199_sunflower_18",
+      "agri_190_sunflower_9"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": true,
+    "rerank_hit": true,
+    "rerank_wins": [],
+    "hybrid_wins": [
+      "agri_181_sunflower_0"
+    ]
+  },
+  {
+    "id": "ext_038",
+    "question": "Особливості вирощування високорослих гібридів соняшнику в байрачному рельєфі",
+    "expected": [
+      "agri_186_sunflower_5"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_196_sunflower_15",
+      "agri_199_sunflower_18",
+      "agri_193_sunflower_12",
+      "agri_195_sunflower_14",
+      "agri_187_sunflower_6"
+    ],
+    "rerank_top5": [
+      "agri_182_sunflower_1",
+      "agri_188_sunflower_7",
+      "agri_197_sunflower_16",
+      "agri_185_sunflower_4",
+      "agri_200_sunflower_19"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_039",
+    "question": "Стійкість сучасних гібридів соняшнику до посухи та високих літніх температур",
+    "expected": [
+      "agri_191_sunflower_10"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_196_sunflower_15",
+      "agri_199_sunflower_18",
+      "agri_197_sunflower_16",
+      "agri_190_sunflower_9",
+      "agri_193_sunflower_12"
+    ],
+    "rerank_top5": [
+      "agri_157_seed_rate_16",
+      "agri_154_seed_rate_13",
+      "agri_189_sunflower_8",
+      "agri_195_sunflower_14",
+      "agri_198_sunflower_17"
+    ],
+    "bm25_hit": false,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  },
+  {
+    "id": "ext_040",
+    "question": "Десикація посівів соняшнику перед комбайновим збиранням",
+    "expected": [
+      "agri_196_sunflower_15"
+    ],
+    "bm25_top5": [
+      "agri_200_sunflower_19",
+      "agri_199_sunflower_18",
+      "agri_198_sunflower_17",
+      "agri_197_sunflower_16",
+      "agri_196_sunflower_15"
+    ],
+    "hybrid_top5": [
+      "agri_200_sunflower_19",
+      "agri_194_sunflower_13",
+      "agri_191_sunflower_10",
+      "agri_178_crop_rotation_17",
+      "agri_199_sunflower_18"
+    ],
+    "rerank_top5": [
+      "agri_169_crop_rotation_8",
+      "agri_166_crop_rotation_5",
+      "agri_176_crop_rotation_15",
+      "agri_163_crop_rotation_2",
+      "agri_170_crop_rotation_9"
+    ],
+    "bm25_hit": true,
+    "hybrid_hit": false,
+    "rerank_hit": false,
+    "rerank_wins": [],
+    "hybrid_wins": []
+  }
+]

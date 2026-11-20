@@ -76,7 +76,8 @@ To eliminate bi-encoder topic clustering errors, we added a **2nd-stage Cross-En
   * **1st-Stage Hybrid (RRF):** Recall@5 = **0.2500** (2/8) | MRR@5 = **0.0938** | 95% Bootstrap CI: `[0.000, 0.625]`
   * **2nd-Stage Cross-Encoder:** Recall@5 = **0.5000** (4/8) | MRR@5 = **0.1771** | 95% Bootstrap CI: `[0.125, 0.875]`
   * **Net Reranker Lift over Hybrid:** $\Delta = +0.2500$ Recall@5 (2/8 → 4/8) | 95% Bootstrap CI: `[0.000, 0.625]`. **This did not replicate on the extended 40-query set (`hard_retrieval_extended.json`, `manifests/hard_extended_eval_snapshot.json`): Recall@5 = 0.05 for BM25, Hybrid and Cross-Encoder alike, lift 0.0, 95% CI `[-0.075, 0.075]`; the 8-query result should be read as noise.** The low absolute recall reflects test limitations rather than proof the approach is weak: the 20 synthetic documents per topic differ only by a keyword and a year, so a paraphrase cannot identify a single target, and both models (`all-MiniLM-L6-v2`, `ms-marco-MiniLM`) are English-only while queries are Ukrainian.
-* **Refusal Gate Metrics (2 out-of-domain queries):** 2/2 successfully intercepted and rejected before LLM invocation.
+* **Refusal gate:** not measured in this offline evaluation (the gate runs in `rag-api` and needs Docker); earlier "2/2" and "10/10" figures came from a hard-coded counter and have been withdrawn.
+* **Multilingual models change the picture** (`paraphrase-multilingual-MiniLM-L12-v2` + `mmarco-mMiniLMv2`, `manifests/hard_extended_eval_snapshot_multilingual.json`): on the same 40 queries the cross-encoder reaches Recall@5 = 0.20 vs 0.05 for Hybrid (lift +0.15, 95% CI `[0.025, 0.275]`, excludes zero), and topic-level Hit@5 rises from 0.575 (Hybrid) to 0.750, so part of the problem was the English-only models. Caveat: a single run on a synthetic corpus where documents of a topic are near-identical (random choice within a known topic gives ~0.25 Recall@5), so absolute values say little about real-data quality. Topic-level Hit@5 is reproducible with `scripts/topic_level_recall.py`.
 
 | Query ID & Question | Target Document | BM25 Hit@5 | Hybrid (RRF) Hit@5 | Cross-Encoder Hit@5 | Diagnosis & Mechanism |
 |---|---|:---:|:---:|:---:|---|
@@ -85,7 +86,7 @@ To eliminate bi-encoder topic clustering errors, we added a **2nd-stage Cross-En
 | **`hard_007`** (Multi-hop Disease Risks)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14` | ❌ (Miss) | ❌ (Miss) | **✅ (Rank 4)** | **Cross-Encoder Win:** Successfully recovered multi-hop cross-season risk target. |
 | **`hard_010`** (Organic Matter Humus)<br>«Органіка та сидерати для підвищення гумусу» | `agri_099_organic_matter_18` | ❌ (Miss) | **✅ (Rank 3)** | **✅ (Rank 2)** | **Hybrid + CE Win:** Semantic generalization across green manure and organic soil enrichment. |
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | ❌ (Miss) | ❌ (Miss) | ❌ (Miss) | **Challenging Case:** Exact formula match requires domain dictionary expansion. |
-| **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Filtered** | **Hallucination Gate:** Pre-retrieval refusal gate aborted unanswerable queries before LLM generation. |
+| **`hard_008`, `009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...» | *None (Unanswerable)* | n/a | n/a | n/a | Refusal gate is not measured in the offline evaluation (it runs in rag-api, needs Docker).|
 
 *Committed Raw Artifacts: [`work07-ai-platform/manifests/eval_per_query.json`](work07-ai-platform/manifests/eval_per_query.json) and [`work07-ai-platform/manifests/hard_eval_snapshot.json`](work07-ai-platform/manifests/hard_eval_snapshot.json).*
 

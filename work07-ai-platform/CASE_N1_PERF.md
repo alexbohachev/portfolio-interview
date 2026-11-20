@@ -64,7 +64,8 @@ To demonstrate true retrieval trade-offs under real-world conditions, we stress-
 * **1st-Stage Hybrid (RRF):** Recall@5 = **0.2500** (2/8) | MRR@5 = **0.0938** | 95% Bootstrap CI: `[0.000, 0.625]`
 * **2nd-Stage Cross-Encoder:** Recall@5 = **0.5000** (4/8) | MRR@5 = **0.1771** | 95% Bootstrap CI: `[0.125, 0.875]`
 * **Net Re-ranker Lift over Hybrid:** **$\Delta = +0.2500$ (+100.0% relative gain)** | 95% Bootstrap CI: `[0.000, 0.625]`
-* **Refusal Gate:** 2 / 2 unanswerable queries correctly rejected before generation.
+* **Refusal gate:** not measured in the offline evaluation (it runs in `rag-api` and needs Docker); the earlier "2 / 2" came from a hard-coded counter and has been withdrawn.
+* **Multilingual models change the picture** (`paraphrase-multilingual-MiniLM-L12-v2` + `mmarco-mMiniLMv2`, `manifests/hard_extended_eval_snapshot_multilingual.json`): on the same 40 queries the cross-encoder reaches Recall@5 = 0.20 vs 0.05 for Hybrid (lift +0.15, 95% CI `[0.025, 0.275]`, excludes zero), and topic-level Hit@5 rises from 0.575 (Hybrid) to 0.750, so part of the problem was the English-only models. Caveat: a single run on a synthetic corpus where documents of a topic are near-identical (random choice within a known topic gives ~0.25 Recall@5), so absolute values say little about real-data quality. Topic-level Hit@5 is reproducible with `scripts/topic_level_recall.py`.
 
 | Query ID & Question | Expected Target | BM25 Hit | Hybrid Hit | Cross-Encoder Hit | Mechanism & Engineering Diagnosis |
 |---|---|:---:|:---:|:---:|---|
@@ -73,7 +74,7 @@ To demonstrate true retrieval trade-offs under real-world conditions, we stress-
 | **`hard_007`** (Multi-hop Disease Risks)<br>«Порівняти ризики хвороб пшениці в різних сезонах» | `agri_015_wheat_disease_14`<br>`agri_016_wheat_disease_15` | ❌ (Miss) | ❌ (Miss) | **✅ (Rank 4)** | **Cross-Encoder Win:** Recovered multi-hop seasonal risk targets where bi-encoder dot products alone fell short. |
 | **`hard_010`** (Soil Humus & Cover Crops)<br>«Органіка та сидерати для підвищення гумусу» | `agri_099_organic_matter_18` | ❌ (Miss) | **✅ (Rank 3)** | **✅ (Rank 2)** | **Hybrid + CE Win:** Semantic generalization across green manure and organic soil enrichment. |
 | **`hard_006`** (Exact Formula)<br>«Дози азоту фосфору в NPK для поля» | `agri_062_npk_fertilizer_1` | ❌ (Miss) | ❌ (Miss) | ❌ (Miss) | **Hard Boundary:** Exact formula ratio match without explicit query expansion remains an open edge case. |
-| **`hard_008` & `hard_009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...»<br>«Чи реєструвався агро-дрон NVIDIA H100...» | *None (Unanswerable)* | **Filtered** | **Filtered** | **Filtered** | **Correct Gate Refusal:** Pre-retrieval refusal gate intercepted both out-of-domain queries and aborted LLM generation without hallucinating. |
+| **`hard_008` & `hard_009`** (Out-of-Domain)<br>«Чи вирощують рис на Марсі...»<br>«Чи реєструвався агро-дрон NVIDIA H100...» | *None (Unanswerable)* | n/a | n/a | n/a | Refusal gate is not measured in the offline evaluation (it runs in rag-api, needs Docker).|
 
 ### Engineering Takeaway & Architectural Validation
 1. **Hybrid RRF** outperforms single-modality search on **abstract semantic paraphrases** (`hard_010`), pulling a richer candidate pool.
